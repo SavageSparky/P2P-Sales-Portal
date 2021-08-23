@@ -5,7 +5,7 @@ const auth=firebase.auth();
 const db=firebase.database();
 const provider = new firebase.auth.GoogleAuthProvider();
 const signIn_icon=document.querySelector('.profile_icon');
-const popup_tag=document.querySelector('popup');
+const popup_tag=document.querySelector('.popup');
 const main_tag=document.querySelector('main');
 const pincode_tag=document.querySelector('.pincode');
 const pincode_error=document.querySelector('.wrong-one');
@@ -17,7 +17,9 @@ let user_id;
 
 
 /***************************DB  Driver Functions**************************** */
-auth.onAuthStateChanged((user)=>{
+firebase.auth().onAuthStateChanged((user)=>{
+    console.log("Entering Here");
+    console.log(user);
     if(user){
         user_signin_flag=true;
         user_id=user.uid;
@@ -28,9 +30,10 @@ auth.onAuthStateChanged((user)=>{
 })
 
 async function detCheck(){
-    const data=await db_get(db,`user/${user_id}`);
-    data=data.val();
-    if(data){
+    let data=await db_get(db,`user/${user_id}`);
+    data=await data.val();
+    console.log(data);
+    if(data!==null){
         return true;
     }
     return false;
@@ -39,17 +42,13 @@ async function detCheck(){
 function popupHandler(){
     main_tag.classList.add('blurrer');
     popup_tag.style.display='flex';
-
 }
 /***********************************************************************/
 submit_btn.addEventListener('click',(e)=>{
     e.preventDefault();
     if(!submit_flag) return;
-    let user_det={
-        "Name":`${name_input.value}`,
-        "Pincode":`${pincode_tag.value}`
-    }
-    db_insert(db,`user/${user_id}/${user_det}`);
+    db_insert(db,`user/${user_id}/Name`,name_input.value);
+    db_insert(db,`user/${user_id}/Pincode`,pincode_tag.value);
 })
 
 pincode_tag.addEventListener('input',async ()=>{
@@ -72,10 +71,10 @@ pincode_tag.addEventListener('input',async ()=>{
     }
 });
 
-signIn_icon.addEventListener("click",()=>{
-    if(user_signin_flag){
-        if(detCheck()){
-            location.href('#');
+function signiner(){
+    if(user_signin_flag==true){
+        if(detCheck()===true){
+            // location.href('#');
         }
         else{
             popupHandler();
@@ -84,4 +83,6 @@ signIn_icon.addEventListener("click",()=>{
     else{
         signIn(auth,provider);
     }
-})
+}
+
+signIn_icon.addEventListener("click",()=>signiner);

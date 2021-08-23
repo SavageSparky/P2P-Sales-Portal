@@ -9,6 +9,7 @@ header {
     align-items: center;
     position: fixed;
     background-color: var(--primary-color);
+    z-index: 9;
 }
 .company_name {
     color: white;

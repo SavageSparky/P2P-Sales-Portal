@@ -18,22 +18,22 @@ main {
   padding: 1rem;
 }
 .card h1 {
-  font-family: bold-font;
-  font-size: 4.8rem;
-  padding: 1rem;
+    font-family: bold-font;
+    font-size: 4rem;
+    padding: 1rem 5vw;
 }
 .card h1 span {
   color: var(--green-dark);
 }
 .card div {
-  display: flex;
-  padding: 3rem 15%;
-  /* margin-right: 4rem; */
+    display: flex;
+    justify-content: start;
+    padding: 3rem 10vw;
 }
 .card div h2 {
-  font-family: regular-font;
-  font-size: 2.5rem;
-  margin: auto;
+    font-family: regular-font;
+    font-size: 2rem;
+    margin: auto;
 }
 .buy {
   color: var(--blue-light);
@@ -42,9 +42,7 @@ main {
   color: var(--green-dark);
 }
 
-.header{
-    z-index: 9;
-}
+
 
 .popup {
   width: 441px;
@@ -62,6 +60,7 @@ main {
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
   background-color: white;
+  display: none;
 }
 
 .popup h1 {
@@ -129,10 +128,10 @@ main {
   background-color: var(--primary-color);
 }
 .sign_in img {
-  height: 2.5rem;
-  width: 2.5rem;
-  align-self: center;
-  padding-left: 0.3rem;
+    height: 45px;
+    width: 45px;
+    align-self: center;
+    padding-left: 0.3rem;
 }
 
 .spoiler {
