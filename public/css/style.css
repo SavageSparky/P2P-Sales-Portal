@@ -1,0 +1,35 @@
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+.bg_image {
+    width: 50vw;
+    height: auto;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    padding: 1rem;
+}
+.card h1 {
+    font-family: bold-font;
+    font-size: 4rem;
+    padding: 1rem;
+}
+.card div {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 3rem;
+}
+.buy {
+    color: var(--blue-light);
+}
+.sell {
+    color: var(--green-dark);
+}

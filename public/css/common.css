@@ -14,18 +14,27 @@ header {
     color: white;
     cursor: pointer;
 }
+
+header nav {
+    display: flex;
+    align-items: center;
+}
 .search {
     display: flex;
     align-items: center;
     width: 40vw;
-    height: 40px;
+    height: 100%;
     position: relative;
+    margin: 0 1rem;
 }
 .search_box {
     width: 40vw;
-    height: inherit;
+    height: 40px;
     border: none;
     border-radius: 3rem;
+    outline: none;
+    padding: 0 calc(50px + 0.6rem) 0 1.5rem;
+    font-size: 1.4rem;
 }
 .search_icon {
     position: absolute;
@@ -41,6 +50,7 @@ header {
     cursor: pointer;
 }
 .sell_now {
+    padding: 0 1rem;
     color: white;
     cursor: pointer;
 }
