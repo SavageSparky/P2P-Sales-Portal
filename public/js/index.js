@@ -72,17 +72,22 @@ pincode_tag.addEventListener('input',async ()=>{
 });
 
 function signiner(){
-    if(user_signin_flag==true){
-        if(detCheck()===true){
+
+}
+
+signIn_icon.addEventListener("click",async ()=>{
+    if(user_signin_flag===true){
+        console.log(detCheck());
+        if(await detCheck()===true){
             // location.href('#');
+            console.log("non-popup")
         }
         else{
+            console.log("popup enter");
             popupHandler();
         }
     }
     else{
         signIn(auth,provider);
     }
-}
-
-signIn_icon.addEventListener("click",()=>signiner);
+});
