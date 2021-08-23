@@ -14,25 +14,30 @@ const name_input=document.querySelectorAll('form input')[0];
 let user_signin_flag=false;
 let submit_flag=false;
 let user_id;
-
-
+let authFlag=0;
+let allCompleted=false;
 /***************************DB  Driver Functions**************************** */
-firebase.auth().onAuthStateChanged((user)=>{
-    console.log("Entering Here");
-    console.log(user);
+firebase.auth().onAuthStateChanged(async (user)=>{
     if(user){
         user_signin_flag=true;
         user_id=user.uid;
+        let temp=await detCheck();
+        console.log(temp);
+        if(temp===true){
+            location.href='www.google.com';
+        }
     }
     else{
         user_signin_flag=false;
+    }
+    if(authFlag===1){
+        signiner();
     }
 })
 
 async function detCheck(){
     let data=await db_get(db,`user/${user_id}`);
     data=await data.val();
-    console.log(data);
     if(data!==null){
         return true;
     }
@@ -49,6 +54,7 @@ submit_btn.addEventListener('click',(e)=>{
     if(!submit_flag) return;
     db_insert(db,`user/${user_id}/Name`,name_input.value);
     db_insert(db,`user/${user_id}/Pincode`,pincode_tag.value);
+    location.href="#";
 })
 
 pincode_tag.addEventListener('input',async ()=>{
@@ -56,7 +62,6 @@ pincode_tag.addEventListener('input',async ()=>{
         let url=`https://api.postalpincode.in/pincode/${pincode_tag.value}`;
         let data=await fetch(url);
         data=await data.json();
-        console.log(data);
         if(data[0]['Status']==='Success'){
             pincode_error.style.display='none';
             submit_flag=true;
@@ -71,23 +76,21 @@ pincode_tag.addEventListener('input',async ()=>{
     }
 });
 
-function signiner(){
-
-}
-
-signIn_icon.addEventListener("click",async ()=>{
+async function signiner(){
     if(user_signin_flag===true){
-        console.log(detCheck());
         if(await detCheck()===true){
-            // location.href('#');
-            console.log("non-popup")
+            location.href='#';
         }
         else{
-            console.log("popup enter");
             popupHandler();
         }
     }
     else{
         signIn(auth,provider);
     }
+}
+
+signIn_icon.addEventListener("click",async ()=>{
+    signiner();
+    authFlag++;
 });
