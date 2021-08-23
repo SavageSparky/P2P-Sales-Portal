@@ -21,13 +21,13 @@
         </nav>
         <img src="./assets/icons/profile_icon.svg" alt="" class="profile_icon nav_icons">
     </header>
-    <main>
+    <main class="blurrer">
         <img class="bg_image" src="./assets/images/main-bg.jpg" alt="">
         <div class="card">
-            <h1>Take full control of your Product</h1>
+            <h1>Take full control of your <span>Products</span></h1>
             <div>
-                <h3 class="buy">Buy Anything</h3>
-                <h3 class="sell">Sell Anything</h3>
+                <h2 class="buy">Buy Anything</h3>
+                <h2 class="sell">Sell Anything</h3>
             </div>
             <button class="sign_in">Sign in with <img src="./assets/icons/google_icon.svg" alt=""></button>
         </div>
@@ -37,15 +37,13 @@
         <form action="">
             <div class="content-wrap">
                 <div class="content-name">Name</div>
-                <input type="text" required>
+                <input type="text" required placeholder="Enter  your Name">
             </div>
             <div class="content-wrap">
                 <div class="content-name">Pincode</div>
-                <div class="wrapper"><
-                    <input type="number" required>
-                    <span class="wrong-one none">wrong pincode</span>
-                </div>
+                    <input type="number" class="pincode" required placeholder="Enter you Pincode">
             </div>
+            <span class="wrong-one">wrong pincode</span>
             <div class="spoiler">
                 <span>*Please Enter correct Name and PinCode</span>
                 <span>*By clicking  Submit, You agree to our <a href="#">terms and conditions</a> and  <a href="#">Privacy Policy</a>.</span>
@@ -53,5 +51,10 @@
             <button type="submit" class="submit-button">Submit</button>
         </form>
     </div>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="./js/index.js" type="module"></script>
 </body>
 </html>

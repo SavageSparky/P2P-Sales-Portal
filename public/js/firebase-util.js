@@ -1,4 +1,4 @@
-var firebaseConfig = {
+export var firebaseConfig = {
     apiKey: "AIzaSyACaUG4nwGhbECqL9QwUGiwwdvimCixGEw",
     authDomain: "p2p-sales-portal.firebaseapp.com",
     databaseURL: "https://p2p-sales-portal-default-rtdb.asia-southeast1.firebasedatabase.app",

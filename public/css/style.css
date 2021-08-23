@@ -1,76 +1,172 @@
 main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
 }
 
 .bg_image {
-    width: 50vw;
-    height: auto;
+  width: 50vw;
+  height: auto;
 }
 
 .card {
-    display: flex;
-    flex-direction: column;
-    width: 50vw;
-    padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+  padding: 1rem;
 }
 .card h1 {
-    font-family: bold-font;
-    font-size: 4rem;
-    padding: 1rem;
+  font-family: bold-font;
+  font-size: 4.8rem;
+  padding: 1rem;
+}
+.card h1 span {
+  color: var(--green-dark);
 }
 .card div {
-    display: flex;
-    justify-content: space-evenly;
-    padding: 3rem;
+  display: flex;
+  padding: 3rem 15%;
+  /* margin-right: 4rem; */
+}
+.card div h2 {
+  font-family: regular-font;
+  font-size: 2.5rem;
+  margin: auto;
 }
 .buy {
-    color: var(--blue-light);
+  color: var(--blue-light);
 }
 .sell {
-    color: var(--green-dark);
+  color: var(--green-dark);
 }
 
-.popup{
-    width: 441px;
-    height: 350px;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
+.header{
+    z-index: 9;
 }
 
-.popup h1{
-    color: var(--green-dark);
+.popup {
+  width: 441px;
+  height: 400px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 10px;
+  position: absolute;
+  z-index: 999;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  background-color: white;
 }
 
-.popup form{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
+.popup h1 {
+  color: var(--green-dark);
 }
 
-.content-wrap{
-    display: flex;
-    width: 400px;
-    justify-content: space-evenly;
-    margin: 0.4rem 0.5rem;
+.popup form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
-.content-wrap .content-name{
-    width: 30%;
-    text-align: center;
-    font-size: 1.2rem;
-}
-.content-name::after{
-    content: ':';
+.content-wrap {
+  display: flex;
+  width: 400px;
+  justify-content: space-evenly;
+  margin: 0.8rem 0;
+  align-items: center;
 }
 
-.content-wrap span{
-    display: block;
+.content-wrap:nth-child(2){
+    position: relative;
+}
+
+.content-wrap .content-name {
+  width: 30%;
+  text-align: center;
+  font-family: "bold-font";
+  font-size: 1.5rem;
+}
+
+.content-name::after {
+  content: ":";
+}
+
+.blurrer{
+    filter: blur(10px);
+    pointer-events: none;
+}
+
+.content-wrap input {
+  border-radius: 15px;
+  font-size: 1rem;
+  font-family: "medium-font";
+  outline: none;
+  text-align: center;
+  border: none;
+  width: 200px;
+  min-height: 25px;
+  padding: 0.5rem;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+.sign_in {
+  display: flex;
+  border: none;
+  border-radius: 3rem;
+  margin: 3rem auto;
+  padding: 0.5rem 4rem;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  background-color: var(--primary-color);
+}
+.sign_in img {
+  height: 2.5rem;
+  width: 2.5rem;
+  align-self: center;
+  padding-left: 0.3rem;
+}
+
+.spoiler {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.spoiler span{
+    margin: 0.1rem;
+    line-height: 1.5rem;
+}
+
+form button{
+    outline: none;
+    margin-top: 1rem;
+    border: none;
+    padding: 0.8rem 1rem;
+    border-radius: 20px;
+    background-color: var(--green-light);
+    color: black;
+    font-family: 'medium-font';
+    font-size: 1.1rem;
+    width: 200px;
+    cursor: pointer;
+}
+
+form .wrong-one{
+    color: red;
+    position: absolute;
+    left: 54%;
+    top: 51%;
+    display: none;
 }
