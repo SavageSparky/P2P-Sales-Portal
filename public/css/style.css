@@ -20,20 +20,20 @@ main {
 }
 .card h1 {
     font-family: bold-font;
-    font-size: 4.8rem;
-    padding: 1rem;
+    font-size: 4rem;
+    padding: 1rem 5vw;
 }
 .card h1 span {
     color: var(--green-dark);
 }
 .card div {
     display: flex;
-    padding: 3rem 15%;
-    /* margin-right: 4rem; */
+    justify-content: start;
+    padding: 3rem 10vw;
 }
 .card div h2 {
     font-family: regular-font;
-    font-size: 2.5rem;
+    font-size: 2rem;
     margin: auto;
 }
 .buy {
@@ -54,8 +54,8 @@ main {
     background-color: var(--primary-color);
 }
 .sign_in img {
-    height: 2.5rem;
-    width: 2.5rem;
+    height: 45px;
+    width: 45px;
     align-self: center;
     padding-left: 0.3rem;
 }
