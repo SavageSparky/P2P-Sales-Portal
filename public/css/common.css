@@ -51,6 +51,7 @@ header nav {
 }
 .sell_now {
     padding: 0 1rem;
+    font-size: 1.5rem;
     color: white;
     cursor: pointer;
 }
