@@ -1,0 +1,36 @@
+*,
+*::before
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    display: flex;
+    padding: 0 2rem;
+    width: 100vw;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--primary-color);
+}
+.company_name {
+    height: 100%;
+    color: white;
+}
+.search {
+    display: flex;
+    align-items: center;
+    width: 40vw;
+}
+.search_bar {
+    width: 40vw;
+    height: 60px;
+}
+.icons {
+    height: 60px;
+    width: 60px;
+}
+.profile_icon{
+    justify-self: flex-end;
+}
