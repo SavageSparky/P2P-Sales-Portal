@@ -1,36 +1,46 @@
-*,
-*::before
-*::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+
 
 header {
     display: flex;
     padding: 0 2rem;
     width: 100vw;
+    height: 60px;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
     background-color: var(--primary-color);
 }
 .company_name {
-    height: 100%;
     color: white;
+    cursor: pointer;
 }
 .search {
     display: flex;
     align-items: center;
     width: 40vw;
+    height: 40px;
+    position: relative;
 }
-.search_bar {
+.search_box {
     width: 40vw;
-    height: 60px;
+    height: inherit;
+    border: none;
+    border-radius: 3rem;
 }
-.icons {
-    height: 60px;
-    width: 60px;
+.search_icon {
+    position: absolute;
+    right: 0.3rem;
+    cursor: pointer;
+}
+.nav_icons {
+    height: 50px;
+    width: 50px;
 }
 .profile_icon{
     justify-self: flex-end;
+    cursor: pointer;
+}
+.sell_now {
+    color: white;
+    cursor: pointer;
 }
