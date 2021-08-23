@@ -33,3 +33,44 @@ main {
 .sell {
     color: var(--green-dark);
 }
+
+.popup{
+    width: 441px;
+    height: 350px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.popup h1{
+    color: var(--green-dark);
+}
+
+.popup form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.content-wrap{
+    display: flex;
+    width: 400px;
+    justify-content: space-evenly;
+    margin: 0.4rem 0.5rem;
+}
+
+.content-wrap .content-name{
+    width: 30%;
+    text-align: center;
+    font-size: 1.2rem;
+}
+.content-name::after{
+    content: ':';
+}
+
+.content-wrap span{
+    display: block;
+}
