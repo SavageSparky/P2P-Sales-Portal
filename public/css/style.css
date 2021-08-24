@@ -4,6 +4,7 @@ main {
   align-items: center;
   height: 100vh;
   width: 100vw;
+  transition: all 0.2s ease;
 }
 
 .bg_image {
@@ -60,7 +61,8 @@ main {
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
   background-color: white;
-  display: none;
+  transition: all 0.2s ease;
+   display: none; 
 }
 
 .popup h1 {
@@ -168,4 +170,26 @@ form .wrong-one{
     left: 54%;
     top: 51%;
     display: none;
+}
+
+.close_icon{
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  padding: 0.1rem;
+  width: 30px;
+  height: 30px;
+}
+
+.close_icon img{
+  width: 30px;
+}
+
+.close_icon:hover{
+  background-color: var(--green-light);
 }
