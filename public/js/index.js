@@ -64,11 +64,18 @@ submit_btn.addEventListener("click", (e) => {
   /*This one is triggered on clicking the submit button in the popup by adding user details to the db */
   e.preventDefault();
   if (!submit_flag) return;
+  name_input.value=name_input.value.trim();
   db_insert(db, `user/${user_id}/Name`, name_input.value);
   db_insert(db, `user/${user_id}/Pincode`, pincode_tag.value);
   db_insert(db, `user/${user_id}/AllDone`, false);
   location.href = "#";
 });
+
+name_input.addEventListener("input",()=>{
+  if(name_input.value.trim()===''){
+    name_input.value=null;
+  }
+})
 
 pincode_tag.addEventListener("input", async () => {
   if (pincode_tag.value.length === 6) {
