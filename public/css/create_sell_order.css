@@ -1,0 +1,10 @@
+form {
+    display: flex;
+    margin: 1rem;
+    padding: 1rem;
+}
+fieldset {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
