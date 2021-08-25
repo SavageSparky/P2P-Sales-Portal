@@ -23,7 +23,7 @@ main {
   padding: 1rem;
 }
 .card h1 {
-    font-family: bold-font;
+    font-family: 'bold-font';
     font-size: 4rem;
     padding: 1rem 5vw;
 }
@@ -36,7 +36,7 @@ main {
     padding: 3rem 10vw;
 }
 .card div h2 {
-    font-family: regular-font;
+    font-family: 'regular-font';
     font-size: 2rem;
     margin: auto;
 }
@@ -48,7 +48,7 @@ main {
 }
 
 
-
+/****************** pop-up box *********************/
 .popup {
   width: 441px;
   height: 400px;
@@ -197,3 +197,4 @@ form .wrong-one{
 .close_icon:hover{
   background-color: var(--green-light);
 }
+/****************** pop-up box *********************/
