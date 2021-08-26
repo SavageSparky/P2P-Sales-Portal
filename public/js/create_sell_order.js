@@ -1,5 +1,4 @@
 import { firebaseConfig } from "./firebase-util.js";
-
 /*******************************FireBase Functions************************************ */
 firebase.initializeApp(firebaseConfig);
 let user_id;
@@ -17,10 +16,19 @@ firebase.auth().onAuthStateChanged(async (user) => {
   });
 
 
-  function firebase_img_uploader(file){
-    const storage=getStorage();
-    const imagesRef = ref(storage, 'images');
-
+  function firebase_img_uploader(file,type,index){
+    let file_name=(type==='profile')?`${user_id}-product-profile`:`${user_id}-product-${index}`;
+    file_name+=`.${imgTypeFinder(file.type)}`;
+    console.log(file_name);
+    const imagesRef = firebase.storage().ref(`images/${file_name}`);
+    imagesRef.delete().then(() => {
+        
+      }).catch((error) => {
+         console.log("NO image found");
+      });
+      imagesRef.put(file).then((snapshot)=>{
+          console.log('Uploaded');
+      })
   }
 /*************************************************************************************** */
 const profile_pic_cont=document.querySelector('.profile-img-cont');
@@ -37,6 +45,10 @@ const fileTypes = [
     "image/webp",
     "image/x-icon"
   ];
+
+function imgTypeFinder(type){
+  return type.replace(/image\//g,"");
+}
 
 function validFileType(file) {
     return fileTypes.includes(file.type);
