@@ -4,6 +4,7 @@ firebase.initializeApp(firebaseConfig);
 let user_id;
 let user_signin_flag=false;
 let firstClick=false;
+let imagesArr=[];
 firebase.auth().onAuthStateChanged(async (user) => {
     if (user) {
         user_id=user.uid;
@@ -33,6 +34,10 @@ firebase.auth().onAuthStateChanged(async (user) => {
 /*************************************************************************************** */
 const profile_pic_cont=document.querySelector('.profile-img-cont');
 const inp_tag_profile=document.querySelector('#profile-pic-upload');
+let description_pic_cont=document.querySelector('.description_images_container');
+const inp_tag_des=document.querySelector('#des-pic-upload');
+const description_pic_main_cont=document.querySelector('.description_images');
+let profile_idx=0;
 const fileTypes = [
     "image/apng",
     "image/bmp",
@@ -54,21 +59,54 @@ function validFileType(file) {
     return fileTypes.includes(file.type);
   }
 
-profile_pic_cont.addEventListener("click",()=>{
-    if(!user_signin_flag) return;
-    console.log("Entering here");
-    inp_tag_profile.click();
-})
+function clicker(){  
+    profile_pic_cont.addEventListener("click",()=>{
+        if(!user_signin_flag) return;
+        inp_tag_profile.click();
+    })
+
+    description_pic_cont.addEventListener("click",()=>{
+        if(!user_signin_flag) return;
+        description_pic_main_cont
+        console.log("entwerr");
+        inp_tag_des.click();
+    })
+}
 
 inp_tag_profile.addEventListener('change',()=>{
     const currFiles=[...inp_tag_profile.files];
-    console.log(currFiles);
         currFiles.forEach((file,index)=>{
             if(validFileType(file)){
-                profile_pic_cont.style.background=`url(${URL.createObjectURL(file)}) no-repeat`;
-                profile_pic_cont.style.backgroundSize=`350px`;
-                firebase_img_uploader(file,"profile",index);
+                profile_pic_cont.style.backgroundImage=`url(${URL.createObjectURL(file)})`;
+                // firebase_img_uploader(file,"profile",index);
+                imagesArr.push(file);
+                profile_idx=imagesArr.length-1;
+                console.log(imagesArr);
             }
     });
 })
 
+inp_tag_des.addEventListener('change',()=>{
+    const currFiles=[...inp_tag_des.files];
+    if(currFiles.length>3) return;
+    console.log("Entering Here");
+        currFiles.forEach((file,index)=>{
+            if(validFileType(file)){
+                if(index===0){
+                    description_pic_cont.style.backgroundImage=`url(${URL.createObjectURL(file)})`;
+                }
+                else{
+                    description_pic_main_cont.innerHTML+=` <div class="description_images_container"></div>`;
+                    console.log(description_pic_main_cont.querySelectorAll('.description_images_container'));
+                    [...description_pic_main_cont.querySelectorAll('.description_images_container')][index].style.backgroundImage=`url(${URL.createObjectURL(file)})`;
+                    description_pic_cont=document.querySelectorAll('.description_images')[0];
+                    console.log(description_pic_cont);
+                    clicker();
+                }
+            }
+            imagesArr.push(file);
+            console.log(imagesArr);
+    });
+})
+
+clicker();

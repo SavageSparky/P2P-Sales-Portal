@@ -65,6 +65,8 @@ main{
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    background-size: cover;
+    background-position: center;
     background-color: rgba(231, 231, 231, 0.795);
 }
 .icon_overlay{
@@ -87,7 +89,7 @@ main{
     justify-content: center;
 }
 
-#profile-pic-upload{
+#profile-pic-upload,#des-pic-upload{
     height: 0;
     width: 0;
     content: '';
@@ -113,9 +115,9 @@ main{
     box-shadow: 0 0 5px var(--blue-light);
     background-color: rgba(255, 255, 255, 0.795);
 }
-.description_images_container:nth-child(2), .description_images_container:nth-child(3){
+/* .description_images_container:nth-child(2), .description_images_container:nth-child(3){
     display: none;
-}
+} */
 
 form {
     width: 60%;
