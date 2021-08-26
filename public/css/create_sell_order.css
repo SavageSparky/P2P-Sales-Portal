@@ -1,6 +1,6 @@
 body{
     overflow-x: hidden;
-    /* background-color: rgb(253, 253, 253); */
+    /* background-color: rgb(221, 235, 248); */
 }
 .sphere1 {
     background-color: var(--green-dark);
@@ -52,10 +52,8 @@ body{
     /* background-color: black; */
     background-image: url(../assets/images/Wall\ post-amico.svg);
     background-position: center right;
-    background-size: auto 50vw;
     background-repeat: no-repeat;
 }
-
 main{
     display: flex;
     flex-direction: column;
@@ -162,9 +160,9 @@ h2 {
     justify-content: space-evenly;
     margin: 2rem 1rem;
     padding: 1rem;
-    background-color: #ecf5fd81;
+    background-color: #ffffffa9;
     border-radius: 0.5rem;
-    box-shadow: 0 0 5px #587994;
+    box-shadow: 0 0 5px var(--primary-color);
     z-index: 5;
 }
 fieldset {
