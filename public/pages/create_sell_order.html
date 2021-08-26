@@ -30,109 +30,163 @@
         </div>
         <div class="images-cont">
             <div class="profile-img-cont">
-                <input type="file" accept="image/*" multiple="3" name="" id="profile-pic-upload">
+                <input type="file" accept="image/*" name="" id="profile-pic-upload">
+            </div>
+            <div class="description_images">
+                <h3>Description Images</h3>
+                <div class="description_images_container">
+                    <input type="file" accept="image/*" multiple="3" name="" id="profile-pic-upload">
+                </div>
             </div>
         </div>
         <form class="product_details">
             <fieldset>
                 <legend>Product Details</legend>
 
-                <label for="name">Name</label>
-                <input class="contents"
-                type="text"
-                id="name"
-                name="name"
-                placeholder="ex: Rice Sack"
-                required
-                >
+                <div class="contents">
+                    <label for="name">Name</label>
+                    <input class="input_area"
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="ex: Rice Sack"
+                    required
+                    >
+                </div>
+                
 
-                <label for="price">Price</label>
-                <input class="contents"
-                type="number"
-                id="price"
-                name="price"
-                placeholder="ex: 2000"
-                required
-                >
+                <div class="contents">
+                    <label for="price">Price</label>
+                    <input class="input_area"
+                    type="number"
+                    id="price"
+                    name="price"
+                    placeholder="ex: 2000"
+                    required
+                    >
+                </div>
 
-                <label for="quantity">Quantity</label>
-                <input class="contents"
-                type="number"
-                id="quantity"
-                name="quantity"
-                placeholder=""
-                required
-                >
+                <div class="contents">
+                    <label for="quantity">Quantity</label>
+                    <input class="input_area"
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    placeholder=""
+                    required
+                    >
+                </div>
 
-                <label for="type">Type</label>
-                <input class="contents"
-                type="text"
-                id="type"
-                name="type"
-                placeholder=""
-                required
-                >
+                <div class="contents">
+                    <label for="type">Type</label>
+                    <input class="input_area"
+                    type="text"
+                    id="type"
+                    name="type"
+                    placeholder=""
+                    required
+                    >
+                </div>
 
-                <label for="pincode">Pincode</label>
-                <input class="contents"
-                type="pincode"
-                id="pincode"
-                name="pincode"
-                placeholder=""
-                required
-                >
+                <div class="contents">
+                    <label for="due_date">Due Date</label>
+                    <input class="input_area"
+                    type="date"
+                    id="due_date"
+                    name="due_date"
+                    placeholder=""
+                    required
+                    >
+                </div>
+            </fieldset>
 
-                <label for="area">Area</label>
-                <input class="contents"
-                type= "dropdown"
-                id="area"
-                name="area"
-                required
-                >
+            <fieldset>
+                <legend>Product Location</legend>
+                <div class="contents">
+                    <label for="pincode">Pincode</label>
+                    <input class="input_area"
+                    type="number"
+                    id="pincode"
+                    name="pincode"
+                    placeholder=""
+                    required
+                    >
+                </div>
 
-                <label for="street">Street</label>
-                <input class="contents"
-                type="text"
-                id="street"
-                name="street"
-                placeholder=""
-                required
-                >
+                <div class="contents">
+                    <label for="area">Area</label>
+                    <select class="input_area"
+                    id="area"
+                    name="area"
+                    required
+                    >
+                    <option disabled selected value>Select area</option>
+                    </select>
+                </div>
+                
 
-                <label for="delivery_available">Delivery Available</label>
-                <input class="contents"
-                type="text"
-                id="delivery_available"
-                name="delivery_available"
-                placeholder=""
-                required
-                >
-                <label for="due_date">Due Date</label>
-                <input 
-                type="text"
-                id="due_date"
-                name="due_date"
-                placeholder=""
-                required
-                >
+                <div class="contents">
+                    <label for="street">Street</label>
+                    <input class="input_area"
+                    type="text"
+                    id="street"
+                    name="street"
+                    placeholder=""
+                    required
+                    >
+                </div>
 
-                <label for="search_suggestions">Search Suggestions</label>
-                <input class="contents"
-                type="text"
-                id="search_suggestions"
-                name="search_suggestions"
-                placeholder=""
-                required
-                >
+                <div class="contents">
+                    <p class="label">Delivery Available</p>
+                    <label for="delivery_available_yes">
+                        <input class="input_area_radio"
+                        type="radio"
+                        id="delivery_available_yes"
+                        name="delivery_available"
+                        value="Yes"
+                        >
+                        Yes
+                    </label>   
+                    <label for="delivery_available_no">
+                        <input class="input_area_radio"
+                        type="radio"
+                        id="delivery_available_no"
+                        name="delivery_available"
+                        value="no"
+                        >
+                        No
+                    </label>
+                </div>
+            </fieldset>
+                
 
-                <label for="description">Description</label>
-                <input class="contents"
-                type="text"
-                id="description"
-                name="description"
-                placeholder=""
-                required
-                >
+                <div class="contents">
+                    <label for="search_suggestions">Search Suggestions</label>
+                    <span>(These words trigger your products in the search.)</span>
+                    <textarea class="input_area"
+                    type="text"
+                    id="search_suggestions"
+                    name="search_suggestions"
+                    placeholder="Separate each word with spaces"
+                    rows="3"
+                    required
+                    ></textarea>
+                </div>
+
+                <div class="contents">
+                    <label for="description">Description</label>
+                    <textarea class="input_area"
+                    type="text"
+                    id="description"
+                    name="description"
+                    placeholder=""
+                    rows="10"
+                    ></textarea>
+                </div>
+                <div class="buttons">
+                    <button id="cancel">Cancel</button>
+                    <button id="submit" type="submit">Save</button>
+                </div>
             </fieldset>
         </form>
     </main>
