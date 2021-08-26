@@ -8,3 +8,32 @@ fieldset {
     display: flex;
     flex-direction: column;
 }
+
+main{
+    display: flex;
+}
+
+.images-cont{
+    width: 30%;
+}
+
+form{
+    width: 70%;
+}
+
+.profile-img-cont{
+    height: 350px;
+    width: 350px;
+    border-radius: 50%;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#profile-pic-upload{
+    height: 0;
+    width: 0;
+    content: '';
+}

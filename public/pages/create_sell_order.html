@@ -28,7 +28,11 @@
             <a class="wishlist" href="#">Wishlist</a>
             <a class="log_out" href="#">Log out</a>
         </div>
-        
+        <div class="images-cont">
+            <div class="profile-img-cont">
+                <input type="file" accept="image/*" multiple="3" name="" id="profile-pic-upload">
+            </div>
+        </div>
         <form class="product_details">
             <fieldset>
                 <legend>Product Details</legend>
@@ -132,6 +136,11 @@
             </fieldset>
         </form>
     </main>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="../js/create_sell_order.js" type="module"></script>
     <script src="../js/common.js"></script>
 </body>
 </html>

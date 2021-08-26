@@ -31,7 +31,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
     console.log(temp);
     if (temp === true) {
       location.href =
-        "www.google.com"; /* If data is in db then redirect to main page */
+        "/pages/home.html"; /* If data is in db then redirect to main page */
     }
   } else {
     user_signin_flag = false;
@@ -100,7 +100,7 @@ async function signiner() {
   if (user_signin_flag === true) {
     /*This one checks wether the user has already filled the details if yes then it will be redirected to main page*/
     if ((await detCheck()) === true) {
-      location.href = "#";
+      location.href = "/pages/home.html";
     } else {
       popupHandler(); /*If the user hasnt filled any details the popup will be shown */
     }
