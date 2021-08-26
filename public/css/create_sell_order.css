@@ -58,12 +58,7 @@ h2 {
 }
 .main_section{
     display: flex;
-    padding: 0 10vw;
-    justify-content: center;
-    align-items: flex-start;
-}
-.images-cont{
-    width: 40%;
+    flex-direction: column;
     margin: 1rem;
     height: auto;
     display: flex;
@@ -127,6 +122,9 @@ h2 {
     text-align: center;
     color: var(--blue-light);
     padding: 1rem;
+    background-color: var(--card-white);
+    border-radius: 1rem;
+    box-shadow: 0 0 5px var(--primary-color);
 }
 .description_images_container {
     height: 250px;
@@ -162,10 +160,6 @@ fieldset {
     flex-direction: column;
     border-color: solid var(--blue-light);
     border-radius: 0.5rem;
-}
-fieldset>.contents{
-    display: flex;
-    flex-direction: row;
 }
 .contents {
     display: flex;
