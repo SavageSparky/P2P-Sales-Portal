@@ -122,7 +122,7 @@
                 <div class="contents">
                     <label for="pincode">Pincode</label>
                     <input class="input_area"
-                    type="number"
+                    type="pincode"
                     id="pincode"
                     name="pincode"
                     placeholder=""
@@ -154,9 +154,9 @@
                 </div>
 
                 <div class="contents">
-                    <p class="label">Delivery Available</p>
+                    <p>Delivery Available</p>
                     <label for="delivery_available_yes">
-                        <input class="input_area_radio"
+                        <input class="input_area"
                         type="radio"
                         id="delivery_available_yes"
                         name="delivery_available"
@@ -165,7 +165,7 @@
                         Yes
                     </label>   
                     <label for="delivery_available_no">
-                        <input class="input_area_radio"
+                        <input class="input_area"
                         type="radio"
                         id="delivery_available_no"
                         name="delivery_available"
@@ -177,35 +177,33 @@
             </fieldset>
                 
 
-            <div class="contents">
-                <div class="suggestion_div">
-                    <label class="label" for="search_suggestions">Search Suggestions</label>
-                    <input class="input_area"
+                <div class="contents">
+                    <label for="search_suggestions">Search Suggestions</label>
+                    <span>(These words trigger your products in the search.)</span>
+                    <textarea class="input_area"
                     type="text"
                     id="search_suggestions"
                     name="search_suggestions"
-                    placeholder="Enter a word here"
+                    placeholder="Separate each word with spaces"
+                    rows="3"
                     required
-                    >
+                    ></textarea>
                 </div>
-                <span>(These words trigger your products in the search.)</span>
-                <div class="selected_suggestions"></div>
-            </div>
 
-            <div class="contents">
-                <label for="description">Description</label>
-                <textarea class="input_area"
-                type="text"
-                id="description"
-                name="description"
-                placeholder=""
-                rows="10"
-                ></textarea>
-            </div>
-            <div class="buttons">
-                <button id="cancel">Cancel</button>
-                <button id="submit" type="submit">Save</button>
-            </div>
+                <div class="contents">
+                    <label for="description">Description</label>
+                    <textarea class="input_area"
+                    type="text"
+                    id="description"
+                    name="description"
+                    placeholder=""
+                    rows="10"
+                    ></textarea>
+                </div>
+                <div class="buttons">
+                    <button id="cancel">Cancel</button>
+                    <button id="submit" type="submit">Save</button>
+                </div>
         </form>
     </section>
     </main>
