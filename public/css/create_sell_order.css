@@ -1,10 +1,10 @@
 body{
     overflow-x: hidden;
-    background-color: rgb(221, 235, 248);
+    /* background-color: rgb(221, 235, 248); */
 }
 .sphere1 {
-    background-color: #d6d6d6;
-    box-shadow: 0 0 10px #cacacaa9;
+    background-color: #a0fca8;
+    box-shadow: 0 0 10px #a8bea8a9;
     position: fixed;
     height: 500px;
     width: 500px;
@@ -13,8 +13,8 @@ body{
     right: -10%;
 }
 .sphere2 {
-    background-color: #bb6fc7;
-    box-shadow: 0 0 100px 1px #bb6fc7a9;
+    background-color: #de99e9;
+    box-shadow: 0 0 100px 1px #b484bba9;
     position: fixed;
     height: 600px;
     width: 600px;
@@ -23,7 +23,7 @@ body{
     left: -5%;
 }
 .sphere3 {
-    background-color: rgba(38, 160, 216, 0.603);
+    background-color: rgba(64, 177, 230, 0.603);
     box-shadow: 0 0 100px 1px rgb(127, 174, 206);
     position: fixed;
     height: 450px;
@@ -148,9 +148,9 @@ h2 {
     justify-content: space-evenly;
     margin: 2rem 1rem;
     padding: 1rem;
-    background-color: #f1f8fdaf;
+    background-color: #f4faffbb;
     border-radius: 0.5rem;
-    box-shadow: 0 0 5px var(--primary-color);
+    box-shadow: 0 0 5px rgb(184, 184, 184);
     z-index: 5;
 }
 fieldset {
@@ -158,8 +158,11 @@ fieldset {
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    border-color: solid var(--blue-light);
+    border: solid rgb(185, 184, 184) 1px;
     border-radius: 0.5rem;
+}
+legend {
+    color: var(--blue-light);
 }
 fieldset .contents {
     display: flex;
