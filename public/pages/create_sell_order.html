@@ -24,7 +24,10 @@
     <div class="sphere1"></div>
     <div class="sphere2"></div>
     <div class="sphere3"></div>
+    <div class="sphere4"></div>
     <main>
+    <h2>New Sell Order:</h2>
+    <section class="main_section">
         <div class="profile_menu none">
             <a class="my_profile" href="#">My Profile</a>
             <a class="my_products" href="#">My Products</a>
@@ -52,7 +55,7 @@
                 </div>
             </div>
         </div>
-        <form class="product_details">
+        <form class="main_form">
             <fieldset>
                 <legend>Product Details</legend>
 
@@ -174,16 +177,18 @@
                 
 
                 <div class="contents">
-                    <label for="search_suggestions">Search Suggestions</label>
+                    <div class="suggestion_div">
+                        <label class="label" for="search_suggestions">Search Suggestions</label>
+                        <input class="input_area"
+                        type="text"
+                        id="search_suggestions"
+                        name="search_suggestions"
+                        placeholder="Enter a word here"
+                        required
+                        >
+                    </div>
                     <span>(These words trigger your products in the search.)</span>
-                    <textarea class="input_area"
-                    type="text"
-                    id="search_suggestions"
-                    name="search_suggestions"
-                    placeholder="Separate each word with spaces"
-                    rows="3"
-                    required
-                    ></textarea>
+                    <div class="selected_suggestions"></div>
                 </div>
 
                 <div class="contents">
@@ -202,6 +207,7 @@
                 </div>
             </fieldset>
         </form>
+    </section>
     </main>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>

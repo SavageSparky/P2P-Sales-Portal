@@ -1,5 +1,6 @@
 body{
     overflow-x: hidden;
+    background-color: rgb(221, 235, 248);
 }
 .sphere1 {
     background-color: var(--green-dark);
@@ -8,47 +9,67 @@ body{
     height: 500px;
     width: 500px;
     border-radius: 50%;
-    top: 30%;
+    top: 20%;
     right: -10%;
-    z-index: 2;
 }
 .sphere2 {
-    background-color: rgba(38, 160, 216, 0.603);
-    box-shadow: 0 0 100px 1px rgb(127, 174, 206);;
+    background-color: rgba(131, 78, 255, 0.705);
+    box-shadow: 0 0 100px 1px rgba(124, 10, 255, 0.685);
     position: fixed;
     height: 600px;
     width: 600px;
     border-radius: 50%;
     bottom: -15%;
     left: -5%;
-    z-index: 2;
 }
 .sphere3 {
-    background-color: rgba(131, 78, 255, 0.705);
-    box-shadow: 0 0 100px 1px rgba(124, 10, 255, 0.685);;
+    background-color: rgba(38, 160, 216, 0.603);
+    box-shadow: 0 0 100px 1px rgb(127, 174, 206);
     position: fixed;
-    height: 500px;
-    width: 500px;
+    height: 450px;
+    width: 450px;
     border-radius: 50%;
-    bottom: 50%;
-    transform: translateY(-50%);
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2;
+    bottom: 70%;
+    left: 30%;
 }
-
+.sphere4 {
+    background-color: rgba(230, 50, 119, 0.603);
+    box-shadow: 0 0 100px 1px rgba(200, 50, 230, 0.603);
+    position: fixed;
+    height: 400px;
+    width: 400px;
+    border-radius: 50%;
+    bottom: 10%;
+    transform: translateY(-50%);
+    right: 15%;
+    transform: translateX(-50%);
+}
 main{
     display: flex;
-    padding: 0 10vw;
-    background-color: white;
+    flex-direction: column;
 }
-
+h2 {
+    color: var(--alternate-color);
+    width: 100%;
+    text-align: center;
+    z-index: 1;
+    padding-top: 2rem;
+    font-size: 2.5rem;
+}
+.main_section{
+    display: flex;
+    padding: 0 10vw;
+    justify-content: center;
+    align-items: flex-start;
+}
 .images-cont{
     width: 40%;
     margin: 1rem;
+    height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
     z-index: 5;
 }
 
@@ -68,14 +89,15 @@ main{
     background-color: rgba(231, 231, 231, 0.795);
 }
 .icon_overlay{
-    display: none;
+    display: flex;
     position: absolute;
     bottom: 0px;
     padding: 50px 0;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.349);
     justify-content: center;
-    transition:all 1.5s ease;
+    opacity: 0;
+    transition:all 0.7s ease;
 }
 .profile-img-cont:hover .icon_overlay{
     display: flex;
@@ -85,6 +107,7 @@ main{
     width: 100%;
     background-color: rgba(0, 0, 0, 0.349);
     justify-content: center;
+    opacity: 1;
 }
 
 #profile-pic-upload{
@@ -98,6 +121,7 @@ main{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 .description_images h3{
     text-align: center;
@@ -105,8 +129,8 @@ main{
     padding: 1rem;
 }
 .description_images_container {
-    height: 30vh;
-    width: 100%;
+    height: 250px;
+    width: 80%;
     margin: 1rem 0;;
     border: none;
     border-radius: 0.5rem;
@@ -117,14 +141,16 @@ main{
     display: none;
 }
 
-form {
+.main_form {
+    margin: auto;
     width: 60%;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    margin: 1rem;
+    margin: 2rem 1rem;
     padding: 1rem;
-    background-color: #f1f1f18a;
+    background-color: #ffffffa9;
     border-radius: 0.5rem;
     box-shadow: 0 0 5px var(--primary-color);
     z-index: 5;
@@ -156,7 +182,18 @@ fieldset>.contents{
 .contents > textarea {
     border-radius: 0.5rem;
 }
-
+.suggestion_div {
+    width: 100%;
+    display: flex;
+    padding: 1rem;
+}
+.selected_suggestions {
+    width: 100%;
+    height: 4rem;
+    border-radius: 0.5rem;
+    background-color: white;
+    box-shadow: 0 0 5px var(--primary-color);
+}
 
 fieldset .input_area {
     width: 70%;
@@ -165,6 +202,7 @@ fieldset .input_area {
     font-size: 1.2rem;
     border-radius: 1rem;
     border: none;
+    width: 70%;
     outline-style: none;
     box-shadow: 0 0 3px;
     padding: .0rem 1rem;
