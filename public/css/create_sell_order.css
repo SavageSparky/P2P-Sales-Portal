@@ -1,8 +1,46 @@
+body{
+    overflow-x: hidden;
+}
+.sphere1 {
+    background-color: var(--green-dark);
+    box-shadow: 0 0 100px 1px var(--green-dark);
+    position: fixed;
+    height: 500px;
+    width: 500px;
+    border-radius: 50%;
+    top: 30%;
+    right: -10%;
+    z-index: 2;
+}
+.sphere2 {
+    background-color: rgba(38, 160, 216, 0.603);
+    box-shadow: 0 0 100px 1px rgb(127, 174, 206);;
+    position: fixed;
+    height: 600px;
+    width: 600px;
+    border-radius: 50%;
+    bottom: -15%;
+    left: -5%;
+    z-index: 2;
+}
+.sphere3 {
+    background-color: rgba(131, 78, 255, 0.705);
+    box-shadow: 0 0 100px 1px rgba(124, 10, 255, 0.685);;
+    position: fixed;
+    height: 500px;
+    width: 500px;
+    border-radius: 50%;
+    bottom: 50%;
+    transform: translateY(-50%);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
 
 main{
     display: flex;
     padding: 0 10vw;
-    background-color: #f3f6fc;
+    background-color: white;
 }
 
 .images-cont{
@@ -11,6 +49,7 @@ main{
     display: flex;
     flex-direction: column;
     align-items: center;
+    z-index: 5;
 }
 
 
@@ -19,11 +58,33 @@ main{
     width: 350px;
     margin: 1rem 0;
     border-radius: 50%;
-    border: 1px solid black;
+    border: none;
+    position: relative;
+    box-shadow: 0 0 5px var(--primary-color);
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    background-color: rgba(231, 231, 231, 0.795);
+}
+.icon_overlay{
+    display: none;
+    position: absolute;
+    bottom: 0px;
+    padding: 50px 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.349);
+    justify-content: center;
+    transition:all 1.5s ease;
+}
+.profile-img-cont:hover .icon_overlay{
+    display: flex;
+    position: absolute;
+    bottom: 0px;
+    padding: 50px 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.349);
+    justify-content: center;
 }
 
 #profile-pic-upload{
@@ -33,7 +94,6 @@ main{
 }
 .description_images {
     margin: 1rem 0;
-    height: 40vh;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -47,20 +107,27 @@ main{
 .description_images_container {
     height: 30vh;
     width: 100%;
+    margin: 1rem 0;;
     border: none;
     border-radius: 0.5rem;
     box-shadow: 0 0 5px var(--blue-light);
+    background-color: rgba(255, 255, 255, 0.795);
+}
+.description_images_container:nth-child(2), .description_images_container:nth-child(3){
+    display: none;
 }
 
 form {
     width: 60%;
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
     margin: 1rem;
     padding: 1rem;
-    background-color: var(--card-white);
+    background-color: #f1f1f18a;
     border-radius: 0.5rem;
     box-shadow: 0 0 5px var(--primary-color);
+    z-index: 5;
 }
 fieldset {
     margin: 0.5rem;
