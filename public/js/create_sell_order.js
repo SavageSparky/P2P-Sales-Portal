@@ -192,3 +192,35 @@ submit_btn.addEventListener("click",(e)=>{
 })
 
 clicker();
+clicker();
+
+const suggestion_input = document.querySelector('#search_suggestions');
+const selected_suggestions = document.querySelector('.selected_suggestions');
+let newDiv_option;
+let suggestion_counter = 0;
+suggestion_input.addEventListener('keydown', (e)=>{
+    if(e.key=="Enter"){
+        e.preventDefault();
+        if(suggestion_input.value == ""){
+            return;
+        }
+        const newDiv = document.createElement("div");
+        const p_element = document.createElement("p");
+        const close_img = document.createElement("img");
+        close_img.src = '../assets/icons/close_icon.svg';
+        close_img.id = `close_icon${suggestion_counter}`;
+        suggestion_counter++;
+        const text_content = document.createTextNode(suggestion_input.value);
+        p_element.append(text_content);
+        newDiv.appendChild(p_element);
+        newDiv.appendChild(close_img);
+        selected_suggestions.appendChild(newDiv);
+        suggestion_input.value = "";
+    }
+})
+
+selected_suggestions.addEventListener('click',(event)=>{
+    document.getElementById(event.target.id).parentElement.remove();
+})
+
+
