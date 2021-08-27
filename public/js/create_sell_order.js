@@ -37,6 +37,7 @@ const inp_tag_profile=document.querySelector('#profile-pic-upload');
 let description_pic_cont=document.querySelector('.description_images_container');
 const inp_tag_des=document.querySelector('#des-pic-upload');
 const description_pic_main_cont=document.querySelector('.description_images');
+const description_pic_conts=document.querySelectorAll
 let profile_idx=0;
 const fileTypes = [
     "image/apng",
@@ -67,8 +68,15 @@ function clicker(){
 
     description_pic_cont.addEventListener("click",()=>{
         if(!user_signin_flag) return;
-        description_pic_main_cont
-        console.log("entwerr");
+        let len=document.querySelectorAll('.description_images_container').length;
+        if(len>1){
+            while(len>1){
+                console.log("Entereing here");
+                document.querySelectorAll('.description_images_container')[len-1].remove();
+                len--;
+            }
+            document.querySelector('.description_images_container').style.backgroundImage='';
+        }
         inp_tag_des.click();
     })
 }
@@ -81,7 +89,6 @@ inp_tag_profile.addEventListener('change',()=>{
                 // firebase_img_uploader(file,"profile",index);
                 imagesArr.push(file);
                 profile_idx=imagesArr.length-1;
-                console.log(imagesArr);
             }
     });
 })
@@ -89,7 +96,6 @@ inp_tag_profile.addEventListener('change',()=>{
 inp_tag_des.addEventListener('change',()=>{
     const currFiles=[...inp_tag_des.files];
     if(currFiles.length>3) return;
-    console.log("Entering Here");
         currFiles.forEach((file,index)=>{
             if(validFileType(file)){
                 if(index===0){
@@ -97,15 +103,12 @@ inp_tag_des.addEventListener('change',()=>{
                 }
                 else{
                     description_pic_main_cont.innerHTML+=` <div class="description_images_container"></div>`;
-                    console.log(description_pic_main_cont.querySelectorAll('.description_images_container'));
                     [...description_pic_main_cont.querySelectorAll('.description_images_container')][index].style.backgroundImage=`url(${URL.createObjectURL(file)})`;
-                    description_pic_cont=document.querySelectorAll('.description_images')[0];
-                    console.log(description_pic_cont);
+                    description_pic_cont=document.querySelectorAll('.description_images_container')[0];
                     clicker();
                 }
             }
             imagesArr.push(file);
-            console.log(imagesArr);
     });
 })
 
