@@ -203,7 +203,7 @@ fieldset .contents {
     padding: 1rem;
     border-radius: 0.5rem;
     background-color: white;
-    box-shadow: 0 0 5px var(--primary-color);
+    box-shadow: 0 0 5px rgb(184, 184, 184);
 }
 
 fieldset > .input_area {
@@ -215,7 +215,7 @@ fieldset > .input_area {
     border: none;
     width: 70%;
     outline-style: none;
-    box-shadow: 0 0 3px;
+    box-shadow: 0 0 5px rgb(184, 184, 184);
     padding: .0rem 1rem;
     background-color: white;
 }
@@ -233,4 +233,8 @@ fieldset > .input_area {
     color: var(--primary-color);
     border-radius: 0.5rem;
     cursor: pointer;
+}
+#submit:hover, #cancel:hover {
+    transform: scale(1.1);
+    transition: 0.3s ease;
 }
