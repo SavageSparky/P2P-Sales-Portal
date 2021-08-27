@@ -209,6 +209,7 @@ suggestion_input.addEventListener('keydown', (e)=>{
         const close_img = document.createElement("img");
         close_img.src = '../assets/icons/close_icon.svg';
         close_img.id = `close_icon${suggestion_counter}`;
+        close_img.className = 'close_icon';
         suggestion_counter++;
         const text_content = document.createTextNode(suggestion_input.value);
         p_element.append(text_content);
@@ -220,7 +221,10 @@ suggestion_input.addEventListener('keydown', (e)=>{
 })
 
 selected_suggestions.addEventListener('click',(event)=>{
-    document.getElementById(event.target.id).parentElement.remove();
+    if(event.target.className=='close_icon'){
+        document.getElementById(event.target.id).parentElement.remove();
+    }
 })
+
 
 
