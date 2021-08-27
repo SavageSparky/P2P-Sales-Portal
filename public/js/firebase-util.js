@@ -32,3 +32,7 @@ export async function db_get(db,path){
 export function db_del(db,path){
     db.ref(path).remove();
 }
+
+export function pushKey(db, reference, key){
+  return db.ref(reference).child(key).push().key;
+}

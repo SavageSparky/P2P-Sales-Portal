@@ -1,4 +1,4 @@
-import { firebaseConfig } from "./firebase-util.js";
+import { firebaseConfig, pushKey } from "./firebase-util.js";
 /*******************************FireBase Functions************************************ */
 firebase.initializeApp(firebaseConfig);
 let user_id;
@@ -12,25 +12,31 @@ firebase.auth().onAuthStateChanged(async (user) => {
     }
     else{
         user_signin_flag=false;
-        location.href='/public/index.html';
+        location.href='/index.html';
     }
   });
 
 
-  function firebase_img_uploader(file,type,index){
-    let file_name=(type==='profile')?`${user_id}-product-profile`:`${user_id}-product-${index}`;
-    file_name+=`.${imgTypeFinder(file.type)}`;
-    console.log(file_name);
-    const imagesRef = firebase.storage().ref(`images/${file_name}`);
-    imagesRef.delete().then(() => {
-        
-      }).catch((error) => {
-         console.log("NO image found");
-      });
-      imagesRef.put(file).then((snapshot)=>{
-          console.log('Uploaded');
-      })
-  }
+  function firebase_img_uploader(file,type,pid,index){
+    const file_name=(type==='profile')?`${pid}-product-profile`:`${pid}-product-${index}`;
+    console.log(user_id,pid);
+    const imagesRef = firebase.storage().ref(`images/${user_id}/products/${pid}`);
+    let upload_task=imagesRef.child(file_name).put(file);
+
+    upload_task.on('state_changed',
+    (snapshot) => {}, 
+    (error) => {
+        console.log(error);
+    },
+     ()=>{
+            imagesRef.child(file_name).getDownloadURL().then((url)=>{
+                console.log(url);
+                return url;
+            });
+      }
+    );   
+}
+
 /*************************************************************************************** */
 const profile_pic_cont=document.querySelector('.profile-img-cont');
 const inp_tag_profile=document.querySelector('#profile-pic-upload');
@@ -40,6 +46,8 @@ const description_pic_main_cont=document.querySelector('.description_images');
 let profile_idx=null;
 const pincode_tag=document.querySelector('#pincode');
 const area_drop_down=document.querySelector('#area');
+const submit_btn=document.querySelector('#submit');
+
 const fileTypes = [
     "image/apng",
     "image/bmp",
@@ -54,12 +62,12 @@ const fileTypes = [
   ];
 
 function imgTypeFinder(type){
-  return type.replace(/image\//g,"");
+  return type.match(/\..*/i);
 }
 
 function validFileType(file) {
     return fileTypes.includes(file.type);
-  }
+}
 
 profile_pic_cont.addEventListener("click",()=>{
     if(!user_signin_flag) return;
@@ -107,6 +115,7 @@ inp_tag_profile.addEventListener('change',()=>{
                 // firebase_img_uploader(file,"profile",index);
                 imagesArr.push(file);
                 profile_idx=imagesArr.length-1;
+                firebase_img_uploader(file,"profile",'123456');
             }
     });
 })
@@ -151,6 +160,35 @@ pincode_tag.addEventListener('input',async ()=>{
     else{
         area_drop_down.innerHTML=`   <option disabled selected value=${null}>No area Found</option>`
     }
+})
+
+submit_btn.addEventListener("click",(e)=>{
+    e.preventDefault();
+    if(profile_idx===null) return;
+    if(imagesArr.length<2) return;
+    const input_elements=document.querySelectorAll('.input_area');
+    const profile_img_url=firebase_img_uploader(imagesArr[profile_idx],'profile',pid,0);
+    const product_des_img_arr=[];
+    imagesArr.forEach(async(data,index)=>{
+        if(index!=profile_idx)
+            product_des_img_arr.push(await firebase_img_uploader(data,"abc",pid,index));
+    })
+    const pid=pushKey(firebase.database(),'/product',`${user_id}`);
+
+    let main_data_obj={
+        pid,
+        "user-id":user_id,
+        "name":input_elements[0].value,
+        "price":input_elements[1].value,
+        "quantity":input_elements[2].value,
+        "type":input_elements[3].value,
+        "due-date":input_elements[4].value,
+        "pincode":input_elements[5].value,
+        "area":input_elements[6].value,
+        "street":input_elements[7].value,
+        "delivery-available":input_elements[8].value,
+        "description":input_elements[11].value
+    };
 })
 
 clicker();

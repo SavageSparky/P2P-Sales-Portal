@@ -65,9 +65,15 @@ submit_btn.addEventListener("click", (e) => {
   e.preventDefault();
   if (!submit_flag) return;
   name_input.value=name_input.value.trim();
-  db_insert(db, `user/${user_id}/Name`, name_input.value);
-  db_insert(db, `user/${user_id}/Pincode`, pincode_tag.value);
-  db_insert(db, `user/${user_id}/AllDone`, false);
+  let obj={
+    'Name':name_input.value,
+    'Pincode':pincode_tag.value,
+    'AllDone':false
+  }
+  // db_insert(db, `user/${user_id}/Name`, name_input.value);
+  // db_insert(db, `user/${user_id}/Pincode`, pincode_tag.value);
+  // db_insert(db, `user/${user_id}/AllDone`, false);
+  db_insert(db,`user/${user_id}`,obj);
   location.href = "/pages/home.html";
 });
 
