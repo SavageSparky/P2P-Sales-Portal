@@ -68,7 +68,7 @@ submit_btn.addEventListener("click", (e) => {
   db_insert(db, `user/${user_id}/Name`, name_input.value);
   db_insert(db, `user/${user_id}/Pincode`, pincode_tag.value);
   db_insert(db, `user/${user_id}/AllDone`, false);
-  location.href = "#";
+  location.href = "/pages/home.html";
 });
 
 name_input.addEventListener("input",()=>{
