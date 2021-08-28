@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div>
-        <form class="main_form">
+        <form class="main_form" onsubmit="return false">
             <fieldset>
                 <legend>Product Details</legend>
 
@@ -154,7 +154,7 @@
                         type="radio"
                         id="delivery_available_yes"
                         name="delivery_available"
-                        value="Yes"
+                        value="Yes" checked
                         >
                         Yes
                     </label>   
@@ -179,7 +179,6 @@
                     id="search_suggestions"
                     name="search_suggestions"
                     placeholder="Enter a word here"
-                    required
                     >
                 </div>
                 <span>(These words trigger your products in the search.)</span>
@@ -194,6 +193,7 @@
                 name="description"
                 placeholder=""
                 rows="10"
+                required
                 ></textarea>
             </div>
             <div class="buttons">

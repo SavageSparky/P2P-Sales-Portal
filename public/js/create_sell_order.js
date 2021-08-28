@@ -1,4 +1,4 @@
-import { firebaseConfig, pushKey } from "./firebase-util.js";
+import { db_get, db_insert, firebaseConfig, pushKey } from "./firebase-util.js";
 /*******************************FireBase Functions************************************ */
 firebase.initializeApp(firebaseConfig);
 let user_id;
@@ -16,27 +16,28 @@ firebase.auth().onAuthStateChanged(async (user) => {
     }
   });
 
-
-  function firebase_img_uploader(file,type,pid,index){
-    const file_name=(type==='profile')?`${pid}-product-profile`:`${pid}-product-${index}`;
-    console.log(user_id,pid);
+  let cnt=0;
+  function firebase_img_uploader(file,type,pid){
+    const file_name=(type==='profile')?`${pid}-product-profile`:`${pid}-product-${cnt}`;
     const imagesRef = firebase.storage().ref(`images/${user_id}/products/${pid}`);
     let upload_task=imagesRef.child(file_name).put(file);
 
     upload_task.on('state_changed',
     (snapshot) => {}, 
-    (error) => {
-        console.log(error);
-    },
-     ()=>{
+    (error) => {},
+    ()=>{
             imagesRef.child(file_name).getDownloadURL().then((url)=>{
-                console.log(url);
-                return url;
+                if(type==='profile'){
+                    db_insert(firebase.database(),`product/${pid}/profile-img`,url);
+                }
+                else{
+                    db_insert(firebase.database(),`product/${pid}/product-des-imgs/${cnt}`,url);
+                    cnt++;
+                }
             });
       }
-    );   
-}
-
+    );
+  }
 /*************************************************************************************** */
 const profile_pic_cont=document.querySelector('.profile-img-cont');
 const inp_tag_profile=document.querySelector('#profile-pic-upload');
@@ -47,6 +48,7 @@ let profile_idx=null;
 const pincode_tag=document.querySelector('#pincode');
 const area_drop_down=document.querySelector('#area');
 const submit_btn=document.querySelector('#submit');
+const date_inp=document.querySelector('input[type=date]');
 
 const fileTypes = [
     "image/apng",
@@ -80,7 +82,6 @@ function clicker(){
         let len=document.querySelectorAll('.description_images_container').length;
         if(len>1){
             while(len>1){
-                console.log("Entereing here");
                 document.querySelectorAll('.description_images_container')[len-1].remove();
                 len--;
             }
@@ -115,9 +116,21 @@ inp_tag_profile.addEventListener('change',()=>{
                 // firebase_img_uploader(file,"profile",index);
                 imagesArr.push(file);
                 profile_idx=imagesArr.length-1;
-                firebase_img_uploader(file,"profile",'123456');
             }
     });
+})
+
+date_inp.addEventListener("input",(e)=>{
+    const today = new Date();
+    const currdate = today.getFullYear()+'-'+(((today.getMonth()+1<=9)?`0${today.getMonth()+1}`:today.getMonth()+1))+'-'+today.getDate();
+    console.log(currdate,date_inp.value);
+    if(date_inp.value < currdate){
+        date_inp.value=null;
+        e.target.setCustomValidity(`Due date must not be less than today's date`);
+    }
+    else{
+        e.target.setCustomValidity('');
+    }
 })
 
 inp_tag_des.addEventListener('change',()=>{
@@ -136,7 +149,6 @@ inp_tag_des.addEventListener('change',()=>{
                 }
             }
             imagesArr.push(file);
-            console.log(imagesArr);
     });
 })
 
@@ -145,8 +157,8 @@ pincode_tag.addEventListener('input',async ()=>{
         let url=`https://api.postalpincode.in/pincode/${pincode_tag.value}`;
         let pincode_json=await fetch(url);
         pincode_json=await pincode_json.json();
-        console.log(pincode_json);
         if(pincode_json[0].Status==="Error"){
+            pincode_tag.value=null;
             area_drop_down.innerHTML=`   <option disabled selected value=${null}>No area Found</option>`;
         }
         else{
@@ -155,25 +167,35 @@ pincode_tag.addEventListener('input',async ()=>{
                 area_drop_down.innerHTML+=` <option value=${d.Name}>${d.Name}</option>`;
             })
         }
-        console.log(area_drop_down.value);
     }
     else{
         area_drop_down.innerHTML=`   <option disabled selected value=${null}>No area Found</option>`
     }
 })
 
-submit_btn.addEventListener("click",(e)=>{
-    e.preventDefault();
+submit_btn.addEventListener("click",async (e)=>{
+    // e.preventDefault();
     if(profile_idx===null) return;
     if(imagesArr.length<2) return;
-    const input_elements=document.querySelectorAll('.input_area');
-    const profile_img_url=firebase_img_uploader(imagesArr[profile_idx],'profile',pid,0);
-    const product_des_img_arr=[];
-    imagesArr.forEach(async(data,index)=>{
-        if(index!=profile_idx)
-            product_des_img_arr.push(await firebase_img_uploader(data,"abc",pid,index));
-    })
     const pid=pushKey(firebase.database(),'/product',`${user_id}`);
+    const input_elements=document.querySelectorAll('.input_area');
+    firebase_img_uploader(imagesArr[profile_idx],'profile',pid);
+    const product_des_img_arr=[];
+    let suggestions=[...document.querySelector('.selected_suggestions').querySelectorAll('div')];
+    suggestions=suggestions.map((data)=>{
+        return data.querySelector('p').textContent;
+    })
+    suggestions.push(input_elements[0].value);
+    imagesArr.forEach((data,index)=>{
+        if(index!=profile_idx)
+            product_des_img_arr.push(firebase_img_uploader(data,"abc",pid));
+    })
+    let radio_val;
+    document.querySelectorAll('input[type=radio]').forEach(data=>{
+        if(data.checked){
+            radio_val=data.value;
+        }
+    })
 
     let main_data_obj={
         pid,
@@ -186,12 +208,38 @@ submit_btn.addEventListener("click",(e)=>{
         "pincode":input_elements[5].value,
         "area":input_elements[6].value,
         "street":input_elements[7].value,
-        "delivery-available":input_elements[8].value,
-        "description":input_elements[11].value
+        "delivery-available":radio_val,
+        "description":input_elements[9].value,
+        "suggestions":suggestions
     };
+    let p=await db_get(firebase.database(),`user/${user_id}/products`)
+    suggestions.forEach(async d=>{
+        let temp=await db_get(firebase.database(),`suggestions/${d}`);
+        temp=temp.val();
+        let sug_arr;
+        if(temp!==null){
+            sug_arr=[...temp];
+        }
+        else{
+            sug_arr=[];
+        }
+        sug_arr.push(pid);
+        db_insert(firebase.database(),`suggestions/${d}`,sug_arr);
+    })
+    let user_products;
+    p=p.val();
+    if(p!==null){
+        user_products=[...p];
+    }
+    else{
+        user_products=[];
+    }
+    console.log(user_products);
+    user_products.push(pid);
+    db_insert(firebase.database(),`user/${user_id}/products`,user_products);
+    db_insert(firebase.database(),`product/${pid}`,main_data_obj);
 })
 
-clicker();
 clicker();
 
 const suggestion_input = document.querySelector('#search_suggestions');
