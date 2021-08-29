@@ -9,6 +9,13 @@ firebase.auth().onAuthStateChanged(async (user) => {
     if (user) {
         user_id=user.uid;
         user_signin_flag=true;
+        let adone=await db_get(firebase.database(),`user/${user_id}/AllDone`);
+        adone=adone.val();
+        console.log(adone);
+        if(adone===null){
+            user_signin_flag=false;
+            location.href='/index.html';
+        }
     }
     else{
         user_signin_flag=false;
@@ -41,7 +48,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
 /*************************************************************************************** */
 const profile_pic_cont=document.querySelector('.profile-img-cont');
 const inp_tag_profile=document.querySelector('#profile-pic-upload');
-let description_pic_cont=document.querySelector('.description_images_container');
+let description_pic_cont=document.querySelectorAll('.description_images_container');
 const inp_tag_des=document.querySelector('#des-pic-upload');
 const description_pic_main_cont=document.querySelector('.description_images');
 let profile_idx=null;
@@ -77,7 +84,8 @@ profile_pic_cont.addEventListener("click",()=>{
 })
 
 function clicker(){  
-    description_pic_cont.addEventListener("click",()=>{
+    description_pic_cont.forEach(d=>{
+    d.addEventListener("click",()=>{
         if(!user_signin_flag) return;
         let len=document.querySelectorAll('.description_images_container').length;
         if(len>1){
@@ -106,6 +114,7 @@ function clicker(){
         }
         inp_tag_des.click();
     })
+});
 }
 
 inp_tag_profile.addEventListener('change',()=>{
@@ -139,12 +148,12 @@ inp_tag_des.addEventListener('change',()=>{
         currFiles.forEach((file,index)=>{
             if(validFileType(file)){
                 if(index===0){
-                    description_pic_cont.style.backgroundImage=`url(${URL.createObjectURL(file)})`;
+                    description_pic_cont[0].style.backgroundImage=`url(${URL.createObjectURL(file)})`;
                 }
                 else{
                     description_pic_main_cont.innerHTML+=` <div class="description_images_container"></div>`;
                     [...description_pic_main_cont.querySelectorAll('.description_images_container')][index].style.backgroundImage=`url(${URL.createObjectURL(file)})`;
-                    description_pic_cont=document.querySelectorAll('.description_images_container')[0];
+                    description_pic_cont=document.querySelectorAll('.description_images_container');
                     clicker();
                 }
             }
@@ -179,6 +188,12 @@ submit_btn.addEventListener("click",async (e)=>{
     if(imagesArr.length<2) return;
     const pid=pushKey(firebase.database(),'/product',`${user_id}`);
     const input_elements=document.querySelectorAll('.input_area');
+    let returner=0;
+    await input_elements.forEach((data,indexx)=>{
+        if(data.value===null || data.value==="" && indexx!==8)
+        returner=1;
+    })
+    if(returner===1) return;
     firebase_img_uploader(imagesArr[profile_idx],'profile',pid);
     const product_des_img_arr=[];
     let suggestions=[...document.querySelector('.selected_suggestions').querySelectorAll('div')];

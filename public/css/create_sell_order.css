@@ -88,6 +88,7 @@ h2 {
     background-size: cover;
     background-position: center;
     background-color: rgba(231, 231, 231, 0.795);
+    cursor: pointer;
 }
 .icon_overlay{
     display: flex;
@@ -140,6 +141,7 @@ h2 {
     border-radius: 0.5rem;
     box-shadow: 0 0 5px var(--blue-light);
     background-color: rgba(255, 255, 255, 0.795);
+    cursor: pointer;
 }
 /* .description_images_container:nth-child(2), .description_images_container:nth-child(3){
     display: none;
