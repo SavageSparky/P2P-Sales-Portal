@@ -1,0 +1,147 @@
+/* side nav */
+.side_nav{
+    height: 100vh;
+    width: 250px;
+    position: fixed;
+    background-color: var(--primary-color);
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+}
+.filter {
+    display:flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px;
+}
+.filter_head {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.filter_head > h3 {
+    color: white;
+    font-size: 1.5rem;
+}
+.filter_head>img {
+    height: auto;
+    width: 60px;
+    padding: 0 16px;
+}
+.filter_body {
+    margin-left: 50px;
+}
+.filter_body h4{
+    color: white;
+    padding: 0.3rem;
+    cursor: pointer;
+}
+.filter_body h4:hover{
+    background-color: rgba(255, 255, 255, 0.24);
+}
+
+
+/* main */
+
+main{
+    width: calc(100vw - 250px);
+    display: flex;
+    margin-left: 250px;
+    padding: 2rem;
+    padding-top: calc(60px + 2rem);
+}
+
+/* card */
+ul {
+    list-style: none;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--card-white);
+    color: var(--primary-color);
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.253);
+    height: 450px;
+    width: 280px;
+}
+.product_icon {
+    flex: 3;
+    max-width: 140px;
+    max-height: 140px;
+    border-radius: 50%;
+}
+.card_main_text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1rem;
+    flex: 1;
+    line-height: 1.8rem;
+}
+.card_main_text .price {
+    color: var(--alternate-color);
+}
+
+.card_body_text {
+    flex: 2;
+}
+.card_body_text li {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0 1rem;
+    padding: 0.2rem 1rem;
+}
+.card_body_text li h4{
+    color: var(--blue-light);
+}
+.card_body_text li img {
+    height: 20px;
+    margin-right: 10px;
+    align-self: flex-start;
+}
+.end_time_div {
+    justify-self: flex-end;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: var(--green-light);
+    padding: 0.5rem 0rem;
+    border-radius: 2rem;
+}
+.end_time_div img {
+    width: 30px;
+    padding-right: 5px;
+}
+.due_date {
+}
+.badges {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 1rem;
+    right: 1rem;
+}
+.badges img {
+    width: 35px;
+}
+.ribbons {
+    position: absolute;
+    background-color: blueviolet;
+    transform: rotate(-45deg);
+    top: 35px;
+    left: 0px;
+    border-radius: 1rem;
+    padding: 0.2rem 1rem;
+}
+.ribbons p {
+    color: white;
+}
