@@ -173,6 +173,8 @@ main {
     width: 100%;
 }
 .profile_menu {
+    margin-top: 65px;
+    margin-right: 5px;
     padding: 0.5rem 0;
     display: flex;
     flex-direction: column;
