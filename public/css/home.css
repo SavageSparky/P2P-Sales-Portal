@@ -1,43 +1,50 @@
 /* side nav */
 .side_nav{
     height: 100vh;
-    width: 250px;
+    width: 300px;
     position: fixed;
-    background-color: var(--primary-color);
     margin-top: 60px;
     display: flex;
-    flex-direction: column;
+    justify-content: flex-start;
+    /* flex-direction: column; */
 }
-.filter {
+.side_nav_options {
     display:flex;
     flex-direction: column;
-    width: 100%;
+    width: 70px;
     padding: 20px;
+    height: 100%;
+    background-color: #3c0070
 }
-.filter_head {
+.option_head {
     width: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
 }
-.filter_head > h3 {
-    color: white;
-    font-size: 1.5rem;
+.option_head { 
+    display: flex;
+    flex-direction: column;
 }
-.filter_head>img {
+
+.option_head>img {
     height: auto;
-    width: 60px;
-    padding: 0 16px;
+    width: 40px;
 }
-.filter_body {
-    margin-left: 50px;
+.option_body {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    height: 100%;
+    width: 230px;
+    background: linear-gradient(135deg, #7300d8, #b700ffb7)
 }
-.filter_body h4{
+.option_body h4{
     color: white;
     padding: 0.3rem;
     cursor: pointer;
 }
-.filter_body h4:hover{
+.option_body h4:hover{
     background-color: rgba(255, 255, 255, 0.24);
 }
 
@@ -45,9 +52,9 @@
 /* main */
 
 main{
-    width: calc(100vw - 250px);
+    width: calc(100vw - 300px);
     display: flex;
-    margin-left: 250px;
+    margin-left: 300px;
     padding: 2rem;
     padding-top: calc(60px + 2rem);
 }
