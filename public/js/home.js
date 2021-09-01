@@ -17,6 +17,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
     }
     else{
         document.querySelector('.loading-cont').style.display='flex';
+        location.href='/index.html';
     }
 });
 
