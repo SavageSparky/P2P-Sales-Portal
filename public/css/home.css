@@ -14,7 +14,7 @@
     width: 70px;
     padding: 20px;
     height: 100%;
-    background-color: #3c0070
+    background-color: rgb(78, 177, 78);
 }
 .option_head {
     width: 100%;
@@ -37,7 +37,7 @@
     padding: 20px;
     height: 100%;
     width: 230px;
-    background: linear-gradient(135deg, #7300d8, #b700ffb7)
+    background: #000d20e0;
 }
 .option_body h4{
     color: white;
