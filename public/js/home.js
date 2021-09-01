@@ -11,10 +11,19 @@ for(const key in suggestions){
     suggestors.push(key);
 };
 
+firebase.auth().onAuthStateChanged(async (user) => {
+    if(user){
+        document.querySelector('.loading-cont').style.display='none';
+    }
+    else{
+        document.querySelector('.loading-cont').style.display='flex';
+    }
+});
+
 console.log(suggestors);
 
 search_bar.addEventListener('input',()=>{
-    let regexer=new RegExp(search_bar.value,"g");
+    let regexer=new RegExp(search_bar.value,"gi");
     suggestors.forEach((data,index)=>{
         if(data.match(regexer)!==null){
             console.log(suggestors[index]);

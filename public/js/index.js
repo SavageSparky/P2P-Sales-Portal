@@ -29,12 +29,14 @@ firebase.auth().onAuthStateChanged(async (user) => {
     let temp =
       await detCheck(); /* This checks that if the user  data is in db*/
     console.log(temp);
+    document.querySelector('.loading-cont').style.display='none';
     if (temp === true) {
       location.href =
         "/pages/home.html"; /* If data is in db then redirect to main page */
     }
   } else {
     user_signin_flag = false;
+    document.querySelector('.loading-cont').style.display='flex';
   }
   if (authFlag === 1) {
     /*This is triggered upon first signup from the user by showing popup */

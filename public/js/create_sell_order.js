@@ -12,6 +12,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
         let adone=await db_get(firebase.database(),`user/${user_id}/AllDone`);
         adone=adone.val();
         console.log(adone);
+        document.querySelector('.loading-cont').style.display='none';
         if(adone===null){
             user_signin_flag=false;
             location.href='/index.html';
@@ -20,6 +21,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
     else{
         user_signin_flag=false;
         location.href='/index.html';
+        document.querySelector('.loading-cont').style.display='flex';
     }
   });
 
