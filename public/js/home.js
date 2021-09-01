@@ -4,6 +4,7 @@ firebase.initializeApp(firebaseConfig);
 const db=firebase.database();
 const search_bar=document.querySelector('nav input');
 let suggestions=await db_get(db,'suggestions/');
+const suggestions_cont=document.querySelector('.suggestions-cont');
 suggestions=suggestions.val()
 console.log(suggestions);
 const suggestors=[];
@@ -25,9 +26,21 @@ console.log(suggestors);
 
 search_bar.addEventListener('input',()=>{
     let regexer=new RegExp(search_bar.value,"gi");
+    suggestions_cont.classList.remove('none');
+    suggestions_cont.innerHTML='';
     suggestors.forEach((data,index)=>{
         if(data.match(regexer)!==null){
-            console.log(suggestors[index]);
+            suggestions_cont.innerHTML+=`<div class="suggestions-list" data-val=${suggestors[index]}>${suggestors[index]}</div>`;
+            
         }
     })
+})
+
+window.addEventListener("click",(e)=>{
+    if(e.target.classList.contains('search_box') || e.target.classList.contains('suggestions-list')){
+        suggestions_cont.classList.remove('none');
+    }
+    else{
+        suggestions_cont.classList.add('none');
+    }
 })

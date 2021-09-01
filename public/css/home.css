@@ -169,3 +169,22 @@ ul {
 .card:hover .ribbons {
     background: linear-gradient(45deg, rgb(155, 48, 255), rgb(68, 0, 255));
 }
+
+.suggestions-cont{
+    z-index: 9;
+    position: absolute;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.253);
+    width: 40vw;
+    margin-top: 60px;
+    left: 32%;
+    background-color: white;
+    border-radius: 0.2rem;
+}
+
+.suggestions-cont div{
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin: 0.5rem;
+    color: var(--alternate-color);
+}
