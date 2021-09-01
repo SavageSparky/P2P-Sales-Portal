@@ -57,6 +57,7 @@ main{
     margin-left: 300px;
     padding: 2rem;
     padding-top: calc(60px + 2rem);
+    transition: filter 0.2s ease;
 }
 
 /* card */
@@ -179,6 +180,8 @@ ul {
     left: 32%;
     background-color: white;
     border-radius: 0.2rem;
+    max-height: 300px;
+    overflow: auto;
 }
 
 .suggestions-cont div{
@@ -187,4 +190,9 @@ ul {
     cursor: pointer;
     margin: 0.5rem;
     color: var(--alternate-color);
+}
+
+.blurrer{
+    filter: blur(5px);
+    pointer-events: none;
 }

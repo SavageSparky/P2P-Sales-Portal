@@ -39,8 +39,10 @@ search_bar.addEventListener('input',()=>{
 window.addEventListener("click",(e)=>{
     if(e.target.classList.contains('search_box') || e.target.classList.contains('suggestions-list')){
         suggestions_cont.classList.remove('none');
+        document.querySelector('main').classList.add('blurrer');
     }
     else{
         suggestions_cont.classList.add('none');
+        document.querySelector('main').classList.remove('blurrer');
     }
 })
