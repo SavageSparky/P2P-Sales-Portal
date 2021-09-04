@@ -30,11 +30,19 @@ search_bar.addEventListener('input',()=>{
     suggestions_cont.innerHTML='';
     suggestors.forEach((data,index)=>{
         if(data.match(regexer)!==null){
-            suggestions_cont.innerHTML+=`<div class="suggestions-list" data-val=${suggestors[index]}>${suggestors[index]}</div>`;
-            
+            suggestions_cont.innerHTML+=`<div class="suggestions-list">${suggestors[index]}</div>`;
+            suggestions_select();
         }
     })
 })
+
+function suggestions_select(){
+    [...document.querySelectorAll('.suggestions-list')].forEach(data=>{
+        data.addEventListener("click",()=>{
+            console.log(data.textContent);
+        })
+    })
+}
 
 window.addEventListener("click",(e)=>{
     if(e.target.classList.contains('search_box') || e.target.classList.contains('suggestions-list')){
