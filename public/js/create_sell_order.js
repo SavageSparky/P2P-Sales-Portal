@@ -43,6 +43,11 @@ firebase.auth().onAuthStateChanged(async (user) => {
                     db_insert(firebase.database(),`product/${pid}/product-des-imgs/${cnt}`,url);
                     cnt++;
                 }
+                if(cnt+1>=imagesArr.length){
+                    setTimeout(()=>{
+                        location.href='/pages/home.html';
+                    },200);
+                }
             });
       }
     );
@@ -133,7 +138,7 @@ inp_tag_profile.addEventListener('change',()=>{
 
 date_inp.addEventListener("input",(e)=>{
     const today = new Date();
-    const currdate = today.getFullYear()+'-'+(((today.getMonth()+1<=9)?`0${today.getMonth()+1}`:today.getMonth()+1))+'-'+today.getDate();
+    const currdate = today.getFullYear()+'-'+(((today.getMonth()+1<=9)?`0${today.getMonth()+1}`:today.getMonth()+1))+'-'+(((today.getDate()<=9)?`0${today.getDate()}`:today.getDate()));
     console.log(currdate,date_inp.value);
     if(date_inp.value < currdate){
         date_inp.value=null;

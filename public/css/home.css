@@ -55,9 +55,10 @@ main{
     width: calc(100vw - 300px);
     display: flex;
     margin-left: 300px;
-    padding: 2rem;
-    padding-top: calc(60px + 2rem);
+    padding: 1rem;
+    padding-top: calc(60px + 1rem);
     transition: filter 0.2s ease;
+    flex-wrap: wrap;
 }
 
 /* card */
@@ -79,6 +80,7 @@ ul {
     transition: all 1s ease;
     height: 450px;
     width: 280px;
+    margin: 1rem;
 }
 .product_icon {
     flex: 3;
