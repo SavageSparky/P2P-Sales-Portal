@@ -43,10 +43,10 @@ firebase.auth().onAuthStateChanged(async (user) => {
                     db_insert(firebase.database(),`product/${pid}/product-des-imgs/${cnt}`,url);
                     cnt++;
                 }
-                if(cnt+1>=imagesArr.length){
+                if(cnt>=imagesArr.length-1){
                     setTimeout(()=>{
                         location.href='/pages/home.html';
-                    },200);
+                    },100);
                 }
             });
       }
@@ -260,6 +260,7 @@ submit_btn.addEventListener("click",async (e)=>{
     user_products.push(pid);
     db_insert(firebase.database(),`user/${user_id}/products`,user_products);
     db_insert(firebase.database(),`product/${pid}`,main_data_obj);
+    document.querySelector('.loading-cont').style.display='flex';
 })
 
 clicker();
