@@ -1,10 +1,11 @@
 /* side nav */
 .side_nav{
-    height: 100vh;
+    height: 80%;
     width: 300px;
     position: fixed;
-    margin-top: 60px;
+    margin: calc(2rem + 60px) 2rem 2rem;
     display: flex;
+    border-radius: 1rem;
     justify-content: flex-start;
     box-shadow: 0 0 5px var(--primary-color);
 }
@@ -14,7 +15,7 @@
     width: 70px;
     padding: 20px;
     height: 100%;
-    background-color: rgb(78, 177, 78);
+    background-color: var(--alternate-color);
 }
 .option_head {
     width: 100%;
@@ -37,11 +38,11 @@
     padding: 20px;
     height: 100%;
     width: 230px;
-    /* background: var(--card-white); */
-    background-color: rgb(46, 58, 73);
+    background: var(--card-white);
+    /* background-color: rgb(46, 58, 73); */
 }
 .option_body h4{
-    color: white;
+    /* color: white; */
     padding: 0.3rem;
     cursor: pointer;
 }
@@ -53,12 +54,12 @@
 /* main */
 
 main{
-    width: calc(100% - 300px);
-    /* width: 100%; */
+    /* width: calc(100% - 300px); */
+    width: 100%;
     display: flex;
-    margin-left: 300px;
-    /* padding: 2rem 10vw; */
-    padding: 2rem;
+    /* margin-left: 300px; */
+    padding: 2rem 10vw;
+    /* padding: 2rem; */
     padding-top: calc(60px + 2rem);
     flex-wrap: wrap;
     justify-content: center;
