@@ -193,9 +193,10 @@ ul {
 
 .suggestions-cont div{
     padding: 0.5rem;
+    height: 40px;
     font-size: 1.2rem;
     cursor: pointer;
-    margin: 0.5rem;
+    margin: 8px;
     color: var(--alternate-color);
 }
 

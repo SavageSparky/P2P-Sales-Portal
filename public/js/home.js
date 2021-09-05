@@ -107,6 +107,7 @@ function borderRemover(index){
 
 let prev;
 let currElement=null;
+let scrollVar=0;
 window.addEventListener("keydown",(e)=>{
     if(suggestions_cont.classList.contains('none')|| suggestions_cont.childElementCount===0) return;
     if(e.key==='ArrowDown' || e.key==='ArrowUp'){
@@ -128,10 +129,29 @@ window.addEventListener("keydown",(e)=>{
         currElement=suggestions_cont.querySelectorAll('div')[highlighter];
         borderRemover(highlighter);
         if(e.key==='ArrowDown'){
+            if((currElement.offsetTop+currElement.offsetHeight)>=suggestions_cont.offsetHeight){
+                suggestions_cont.scrollTop+=currElement.offsetHeight+8;
+            
+             }
+             if(highlighter>=suggestions_cont.childElementCount-1){
+                suggestions_cont.scrollTop=suggestions_cont.scrollHeight;
+             }
+             if(highlighter<=0){
+                suggestions_cont.scrollTop=0;
+            }
             highlighter++;
             prev='down';
         }
         else if(e.key==='ArrowUp'){
+            if((currElement.offsetTop+currElement.offsetHeight)>=suggestions_cont.offsetHeight){
+                suggestions_cont.scrollTop-=currElement.offsetHeight+8;
+             }
+             if(highlighter>=suggestions_cont.childElementCount-1){
+                suggestions_cont.scrollTop=suggestions_cont.scrollHeight;
+             }
+             if(highlighter<=0){
+                suggestions_cont.scrollTop=0;
+            }
             highlighter--;
             prev='up';
         }
