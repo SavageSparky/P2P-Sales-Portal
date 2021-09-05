@@ -180,7 +180,7 @@ ul {
 
 .suggestions-cont{
     z-index: 9;
-    position: absolute;
+    position: fixed;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.253);
     width: 40vw;
     margin-top: 60px;

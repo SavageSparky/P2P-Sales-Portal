@@ -28,6 +28,8 @@ search_bar.addEventListener('input',()=>{
     let regexer=new RegExp(search_bar.value,"gi");
     suggestions_cont.classList.remove('none');
     suggestions_cont.innerHTML='';
+    currElement=null;
+    highlighter=0;
     suggestors.forEach((data,index)=>{
         if(data.match(regexer)!==null){
             suggestions_cont.innerHTML+=`<div class="suggestions-list">${suggestors[index]}</div>`;
@@ -77,7 +79,7 @@ async function cardUpdater(p_id){
         <h4 class="due_date">Ends in: ${data["due-date"]}</h4>
     </div>
     <div class="badges">
-        <img src="../assets/icons/delivery_icon.svg" alt="">
+        ${(data["delivery-available"]==="Yes")?`<img src="../assets/icons/delivery_icon.svg" alt="">`:``}
     </div>
     <div class="ribbons">
         <p>Featured</p>
@@ -94,10 +96,63 @@ function main_div_loader(txt){
     })
 }
 
+let highlighter=0;
+
+function borderRemover(index){
+    suggestions_cont.querySelectorAll('div').forEach((data,i)=>{
+        if(i===index) return;
+        data.style.backgroundColor=`initial`;
+    })
+}
+
+let prev;
+let currElement=null;
+window.addEventListener("keydown",(e)=>{
+    if(suggestions_cont.classList.contains('none')|| suggestions_cont.childElementCount===0) return;
+    if(e.key==='ArrowDown' || e.key==='ArrowUp'){
+        if(prev==='up' && e.key==='ArrowDown'){
+            highlighter+=2;
+        }
+        if(prev==='down' && e.key==='ArrowUp'){
+            highlighter-=2;
+        }
+        if(highlighter===suggestions_cont.childElementCount){
+            borderRemover(highlighter-1);
+            highlighter=0;
+        }
+        if(highlighter<0){
+            borderRemover(highlighter+1);
+            highlighter=suggestions_cont.childElementCount-1;
+        }
+        suggestions_cont.querySelectorAll('div')[highlighter].style.backgroundColor='#e6e6e6';
+        currElement=suggestions_cont.querySelectorAll('div')[highlighter];
+        borderRemover(highlighter);
+        if(e.key==='ArrowDown'){
+            highlighter++;
+            prev='down';
+        }
+        else if(e.key==='ArrowUp'){
+            highlighter--;
+            prev='up';
+        }
+    }
+    else if(e.key==='Enter' && currElement!==null){
+        suggestions_cont.classList.add('none');
+        document.querySelector('main').classList.remove('blurrer');
+        main_div_loader(currElement.textContent);
+    }
+    else{
+        return;
+    }
+});
+
 window.addEventListener("click",(e)=>{
     if(e.target.classList.contains('search_box')){
         suggestions_cont.classList.remove('none');
         document.querySelector('main').classList.add('blurrer');
+        currElement=null;
+        highlighter=0;
+        borderRemover(-1);
     }
     else{
         suggestions_cont.classList.add('none');
