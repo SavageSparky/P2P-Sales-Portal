@@ -157,5 +157,8 @@ window.addEventListener("click",(e)=>{
     else{
         suggestions_cont.classList.add('none');
         document.querySelector('main').classList.remove('blurrer');
+        currElement=null;
+        highlighter=0;
+        borderRemover(-1);
     }
 })

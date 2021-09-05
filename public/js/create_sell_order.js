@@ -38,15 +38,12 @@ firebase.auth().onAuthStateChanged(async (user) => {
             imagesRef.child(file_name).getDownloadURL().then((url)=>{
                 if(type==='profile'){
                     db_insert(firebase.database(),`product/${pid}/profile-img`,url);
+                    all_done_arr++;
                 }
                 else{
                     db_insert(firebase.database(),`product/${pid}/product-des-imgs/${cnt}`,url);
                     cnt++;
-                }
-                if(cnt>=imagesArr.length-1){
-                    setTimeout(()=>{
-                        location.href='/pages/home.html';
-                    },100);
+                    all_done_arr++;
                 }
             });
       }
@@ -63,7 +60,7 @@ const pincode_tag=document.querySelector('#pincode');
 const area_drop_down=document.querySelector('#area');
 const submit_btn=document.querySelector('#submit');
 const date_inp=document.querySelector('input[type=date]');
-
+let all_done_arr=0;
 const fileTypes = [
     "image/apng",
     "image/bmp",
@@ -261,9 +258,17 @@ submit_btn.addEventListener("click",async (e)=>{
     db_insert(firebase.database(),`user/${user_id}/products`,user_products);
     db_insert(firebase.database(),`product/${pid}`,main_data_obj);
     document.querySelector('.loading-cont').style.display='flex';
+    setInterval(pageRedirector,550);
 })
 
 clicker();
+
+function pageRedirector(){
+    console.log("Entering Here");
+    if(imagesArr.length=all_done_arr){
+        location.href='/pages/home.html';
+    }
+}
 
 const suggestion_input = document.querySelector('#search_suggestions');
 const selected_suggestions = document.querySelector('.selected_suggestions');
