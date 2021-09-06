@@ -59,7 +59,7 @@
                 </div>
             </div>
         </div>
-        <form class="main_form" onsubmit="return false">
+        <form class="main_form" autocomplete="off"  onsubmit="return false">
             <fieldset>
                 <legend>Product Details</legend>
 
@@ -128,6 +128,8 @@
                     type="number"
                     id="pincode"
                     name="pincode"
+                    inputmode="numeric"
+                    max="999999"
                     placeholder=""
                     required
                     >

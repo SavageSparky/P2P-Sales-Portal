@@ -5,6 +5,8 @@ let user_id;
 let user_signin_flag=false;
 let firstClick=false;
 let imagesArr=[];
+let district;
+
 firebase.auth().onAuthStateChanged(async (user) => {
     if (user) {
         user_id=user.uid;
@@ -13,6 +15,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
         adone=adone.val();
         console.log(adone);
         document.querySelector('.loading-cont').style.display='none';
+        defaultPincodeFiller();
         if(adone===null){
             user_signin_flag=false;
             location.href='/index.html';
@@ -121,6 +124,38 @@ function clicker(){
 });
 }
 
+async function defaultPincodeFiller(){
+    let temp=await db_get(firebase.database(),`user/${user_id}/Pincode`);
+    temp=temp.val();
+    console.log(temp);
+    pincode_tag.value=temp;
+    PincodeFiller();
+}
+
+async function PincodeFiller(){
+    let url=`https://api.postalpincode.in/pincode/${pincode_tag.value}`;
+    if(pincode_tag.value.match(/\./)){
+        pincode_tag.value=null;
+        return;
+    }
+    let pincode_json=await fetch(url);
+    pincode_json=await pincode_json.json();
+    console.log(pincode_json);
+    if(pincode_json[0].Status==="Error"){
+        console.log("Pincode not found");
+        pincode_tag.value=null;
+        area_drop_down.innerHTML=`   <option disabled selected value=${null}>No area Found</option>`;
+    }
+    else{
+        area_drop_down.innerHTML=``;
+        pincode_json[0].PostOffice.forEach(d=>{
+            area_drop_down.innerHTML+=` <option value=${d.Name}>${d.Name}</option>`;
+            district=d.District;
+        })
+    }
+}
+
+
 inp_tag_profile.addEventListener('change',()=>{
     const currFiles=[...inp_tag_profile.files];
         currFiles.forEach((file,index)=>{
@@ -167,19 +202,11 @@ inp_tag_des.addEventListener('change',()=>{
 
 pincode_tag.addEventListener('input',async ()=>{
     if(pincode_tag.value.length===6){
-        let url=`https://api.postalpincode.in/pincode/${pincode_tag.value}`;
-        let pincode_json=await fetch(url);
-        pincode_json=await pincode_json.json();
-        if(pincode_json[0].Status==="Error"){
-            pincode_tag.value=null;
-            area_drop_down.innerHTML=`   <option disabled selected value=${null}>No area Found</option>`;
-        }
-        else{
-            area_drop_down.innerHTML=``;
-            pincode_json[0].PostOffice.forEach(d=>{
-                area_drop_down.innerHTML+=` <option value=${d.Name}>${d.Name}</option>`;
-            })
-        }
+        PincodeFiller();
+    }
+    else if(pincode_tag.value.length>6){
+        pincode_tag.value=null;
+        area_drop_down.innerHTML=`   <option disabled selected value=${null}>No area Found</option>`;
     }
     else{
         area_drop_down.innerHTML=`   <option disabled selected value=${null}>No area Found</option>`
@@ -229,7 +256,8 @@ submit_btn.addEventListener("click",async (e)=>{
         "street":input_elements[7].value,
         "delivery-available":radio_val,
         "description":input_elements[9].value,
-        "suggestions":suggestions
+        "suggestions":suggestions,
+        "district":district
     };
     let p=await db_get(firebase.database(),`user/${user_id}/products`)
     suggestions.forEach(async d=>{
@@ -301,6 +329,3 @@ selected_suggestions.addEventListener('click',(event)=>{
         document.getElementById(event.target.id).parentElement.remove();
     }
 })
-
-
-
