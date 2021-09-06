@@ -102,7 +102,9 @@ async function cardUpdater(p_id){
     console.log(data);
     document.querySelector('main').innerHTML+=`
     <div class="card">
+    <div class="prodcut_img_wrap">
     <img class="product_icon" src=${data["profile-img"]} alt="">
+    </div>
     <ul class="card_main_text">
         <li><h3 class="product_name">${data["name"]}</h3></li>
         <li><h3 class="price">Rs. ${data["price"]}</h3></li>

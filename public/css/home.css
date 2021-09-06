@@ -87,11 +87,26 @@ ul {
     width: 280px;
     cursor: pointer;
 }
-.product_icon {
-    flex: 3;
-    max-width: 140px;
-    max-height: 140px;
+
+.card:hover .prodcut_img_wrap{
+    box-shadow:0px 0px 15px 5px var(--green-light);
+}
+
+.prodcut_img_wrap{
+    height: 140px;
+    width: 140px;
+    overflow: hidden;
     border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 1s ease;
+}
+
+.product_icon {
+    width: auto;
+    height: 150px;
+    pointer-events: none;
 }
 .card_main_text {
     display: flex;
@@ -123,6 +138,10 @@ ul {
 .card_body_text li h4{
     color: var(--blue-light);
     font-weight: 100;
+    max-width: 120px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .card_body_text li img {
     height: 20px;
