@@ -42,10 +42,57 @@ function suggestions_select(){
     [...document.querySelectorAll('.suggestions-list')].forEach(data=>{
         data.addEventListener("click",()=>{
             suggestions_cont.classList.add('none');
+            search_bar.value=data.textContent;
             document.querySelector('main').classList.remove('blurrer');
             main_div_loader(data.textContent);
         })
     })
+}
+
+function date_splitter(date){
+    date=date.split('-');
+    console.log(date);
+    let txt;
+    switch (+date[1]){
+        case 1:
+            txt=`${date[2]} Jan ${date[0]}`;
+            break;
+        case 2:
+            txt=`${date[2]} Feb ${date[0]}`;
+            break;
+        case 3:
+            txt=`${date[2]} Mar ${date[0]}`;
+            break;
+        case 4:
+            txt=`${date[2]} Apr ${date[0]}`;
+            break;
+        case 5:
+            txt=`${date[2]} May ${date[0]}`;
+            break;
+        case 6:
+            txt=`${date[2]} Jun ${date[0]}`;
+            break;
+        case 7:
+            txt=`${date[2]} Jul ${date[0]}`;
+            break;
+        case 8:
+            txt=`${date[2]} Aug ${date[0]}`;
+            break;
+        case 9:
+            txt=`${date[2]} Sept ${date[0]}`;
+            break;
+        case 10:
+            txt=`${date[2]} Oct ${date[0]}`;
+            break;
+        case 11:
+            txt=`${date[2]} Nov ${date[0]}`;
+            break;
+        case 12:
+            txt=`${date[2]} Dec ${date[0]}`;
+            break;
+    }
+    console.log(txt);
+    return txt;
 }
 
 async function cardUpdater(p_id){
@@ -58,7 +105,7 @@ async function cardUpdater(p_id){
     <img class="product_icon" src=${data["profile-img"]} alt="">
     <ul class="card_main_text">
         <li><h3 class="product_name">${data["name"]}</h3></li>
-        <li><h3 class="price">Rs. ${data["price"]}/${data["name"]}</h3></li>
+        <li><h3 class="price">Rs. ${data["price"]}</h3></li>
     </ul>
     <ul class="card_body_text">
         <li>
@@ -76,7 +123,7 @@ async function cardUpdater(p_id){
     </ul>
     <div class="end_time_div">
         <img src="../assets/icons/timer.svg" alt="">
-        <h4 class="due_date">Ends in: ${data["due-date"]}</h4>
+        <h4 class="due_date">Ends in: ${date_splitter(data["due-date"])}</h4>
     </div>
     <div class="badges">
         ${(data["delivery-available"]==="Yes")?`<img src="../assets/icons/delivery_icon.svg" alt="">`:``}
@@ -98,16 +145,9 @@ function main_div_loader(txt){
 
 let highlighter=0;
 
-function borderRemover(index){
-    suggestions_cont.querySelectorAll('div').forEach((data,i)=>{
-        if(i===index) return;
-        data.style.backgroundColor=`initial`;
-    })
-}
-
 let prev;
 let currElement=null;
-let scrollVar=0;
+let prevElement=null;
 window.addEventListener("keydown",(e)=>{
     if(suggestions_cont.classList.contains('none')|| suggestions_cont.childElementCount===0) return;
     if(e.key==='ArrowDown' || e.key==='ArrowUp'){
@@ -118,20 +158,22 @@ window.addEventListener("keydown",(e)=>{
             highlighter-=2;
         }
         if(highlighter===suggestions_cont.childElementCount){
-            borderRemover(highlighter-1);
+            prevElement.style.backgroundColor='initial';
             highlighter=0;
         }
         if(highlighter<0){
-            borderRemover(highlighter+1);
+            prevElement.style.backgroundColor='initial';
             highlighter=suggestions_cont.childElementCount-1;
+        }
+        if(prevElement!==null){
+            prevElement.style.backgroundColor='initial';
         }
         suggestions_cont.querySelectorAll('div')[highlighter].style.backgroundColor='#e6e6e6';
         currElement=suggestions_cont.querySelectorAll('div')[highlighter];
-        borderRemover(highlighter);
+        prevElement=currElement;
         if(e.key==='ArrowDown'){
             if((currElement.offsetTop+currElement.offsetHeight)>=suggestions_cont.offsetHeight){
                 suggestions_cont.scrollTop+=currElement.offsetHeight+8;
-            
              }
              if(highlighter>=suggestions_cont.childElementCount-1){
                 suggestions_cont.scrollTop=suggestions_cont.scrollHeight;
@@ -158,6 +200,7 @@ window.addEventListener("keydown",(e)=>{
     }
     else if(e.key==='Enter' && currElement!==null){
         suggestions_cont.classList.add('none');
+        search_bar.value=currElement.textContent;
         document.querySelector('main').classList.remove('blurrer');
         main_div_loader(currElement.textContent);
     }
@@ -172,13 +215,13 @@ window.addEventListener("click",(e)=>{
         document.querySelector('main').classList.add('blurrer');
         currElement=null;
         highlighter=0;
-        borderRemover(-1);
+        (prevElement!==null)?prevElement.style.backgroundColor='initial':'';
     }
     else{
         suggestions_cont.classList.add('none');
         document.querySelector('main').classList.remove('blurrer');
         currElement=null;
         highlighter=0;
-        borderRemover(-1);
+        (prevElement!==null)?prevElement.style.backgroundColor='initial':'';
     }
 })
