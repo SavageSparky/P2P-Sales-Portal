@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="../css/profile-update.css">
+</head>
+<body>
+    <h2 class="heading">User Profile</h2>
+    <div class="form-cont">
+        <form onsubmit="return false">
+        <div class="profile-img-cont">
+            <input type="file" required>
+        </div>
+        <div class="input-wrapper">
+            <div class="input-head">Name:</div>
+            <div class="input-val"><input type="text" placeholder="Enter your Name"></div>
+        </div>
+        <div class="input-wrapper">
+            <div class="input-head">Ph. Num:</div>
+            <div class="input-val phone-no-wrap"><input type="number" max="9999999999" id="ph-no" placeholder="876543219"></div>
+        </div>
+        <div class="input-wrapper">
+            <div class="input-head">Street:</div>
+            <div class="input-val"><input type="text" placeholder="Street name"></div>
+        </div>
+        <div class="input-wrapper">
+            <div class="input-head">Sub Area:</div>
+            <div class="input-val"><input type="text" placeholder="Sub Area"></div>
+        </div>
+        <div class="input-wrapper">
+            <div class="input-head">Pincode:</div>
+            <div class="input-val"><input type="number" name="pincode" id="pincode" placeholder="Pincode"></div>
+        </div>
+        <div class="input-wrapper">
+            <div class="input-head">Area:</div>
+            <div class="input-val"><select>
+                <option value="no-area" selected disabled>Select Area</option>
+            </select></div>
+        </div>
+        <div class="input-wrapper">
+            <div class="input-head">District:</div>
+            <div class="input-val"><input type="text" disabled placeholder="District"></div>
+        </div>
+        <div class="input-wrapper">
+            <div class="input-head">State:</div>
+            <div class="input-val"><input type="text" disabled placeholder="State"></div>
+        </div>
+
+        <div class="button-cont">
+            <button type="submit">Save</button>
+            <button>Cancel</button>
+        </div>
+        </form>
+    </div> 
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <script src="../js/common.js" type="module"></script>
+    <script src="../js/profile-update.js"></script>
+</body>
+</html>

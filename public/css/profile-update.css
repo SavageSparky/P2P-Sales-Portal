@@ -1,0 +1,135 @@
+@import url(./util.css);
+@import url(./common.css);
+
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+body h2{
+    padding: 2rem;
+    font-size: 2.4rem;
+    color: var(--primary-color);
+}
+
+body .form-cont{
+    margin: 1rem 0;
+    padding: 1rem;
+    font-size: 1.2rem;
+}
+
+.form-cont form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    box-shadow: 0 0 5px 2px rgb(104, 104, 104);
+    border-radius: 15px;
+    padding: 2rem;
+}
+
+.profile-img-cont{
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    content: '';
+    border: 1px solid black;
+    cursor: pointer;
+    align-self: center;
+}
+
+.profile-img-cont input{
+    height: 0;
+    width: 0;
+}
+
+.input-wrapper{
+    margin: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-wrapper .input-head{
+    margin-right: 0.5rem;
+    width: 100px;
+}
+
+.input-wrapper:nth-child(2){
+    margin-top: 2rem;
+}
+
+.input-wrapper input{
+    width: 100%;
+    outline: none;
+    border-radius: 60px;
+    padding:0.2rem 0.5rem;
+    font-size: 1.1rem;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 2px 1px rgb(111, 111, 111);
+}
+
+.input-val{
+    position: relative;
+}
+
+.phone-no-wrap{
+    margin-left: 1.5rem;
+}
+
+.phone-no-wrap::before{
+    content: "+91";
+    position: absolute;
+    left: -35px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#ph-no{
+    width: 200px;
+}
+
+select{
+    width: 226px;
+    outline: none;
+    border-radius: 60px;
+    padding:0.2rem 0.5rem;
+    font-size: 1.1rem;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 2px 1px rgb(111, 111, 111);
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-cont{
+    width: 100%;
+    display: flex;
+    margin-top: 1.5rem;
+    justify-content: space-between;
+}
+
+.button-cont button{
+    outline: none;
+    padding: 0.5rem;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    background-color: transparent;
+    cursor: pointer;
+    width: 100px;
+}
+
+.button-cont button:nth-child(1){
+    background-color: var(--green-light);
+}
+
+.button-cont button:nth-child(2){
+    background-color: rgba(255, 0, 0, 0.83);
+}
