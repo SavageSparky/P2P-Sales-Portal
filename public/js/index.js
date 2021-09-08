@@ -68,7 +68,7 @@ submit_btn.addEventListener("click", (e) => {
   let obj={
     'Name':name_input.value,
     'Pincode':pincode_tag.value,
-    'AllDone':false
+    'AllDone':'false'
   }
   // db_insert(db, `user/${user_id}/Name`, name_input.value);
   // db_insert(db, `user/${user_id}/Pincode`, pincode_tag.value);
