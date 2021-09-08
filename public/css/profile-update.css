@@ -39,6 +39,7 @@ body .form-cont{
     border: 1px solid black;
     cursor: pointer;
     align-self: center;
+    background-size: 200px;
 }
 
 .profile-img-cont input{
