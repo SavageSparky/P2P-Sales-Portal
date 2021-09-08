@@ -18,7 +18,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
         defaultPincodeFiller();
         if(adone===null || adone==='false' || adone===false){
             user_signin_flag=false;
-            location.href='/home.html';
+            location.href='pages/home.html';
         }
     }
     else{
