@@ -227,3 +227,4 @@ window.addEventListener("click",(e)=>{
         (prevElement!==null)?prevElement.style.backgroundColor='initial':'';
     }
 })
+
