@@ -67,7 +67,7 @@ async function pinCodeAreaFiller(){
         select_tag.innerHTML='';
         data[0].PostOffice.forEach(d=>{
             if(user_det['area']!==undefined && user_det['area']===d.Name){
-            select_tag.innerHTML+=`  <option value="${d.Name}" selected>${d.Name}</option>`;
+                select_tag.innerHTML+=`  <option value="${d.Name}" selected>${d.Name}</option>`;
             }
             else{
                 select_tag.innerHTML+=`  <option value="${d.Name}">${d.Name}</option>`;
@@ -82,18 +82,18 @@ async function pinCodeAreaFiller(){
 }
 
 input_ele[6].addEventListener('input',()=>{
-    if(input_ele[5].value.length>6){
-        input_ele[5].value=null;
+    if(input_ele[6].value.length>6){
+        input_ele[6].value=null;
         input_ele[7].value=null;
         input_ele[8].value=null;
         select_tag.innerHTML=` <option value="${null}">No Area Found</option>`;
     }
-    if(input_ele[5].value.length<6){
+    if(input_ele[6].value.length<6){
         input_ele[7].value=null;
         input_ele[8].value=null;
         select_tag.innerHTML=` <option value="${null}">No Area Found</option>`;
     }
-    if(input_ele[5].value.length===6){
+    if(input_ele[6].value.length===6){
         pinCodeAreaFiller();
     }
 });
