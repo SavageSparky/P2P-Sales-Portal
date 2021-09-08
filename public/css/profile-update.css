@@ -6,6 +6,7 @@ body{
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    background: url(../assets/images/user-profile-bg.svg) no-repeat center center/ cover;
 }
 
 body h2{
@@ -63,6 +64,10 @@ body .form-cont{
     margin-top: 2rem;
 }
 
+.input-val{
+    position: relative;
+}
+
 .input-wrapper input{
     width: 100%;
     outline: none;
@@ -74,24 +79,63 @@ body .form-cont{
     box-shadow: 0 0 2px 1px rgb(111, 111, 111);
 }
 
-.input-val{
+.input-val-otp{
+    display: flex;
     position: relative;
+    width: 100%;
+    justify-content: space-evenly;
+    align-self: flex-end;
+    margin-left: 1.3rem;
+}
+
+.input-val-otp button{
+    cursor: pointer;
+}
+
+.otp-cont{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    display: none;
+    transition: all 1s ease;
+}
+
+.input-val-otp button{
+    outline: none;
+    border: none;
+    padding: 0.2rem 0.5rem;
+    background-color: var(--green-light);
+    border-radius: 20px;
+}
+
+.input-val-otp #otp{
+    width:80px;
 }
 
 .phone-no-wrap{
-    margin-left: 1.5rem;
+    width: 220px;
 }
 
 .phone-no-wrap::before{
     content: "+91";
     position: absolute;
-    left: -35px;
+    left: -25px;
     top: 50%;
     transform: translateY(-50%);
 }
 
+.phone-no-wrap button{
+    display: none;
+    transition: all 0.5s ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+}
+
 #ph-no{
-    width: 200px;
+    transition: all 0.5s ease;
+    width: 190px;
 }
 
 select{
