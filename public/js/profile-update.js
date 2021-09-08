@@ -198,6 +198,7 @@ btn[0].addEventListener('click',()=>{
         'subArea':`${input_ele[5].value}`,
         'Pincode':`${input_ele[6].value}`,
         'area':`${select_tag.value}`,
+        'products':`${user_det['products']}`
     }
     db_insert(db,`user/${user_id}`,upload_obj);
 
