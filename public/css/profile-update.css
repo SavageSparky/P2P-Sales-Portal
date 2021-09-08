@@ -12,6 +12,7 @@ body{
 body h2{
     padding: 2rem;
     font-size: 2.4rem;
+    margin-top: 2rem;
     color: var(--primary-color);
 }
 
