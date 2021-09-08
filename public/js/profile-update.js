@@ -198,9 +198,11 @@ btn[0].addEventListener('click',()=>{
         'subArea':`${input_ele[5].value}`,
         'Pincode':`${input_ele[6].value}`,
         'area':`${select_tag.value}`,
-        'products':`${user_det['products']}`
+        'AllDone':`true`
     }
     db_insert(db,`user/${user_id}`,upload_obj);
-
+    if(user_det['products']!==undefined || user_det['products']!==null){
+        db_insert(db,`user/${user_id}/products`,user_det['products']);
+    }
     console.log(upload_obj);
 })
