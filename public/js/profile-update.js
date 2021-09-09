@@ -13,9 +13,9 @@ const otp_send_btn=document.querySelector('.phone-no-wrap button');
 const otp_cont=document.querySelector('.otp-cont');
 let otp_num;
 const otp_verify_btn=document.querySelector('.check-otp-btn');
-let field_num=0;
+let otp_verified_flag=false;
 let profile_pic;
-
+let profile_pic_click_flag=false;
 
 function otpGenerator(){
     return Math.floor(Math.random()*(9999-1111)+1111);
@@ -44,6 +44,7 @@ firebase.auth().onAuthStateChanged(async (user)=>{
         }
         if(user_det['phNo']!==undefined){
             input_ele[2].value=user_det['phNo'];
+            otp_verified_flag=false;
         }
         if(user_det['street']!==undefined){
             input_ele[4].value=user_det['street'];
@@ -99,6 +100,7 @@ input_ele[6].addEventListener('input',()=>{
 });
 
 profile_pic_cont.addEventListener("click",()=>{
+    profile_pic_click_flag=true;
     input_ele[0].click();
 })
 
@@ -111,7 +113,8 @@ input_ele[0].addEventListener('change',()=>{
 })
 
 input_ele[2].addEventListener('input',()=>{
-    if(input_ele[2].value.length===10){
+    otp_verified_flag=false;
+    if(input_ele[2].value.length===10 && input_ele[2].value!==user_det['phNo']){
         input_ele[2].style.width='125px';
         otp_send_btn.style.display='block';
     }
@@ -144,7 +147,7 @@ otp_verify_btn.addEventListener('click',()=>{
         input_ele[2].disabled=true;
         otp_send_btn.style.display='none';
         otp_cont.style.display='none';
-        field_num++;
+        otp_verified_flag=true;
     }
     else{
         document.querySelector('#otp').value=null;
@@ -182,16 +185,26 @@ btn[0].addEventListener('click',()=>{
     let retun_var=0;
     console.log('Entering here');
     input_ele.forEach((data,index)=>{
-        if(data.value===null && index!==3){
+        if(data.value===null || data.value.length===0 && index!==3 && index!==0){
+            data.value=null;
             console.log(data);
             retun_var=1;
             return;
         }
     })
+    if(otp_verified_flag===false && input_ele[2].value!==user_det['phNo']){
+        input_ele[2].setCustomValidity(`Please Verify your phone Number`);
+        retun_var=1;
+    }
+    else{
+        input_ele[2].setCustomValidity(``);
+    }
+    if(input_ele[0].value.length===0 && user_det['profileImgUrl']===undefined){
+        profile_pic_cont.style.border='1px solid red';
+        retun_var=1;
+    }
     if(retun_var===1) return;
-    document.querySelector('.loading-cont').style.display='flex';
-    firebase_img_uploader(profile_pic);
-    const upload_obj={
+    let upload_obj={
         'Name':`${input_ele[1].value}`,
         'phNo':`${input_ele[2].value}`,
         'street':`${input_ele[4].value}`,
@@ -200,9 +213,21 @@ btn[0].addEventListener('click',()=>{
         'area':`${select_tag.value}`,
         'AllDone':`true`
     }
-    db_insert(db,`user/${user_id}`,upload_obj);
-    if(user_det['products']!==undefined || user_det['products']!==null){
-        db_insert(db,`user/${user_id}/products`,user_det['products']);
+    document.querySelector('.loading-cont').style.display='flex';
+    if(profile_pic_click_flag===true && input_ele[0].value!==null && input_ele[0].value.length!==0){
+        firebase_img_uploader(profile_pic);
+        db_insert(db,`user/${user_id}`,upload_obj);
+        if(user_det['products']!==undefined && user_det['products']!==null && user_det['products'].length!==0){
+            db_insert(db,`user/${user_id}/products`,user_det['products']);
+        }
     }
-    console.log(upload_obj);
+    else{
+        upload_obj['profileImgUrl']=user_det['profileImgUrl'];
+        db_insert(db,`user/${user_id}`,upload_obj);
+        console.log(user_det['products']);
+        if(user_det['products']!==undefined && user_det['products']!==null && user_det['product'].length!==0){
+            db_insert(db,`user/${user_id}/products`,user_det['products']);
+        }
+        location.href='/pages/home.html';
+    }
 })
