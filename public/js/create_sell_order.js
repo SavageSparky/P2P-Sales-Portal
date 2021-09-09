@@ -13,7 +13,6 @@ firebase.auth().onAuthStateChanged(async (user) => {
         user_signin_flag=true;
         let adone=await db_get(firebase.database(),`user/${user_id}/AllDone`);
         adone=adone.val();
-        console.log(adone);
         document.querySelector('.loading-cont').style.display='none';
         defaultPincodeFiller();
         if(adone===null || adone==='false' || adone===false){
@@ -64,6 +63,7 @@ const area_drop_down=document.querySelector('#area');
 const submit_btn=document.querySelector('#submit');
 const date_inp=document.querySelector('input[type=date]');
 let all_done_arr=0;
+let area;
 const fileTypes = [
     "image/apng",
     "image/bmp",
@@ -126,8 +126,12 @@ function clicker(){
 
 async function defaultPincodeFiller(){
     let temp=await db_get(firebase.database(),`user/${user_id}/Pincode`);
+    let street=await db_get(firebase.database(),`user/${user_id}/street`);
+    street=street.val();
+    document.querySelectorAll('.input_area')[7].value=street;
+    area=await db_get(firebase.database(),`user/${user_id}/area`);
+    area=area.val();
     temp=temp.val();
-    console.log(temp);
     pincode_tag.value=temp;
     PincodeFiller();
 }
@@ -140,16 +144,20 @@ async function PincodeFiller(){
     }
     let pincode_json=await fetch(url);
     pincode_json=await pincode_json.json();
-    console.log(pincode_json);
     if(pincode_json[0].Status==="Error"){
         console.log("Pincode not found");
         pincode_tag.value=null;
-        area_drop_down.innerHTML=`   <option disabled selected value=${null}>No area Found</option>`;
+        area_drop_down.innerHTML=`<option disabled selected value=${null}>No area Found</option>`;
     }
     else{
         area_drop_down.innerHTML=``;
         pincode_json[0].PostOffice.forEach(d=>{
-            area_drop_down.innerHTML+=` <option value=${d.Name}>${d.Name}</option>`;
+            if(d.Name===area){
+                area_drop_down.innerHTML+=` <option value=${d.Name} selected>${d.Name}</option>`;
+            }
+            else{
+                area_drop_down.innerHTML+=` <option value=${d.Name}>${d.Name}</option>`;
+            }
             district=d.District;
         })
     }
@@ -171,7 +179,6 @@ inp_tag_profile.addEventListener('change',()=>{
 date_inp.addEventListener("input",(e)=>{
     const today = new Date();
     const currdate = today.getFullYear()+'-'+(((today.getMonth()+1<=9)?`0${today.getMonth()+1}`:today.getMonth()+1))+'-'+(((today.getDate()<=9)?`0${today.getDate()}`:today.getDate()));
-    console.log(currdate,date_inp.value);
     if(date_inp.value < currdate){
         date_inp.value=null;
         e.target.setCustomValidity(`Due date must not be less than today's date`);
@@ -282,7 +289,6 @@ submit_btn.addEventListener("click",async (e)=>{
     else{
         user_products=[];
     }
-    console.log(user_products);
     user_products.push(pid);
     db_insert(firebase.database(),`user/${user_id}/products`,user_products);
     db_insert(firebase.database(),`product/${pid}`,main_data_obj);
@@ -293,7 +299,6 @@ submit_btn.addEventListener("click",async (e)=>{
 clicker();
 
 function pageRedirector(){
-    console.log("Entering Here");
     if(imagesArr.length=all_done_arr){
         location.href='/pages/home.html';
     }
