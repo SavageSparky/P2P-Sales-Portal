@@ -28,7 +28,7 @@ body .form-cont{
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
-    box-shadow: 0 0 5px 2px rgb(104, 104, 104);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.253);
     border-radius: 15px;
     padding: 2rem;
 }
@@ -38,10 +38,11 @@ body .form-cont{
     width: 200px;
     border-radius: 50%;
     content: '';
-    border: 1px solid black;
+    /* border: 1px solid black; */
     cursor: pointer;
     align-self: center;
     background-size: 200px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.253);
 }
 
 .profile-img-cont input{
@@ -71,13 +72,12 @@ body .form-cont{
 
 .input-wrapper input{
     width: 100%;
-    outline: none;
     border-radius: 60px;
     padding:0.2rem 0.5rem;
     font-size: 1.1rem;
     border: none;
-    outline: none;
-    box-shadow: 0 0 2px 1px rgb(111, 111, 111);
+    outline-style: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.253);
 }
 
 .input-val-otp{
@@ -174,8 +174,10 @@ select{
 
 .button-cont button:nth-child(1){
     background-color: var(--green-light);
+    border-radius: 2rem;
 }
 
 .button-cont button:nth-child(2){
-    background-color: rgba(255, 0, 0, 0.83);
+    background-color: rgba(252, 79, 79, 0.863);
+    border-radius: 2rem;
 }
