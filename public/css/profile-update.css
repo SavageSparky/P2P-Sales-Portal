@@ -37,16 +37,17 @@ body .form-cont{
 }
 
 .profile-img-cont{
+    display: flex;
     position: relative;
     height: 200px;
     width: 200px;
     border-radius: 50%;
     content: '';
-    /* border: 1px solid black; */
     cursor: pointer;
     align-self: center;
     background-size: 200px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.253);
+    overflow: hidden;
 }
 
 .profile-img-cont input{
@@ -54,12 +55,22 @@ body .form-cont{
     width: 0;
 }
 
-/* .profile_image_overlay{
+.profile_image_overlay{
+    display: flex;
     position: absolute;
-    bottom: 40px;
-
+    bottom: 0px;
+    height: 40%;
+    width: 100%;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.212);
+    transition: all 0.7s ease;
+    opacity: 0;
 }
-.profie */
+.profile-img-cont:hover .profile_image_overlay {
+    opacity: 1;
+}
 
 .input-wrapper{
     margin: 0.5rem;
