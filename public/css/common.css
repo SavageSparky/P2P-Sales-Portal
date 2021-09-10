@@ -184,6 +184,7 @@ main {
     background-color: var(--card-white);
     box-shadow: 0 0 5px var(--primary-color);
     border-radius: 5px;
+    z-index: 999;
 }
 .profile_menu a {
     padding: 0.5rem 2rem;
