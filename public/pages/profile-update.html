@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
+    <link rel="stylesheet" href="../css/util.css">
+    <link rel="stylesheet" href="../css/common.css">
     <link rel="stylesheet" href="../css/profile-update.css">
 </head>
 <body>
@@ -14,13 +16,49 @@
             <div></div>
             <div><div></div></div>
             <div><div></div></div>
-            </div></div> -->
+            </div></div>
+    </div> -->
+    <header>
+        <h1 class="company_name">P2P Sales Portal</h1>
+        <nav>
+            <div class="search">
+                <input class="search_box" type="text">
+                <img src="../assets/icons/search.svg" alt="" class="search_icon nav_icons">
+            </div>
+            <a href="./create_sell_order.html"><h3 class="sell_now">Sell now</h3></a>
+        </nav>
+        <img src="../assets/icons/profile_icon.svg" alt="" class="profile_icon nav_icons sign_in_btn">
+    </header>
+    <!-- <nav class="side_nav">
+        <div class="side_nav_options">
+            <div class="option_head">
+                <img src="../assets/icons/filter.svg" alt="">
+            </div>
+        </div>
+        <div class="option_body">
+            <h4>Category</h4>
+            <h4>Pincode</h4>
+            <h4>Seller</h4>
+            <h4>Price</h4>
+        </div>
+    </nav> -->
+    <div class="profile_menu none">
+        <a class="my_profile" href="./profile-update.html">My Profile</a>
+        <a class="my_products" href="#">My Products</a>
+        <a class="wishlist" href="#">Wishlist</a>
+        <a class="log_out" href="#">Log out</a>
     </div>
-    <h2 class="heading">User Profile</h2>
+    <div class="suggestions-cont none">
+    </div>
+    <main>
+        <h2 class="heading">User Profile</h2>
     <div class="form-cont">
         <form onsubmit="return false">
         <div class="profile-img-cont">
             <input type="file" accept="image/*">
+            <!-- <div class="profile_image_overlay">
+                <h4>Profile Image</h4>
+            </div> -->
         </div>
         <div class="input-wrapper">
             <div class="input-head">Name:</div>
@@ -67,6 +105,8 @@
         </div>
         </form>
     </div> 
+    </main>
+    
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
