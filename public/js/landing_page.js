@@ -17,5 +17,14 @@ firebase.auth().onAuthStateChanged(async (user) => {
 });
 
 
+// image select and preview
+const image_wrap = document.querySelector(".image_preview_wrap>img");
+const image_select = document.querySelector('.image_select');
 
-const image_wrap = document.querySelector(".image_preview_wrap");
+image_select.addEventListener('click', (e)=>{
+    if(e.target.parentElement.className == 'image_select_wrap'){
+        const selected_img = e.target.src;
+        console.log(selected_img);
+        image_wrap.src = selected_img;
+    }
+})

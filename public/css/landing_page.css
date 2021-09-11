@@ -61,16 +61,14 @@ h4 {
 .image_preview_wrap {
     display: flex;
     justify-content: center;
-    width: 100%;
-    height: auto;
+    width: auto;
+    height: 360px;
     overflow: hidden;
     margin-bottom: 1rem;
-    /* object-fit: cover; */
 }
 .image_preview_wrap img {
-    width: 100%;
-    height: auto;
-    overflow: hidden;
+    width: auto;
+    height: 360px;
 }
 .image_select {
     display: flex;
@@ -83,10 +81,16 @@ h4 {
     width: 128px;
     background-color: white;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.253);
+    border-radius: 5px;
+    overflow: hidden;
     transition: all 0.5s ease;
 }
 .image_select_wrap:hover {
     box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+}
+.image_select_wrap img {
+    height: 128px;
+    width: auto;
 }
 .image_nav_arrow {
     display: flex;
