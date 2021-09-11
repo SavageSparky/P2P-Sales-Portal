@@ -4,7 +4,7 @@ firebase.initializeApp(firebaseConfig);
 const auth=firebase.auth();
 const db=firebase.database();
 const profile_pic_cont=document.querySelector('.profile-img-cont');
-const input_ele=document.querySelectorAll('input');
+const input_ele=document.querySelectorAll('main input');
 const select_tag=document.querySelector('select');
 let user_id;
 let user_det;
