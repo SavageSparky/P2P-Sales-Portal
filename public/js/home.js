@@ -101,7 +101,7 @@ async function cardUpdater(p_id){
     data=await data.val();
     console.log(data);
     document.querySelector('main').innerHTML+=`
-    <div class="card">
+    <div class="card" data-id="${p_id}"">
     <div class="prodcut_img_wrap">
     <img class="product_icon" src=${data["profile-img"]} alt="">
     </div>
@@ -112,7 +112,7 @@ async function cardUpdater(p_id){
     <ul class="card_body_text">
         <li>
             <img src="../assets/icons/capacity.svg" alt="">
-            <h4 class="quantity">${data["quantity"]}/${data["quantity"]}</h4>
+            <h4 class="quantity">${data["remaining"]}/${data["quantity"]}</h4>
         </li>
         <li>
             <img src="../assets/icons/location.svg" alt="">

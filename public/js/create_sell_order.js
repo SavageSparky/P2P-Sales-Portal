@@ -257,6 +257,7 @@ submit_btn.addEventListener("click",async (e)=>{
         "name":input_elements[0].value,
         "price":input_elements[1].value,
         "quantity":input_elements[2].value,
+        "remaining":input_elements[2].value,
         "type":input_elements[3].value,
         "due-date":input_elements[4].value,
         "pincode":input_elements[5].value,
@@ -299,7 +300,7 @@ submit_btn.addEventListener("click",async (e)=>{
 clicker();
 
 function pageRedirector(){
-    if(imagesArr.length=all_done_arr){
+    if(imagesArr.length===all_done_arr){
         location.href='/pages/home.html';
     }
 }
