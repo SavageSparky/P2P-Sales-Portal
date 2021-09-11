@@ -169,7 +169,8 @@ select{
     font-size: 1.1rem;
     border: none;
     outline: none;
-    box-shadow: 0 0 2px 1px rgb(111, 111, 111);
+    /* box-shadow: 0 0 2px 1px rgb(111, 111, 111); */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.253);
     background-color: transparent;
     display: flex;
     justify-content: center;
