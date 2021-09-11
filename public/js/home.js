@@ -135,6 +135,15 @@ async function cardUpdater(p_id){
     </div>
 </div>
     `
+    redirector();
+}
+
+function redirector(){
+    document.querySelectorAll('.card').forEach(d=>{
+        d.addEventListener("click",()=>{
+            window.location=`/pages/landing_page.html?id=${d.dataset.id}`;
+        })
+    })
 }
 
 function main_div_loader(txt){
