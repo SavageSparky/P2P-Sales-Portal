@@ -24,7 +24,6 @@ const image_select = document.querySelector('.image_select');
 image_select.addEventListener('click', (e)=>{
     if(e.target.parentElement.className == 'image_select_wrap'){
         const selected_img = e.target.src;
-        console.log(selected_img);
         image_wrap.src = selected_img;
     }
 })
