@@ -54,7 +54,7 @@ document.querySelector('.basic_details').innerHTML = `
     <ul class="detail_list">
         <li>
             <h4 class="detail_list_elements">Available: </h4>
-            <h4 id="detail_quantiy"> 20/200</h4>
+            <h4 id="detail_quantiy">${data["remaining"]}/${data["quantity"]}</h4>
         </li>
         <li>
             <h4 class="detail_list_elements">Min-order: </h4>
@@ -62,11 +62,11 @@ document.querySelector('.basic_details').innerHTML = `
         </li>
         <li>
             <h4 class="detail_list_elements">Delivery:</h4>
-            <h4 id="delivery"> Not Available</h4>
+            <h4 id="delivery"> ${data["delivery-available"]}</h4>
         </li>
         <li>
             <h4 class="detail_list_elements">Category: </h4>
-            <h4 id="detail_type"> Grains</h4>
+            <h4 id="detail_type"> ${data["type"]}</h4>
         </li>
         <li>
             <h4 class="detail_list_elements">Manufact. date: </h4>
