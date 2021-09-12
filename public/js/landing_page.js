@@ -74,11 +74,7 @@ document.querySelector('.basic_details').innerHTML = `
         </li>
     </ul>
     <hr>
-    <!-- <div class="product_address">
-        <h3 class="product_address_label">Address: </h4>
-        <h4 id="product_address_text">Street, Area, asadd, District, Pincode, State.</h4>
-    </div>
-    <hr> -->
+    
     <form class="product_buy">
         <div class="quantity_wrapper">
             <label for="quanity">Quantity</label>
