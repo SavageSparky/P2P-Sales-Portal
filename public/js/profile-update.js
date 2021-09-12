@@ -228,7 +228,7 @@ btn[0].addEventListener('click',()=>{
         upload_obj['profileImgUrl']=user_det['profileImgUrl'];
         db_insert(db,`user/${user_id}`,upload_obj);
         console.log(user_det['products']);
-        if(user_det['products']!==undefined && user_det['products']!==null && user_det['product'].length!==0){
+        if(user_det['products']!==undefined && user_det['products']!==null && user_det['products'].length!==0){
             db_insert(db,`user/${user_id}/products`,user_det['products']);
         }
         location.href='/pages/home.html';
