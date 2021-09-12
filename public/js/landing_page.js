@@ -47,8 +47,8 @@ document.querySelector('.basic_details').innerHTML = `
     </div>
 </div>
 <div class="product_details">
-    <h1 class="product_name">Ponni Rice Sack 75KG</h1>
-    <h3 class="product_price">Rs. 2000</h3>
+    <h1 class="product_name">${data["name"]}</h1>
+    <h3 class="product_price">Rs. ${data["price"]}</h3>
     <h3 class="product_due">Ends in: 30th September, 2021</h3>
     <hr>
     <ul class="detail_list">
