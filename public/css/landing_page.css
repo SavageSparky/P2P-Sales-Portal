@@ -228,12 +228,35 @@ h4 {
 
 /*************** Rating & Reviews ************/
 .rating_reviews {
-    display: flex;
     padding: 2rem 1rem;
     border-radius: 0.5rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.253);
     height: 30vh;
     background-color: var(--card-white);
+    overflow: auto;
+}
+
+.user_review{
+    display: flex;
+    flex-direction: column;
+}
+
+.user_review .user_det_cont{
+    display: flex;
+    width: 100%;
+}
+
+.user_det_cont .user_pic_cont{
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.user_pic_cont img{
+    width: 35px;
+    height: auto;
+    pointer-events: none;
 }
 /*************** Rating & Reviews ************/
 
