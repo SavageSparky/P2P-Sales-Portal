@@ -1,4 +1,4 @@
-import { firebaseConfig,db_get,db_insert} from "./firebase-util.js";
+import { firebaseConfig,db_get,db_insert, db_update} from "./firebase-util.js";
 
 firebase.initializeApp(firebaseConfig);
 const auth=firebase.auth();
@@ -217,20 +217,11 @@ btn[0].addEventListener('click',()=>{
         'AllDone':`true`
     }
     document.querySelector('.loading-cont').style.display='flex';
+    db_update(db,`user/${user_id}`,upload_obj);
     if(profile_pic_click_flag===true && input_ele[0].value!==null && input_ele[0].value.length!==0){
         firebase_img_uploader(profile_pic);
-        db_insert(db,`user/${user_id}`,upload_obj);
-        if(user_det['products']!==undefined && user_det['products']!==null && user_det['products'].length!==0){
-            db_insert(db,`user/${user_id}/products`,user_det['products']);
-        }
     }
     else{
-        upload_obj['profileImgUrl']=user_det['profileImgUrl'];
-        db_insert(db,`user/${user_id}`,upload_obj);
-        console.log(user_det['products']);
-        if(user_det['products']!==undefined && user_det['products']!==null && user_det['products'].length!==0){
-            db_insert(db,`user/${user_id}/products`,user_det['products']);
-        }
         location.href='/pages/home.html';
     }
 })
