@@ -17,6 +17,54 @@ firebase.auth().onAuthStateChanged(async (user) => {
     }
 });
 
+
+function date_splitter(date){
+    date=date.split('-');
+    console.log(date);
+    let txt;
+    switch (+date[1]){
+        case 1:
+            txt=`${date[2]} Jan ${date[0]}`;
+            break;
+        case 2:
+            txt=`${date[2]} Feb ${date[0]}`;
+            break;
+        case 3:
+            txt=`${date[2]} Mar ${date[0]}`;
+            break;
+        case 4:
+            txt=`${date[2]} Apr ${date[0]}`;
+            break;
+        case 5:
+            txt=`${date[2]} May ${date[0]}`;
+            break;
+        case 6:
+            txt=`${date[2]} Jun ${date[0]}`;
+            break;
+        case 7:
+            txt=`${date[2]} Jul ${date[0]}`;
+            break;
+        case 8:
+            txt=`${date[2]} Aug ${date[0]}`;
+            break;
+        case 9:
+            txt=`${date[2]} Sept ${date[0]}`;
+            break;
+        case 10:
+            txt=`${date[2]} Oct ${date[0]}`;
+            break;
+        case 11:
+            txt=`${date[2]} Nov ${date[0]}`;
+            break;
+        case 12:
+            txt=`${date[2]} Dec ${date[0]}`;
+            break;
+    }
+    console.log(txt);
+    return txt;
+}
+
+
 let data = await db_get(db, `product/${id}`);
 data = await data.val();
 console.log(data);
@@ -49,7 +97,7 @@ document.querySelector('.basic_details').innerHTML = `
 <div class="product_details">
     <h1 class="product_name">${data["name"]}</h1>
     <h3 class="product_price">Rs. ${data["price"]}</h3>
-    <h3 class="product_due">Ends in: 30th September, 2021</h3>
+    <h3 class="product_due">${date_splitter(data['due-date'])}</h3>
     <hr>
     <ul class="detail_list">
         <li>
@@ -58,7 +106,7 @@ document.querySelector('.basic_details').innerHTML = `
         </li>
         <li>
             <h4 class="detail_list_elements">Min-order: </h4>
-            <h4 id="detail_quantiy"> 10 units</h4>
+            <h4 id="detail_quantiy"> ${data["minOrders"]} ${data['productScale']}</h4>
         </li>
         <li>
             <h4 class="detail_list_elements">Delivery:</h4>
@@ -100,7 +148,36 @@ document.querySelector('.description').innerHTML = `
     <div class="google_map">
         <h3>Map:</h3>
         <div class="map_wrapper">
-            
+        <div class="gmap_canvas">
+        <iframe
+          width="300"
+          height="300"
+          id="gmap_canvas"
+          src="https://maps.google.com/maps?q=${data['subArea']},${data['area']},${data['district']}&ie=UTF8&iwloc=&output=embed"
+          frameborder="0"
+          scrolling="no"
+          marginheight="0"
+          marginwidth="0"
+        ></iframe
+        ><a href="https://yggtorrent-fr.com"></a><br /><style>
+          .mapouter {
+            position: relative;
+            text-align: right;
+            height: 300px;
+            width: 300px;
+          }</style
+        ><a href="https://google-map-generator.com">embed google map</a
+        ><style>
+          .gmap_canvas {
+            overflow: hidden;
+            background: none !important;
+            height: 300px;
+            width: 300px;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+          }
+        </style>
+      </div>
         </div>
     </div>
 </div>
