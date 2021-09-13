@@ -92,10 +92,11 @@ document.querySelector('.basic_details').innerHTML = `
     </form>
 </div>
 `;
+
 document.querySelector('.description').innerHTML = `
 <div class="product_address">
     <h3 class="product_address_label">Address: </h4>
-    <h4 id="product_address_text">${data[street]}, ${data["area"]}, ${data["district"]}, ${data["pincode"]}</h4>
+    <h4 id="product_address_text">${data["street"]}, ${data["area"]}, ${data["district"]}, ${data["pincode"]}</h4>
     <div class="google_map">
         <h3>Map:</h3>
         <div class="map_wrapper">
@@ -111,6 +112,25 @@ document.querySelector('.description').innerHTML = `
 </div>
 `;
 
+
+document.querySelector('.seller_details').innerHTML = `
+<div class="seller_img_wrap">
+    <img class="seller_img" src="../assets/images/beluga.jpg" alt="">
+</div>
+<div class="seller_name">
+    <h3>Beluga</h3>
+</div>
+<div class="seller_contact">
+    <div class="seller_phone_no">
+        <img src="../assets/icons/phone.svg" alt="">
+        <h4 class="phone_no_text">9876543210</h4>
+    </div>
+    <div class="seller_address">
+        <img src="../assets/icons/location.svg" alt="">
+        <h4 class="seller_address">Street, Area, asadd, District, Pincode, State.</h4>
+    </div>
+</div>
+`;
 
 // image select and preview
 const image_wrap = document.querySelector(".image_preview_wrap>img");
