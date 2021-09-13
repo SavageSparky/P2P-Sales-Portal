@@ -130,8 +130,11 @@ function clicker(){
 async function defaultPincodeFiller(){
     let temp=await db_get(firebase.database(),`user/${user_id}/Pincode`);
     let street=await db_get(firebase.database(),`user/${user_id}/street`);
+    let sub_area=await db_get(firebase.database(),`user/${user_id}/subArea`);
     street=street.val();
-    document.querySelectorAll('.input_area')[7].value=street;
+    sub_area=sub_area.val();
+    document.querySelectorAll('.input_area')[9].value=sub_area;
+    document.querySelectorAll('.input_area')[10].value=street;
     area=await db_get(firebase.database(),`user/${user_id}/area`);
     area=area.val();
     temp=temp.val();
@@ -231,7 +234,7 @@ submit_btn.addEventListener("click",async (e)=>{
     const input_elements=document.querySelectorAll('.input_area');
     let returner=0;
     await input_elements.forEach((data,indexx)=>{
-        if(data.value===null || data.value==="" && indexx!==8)
+        if(data.value===null || data.value==="" && indexx!==11)
         returner=1;
     })
     if(returner===1) return;
@@ -261,13 +264,16 @@ submit_btn.addEventListener("click",async (e)=>{
         "price":input_elements[1].value,
         "quantity":input_elements[2].value,
         "remaining":input_elements[2].value,
-        "type":input_elements[3].value,
-        "due-date":input_elements[4].value,
-        "pincode":input_elements[5].value,
-        "area":input_elements[6].value,
-        "street":input_elements[7].value,
+        'productScale':input_elements[3].value,
+        'minOrders':input_elements[4].value,
+        "type":input_elements[5].value,
+        "due-date":input_elements[6].value,
+        "pincode":input_elements[7].value,
+        "area":input_elements[8].value,
+        "subArea":input_elements[9].value,
+        "street":input_elements[10].value,
         "delivery-available":radio_val,
-        "description":input_elements[9].value,
+        "description":input_elements[12].value,
         "suggestions":suggestions,
         "district":district
     };
