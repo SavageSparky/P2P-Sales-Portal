@@ -91,7 +91,25 @@ document.querySelector('.basic_details').innerHTML = `
         </button>
     </form>
 </div>
-`
+`;
+document.querySelector('.description').innerHTML = `
+<div class="product_address">
+    <h3 class="product_address_label">Address: </h4>
+    <h4 id="product_address_text">${data[street]}, ${data["area"]}, ${data["district"]}, ${data["pincode"]}</h4>
+    <div class="google_map">
+        <h3>Map:</h3>
+        <div class="map_wrapper">
+            
+        </div>
+    </div>
+</div>
+<div class="description_text">
+    <h3>About:</h3>
+    <h4>
+        ${data["description"]}
+    </h4>
+</div>
+`;
 
 
 // image select and preview
