@@ -189,22 +189,25 @@ document.querySelector('.description').innerHTML = `
 </div>
 `;
 
-
+let seller_id = data["user-id"];
+let seller = await db_get(db, `user/${seller_id}`);
+seller = await seller.val();
+console.log(seller);
 document.querySelector('.seller_details').innerHTML = `
 <div class="seller_img_wrap">
-    <img class="seller_img" src="../assets/images/beluga.jpg" alt="">
+    <img class="seller_img" src=${seller["profielImgUrl"]} alt="">
 </div>
 <div class="seller_name">
-    <h3>Beluga</h3>
+    <h3>${seller["Name"]}</h3>
 </div>
 <div class="seller_contact">
     <div class="seller_phone_no">
         <img src="../assets/icons/phone.svg" alt="">
-        <h4 class="phone_no_text">9876543210</h4>
+        <h4 class="phone_no_text">${seller["phNo"]}</h4>
     </div>
     <div class="seller_address">
         <img src="../assets/icons/location.svg" alt="">
-        <h4 class="seller_address">Street, Area, asadd, District, Pincode, State.</h4>
+        <h4 class="seller_address">${seller["street"]}, ${seller["subArea"]}, ${seller["Area"]}, ${seller["Pincode"]}</h4>
     </div>
 </div>
 `;
