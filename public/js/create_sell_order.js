@@ -28,14 +28,17 @@ firebase.auth().onAuthStateChanged(async (user) => {
   });
 
   let cnt=0;
+  let scnt=0;
   function firebase_img_uploader(file,type,pid){
-    const file_name=(type==='profile')?`${pid}-product-profile`:`${pid}-product-${cnt}`;
+    const file_name=(type==='profile')?`${pid}-product-profile`:`${pid}-product-${scnt}`;
     const imagesRef = firebase.storage().ref(`images/${user_id}/products/${pid}`);
     let upload_task=imagesRef.child(file_name).put(file);
-
+    scnt++;
     upload_task.on('state_changed',
     (snapshot) => {}, 
-    (error) => {},
+    (error) => {
+        console.log(error);
+    },
     ()=>{
             imagesRef.child(file_name).getDownloadURL().then((url)=>{
                 if(type==='profile'){
@@ -301,7 +304,9 @@ clicker();
 
 function pageRedirector(){
     if(imagesArr.length===all_done_arr){
-        location.href='/pages/home.html';
+        setTimeout(()=>{
+            location.href='/pages/home.html';
+        },100);
     }
 }
 

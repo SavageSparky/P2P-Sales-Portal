@@ -33,13 +33,13 @@ document.querySelector('.basic_details').innerHTML = `
             <img class="img0" src=${data["profile-img"]} alt="">
         </div>
         <div class="image_select_wrap">
-            <img class="img1" src=${data["product-des-imgs[0]"]} alt="">
+            <img class="img1" src=${data["product-des-imgs"][0]} alt="">
         </div>
         <div class="image_select_wrap">
-            <img class="img2" src=${data["product-des-imgs[1]"]} alt="">
+            <img class="img2" src=${data["product-des-imgs"][1]} alt="">
         </div>
         <div class="image_select_wrap">
-            <img class="img3" src=${data["product-des-imgs[2]"]} alt="">
+            <img class="img3" src=${data["product-des-imgs"][2]} alt="">
         </div>
         <div class="image_nav_arrow">
             <img src="../assets/icons/nav_arrow.svg" alt="" id="image_nav_arrow_right">
