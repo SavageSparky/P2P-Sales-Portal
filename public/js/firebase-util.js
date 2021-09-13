@@ -36,3 +36,7 @@ export function db_del(db,path){
 export function pushKey(db, reference, key){
   return db.ref(reference).child(key).push().key;
 }
+
+export function db_update(db,path,val){
+  db.ref(path).update(val);
+}
