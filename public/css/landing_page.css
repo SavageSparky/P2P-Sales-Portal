@@ -228,10 +228,10 @@ h4 {
 
 /*************** Rating & Reviews ************/
 .rating_reviews {
-    padding: 2rem 1rem;
+    padding: 2rem;
     border-radius: 0.5rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.253);
-    height: 30vh;
+    height: 50vh;
     background-color: var(--card-white);
     overflow: auto;
 }
@@ -239,6 +239,8 @@ h4 {
 .user_review{
     display: flex;
     flex-direction: column;
+    border: solid 2px rgb(218, 218, 218);
+    padding: 1rem;
 }
 
 .user_review .user_det_cont{
@@ -247,16 +249,27 @@ h4 {
 }
 
 .user_det_cont .user_pic_cont{
-    height: 35px;
-    width: 35px;
+    height: 60px;
+    width: 60px;
     border-radius: 50%;
     overflow: hidden;
+    margin-right: 1rem;
 }
 
 .user_pic_cont img{
-    width: 35px;
+    width: 60px;
     height: auto;
     pointer-events: none;
+}
+
+.user_det {
+    display: flex;
+    flex-direction: column;
+}
+
+.user_name_cont {
+    color: var(--primary-color);
+    font-size: 1.8rem;
 }
 /*************** Rating & Reviews ************/
 

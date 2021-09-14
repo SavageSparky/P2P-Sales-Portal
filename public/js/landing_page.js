@@ -207,7 +207,7 @@ document.querySelector('.seller_details').innerHTML = `
     </div>
     <div class="seller_address">
         <img src="../assets/icons/location.svg" alt="">
-        <h4 class="seller_address">${seller["street"]}, ${seller["subArea"]}, ${seller["Area"]}, ${seller["Pincode"]}</h4>
+        <h4 class="seller_address">${seller["street"]}, ${seller["subArea"]}, ${seller["area"]}, ${seller["Pincode"]}</h4>
     </div>
 </div>
 `;
