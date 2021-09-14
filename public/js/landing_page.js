@@ -195,7 +195,7 @@ seller = await seller.val();
 console.log(seller);
 document.querySelector('.seller_details').innerHTML = `
 <div class="seller_img_wrap">
-    <img class="seller_img" src=${seller["profielImgUrl"]} alt="">
+    <img class="seller_img" src=${seller["profileImgUrl"]} alt="">
 </div>
 <div class="seller_name">
     <h3>${seller["Name"]}</h3>
