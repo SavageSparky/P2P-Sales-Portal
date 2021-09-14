@@ -236,20 +236,29 @@ h4 {
     overflow: auto;
 }
 
+.my_review{
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.253);
+    background-color: var(--card-white);
+    overflow: auto;
+}
+
 .user_review{
     display: flex;
     flex-direction: column;
     border: solid 2px rgb(218, 218, 218);
     padding: 1rem;
     border-radius: 0.5rem;
+    margin-bottom: 1rem;
 }
 
-.user_review .user_det_cont{
+.user_det_cont{
     display: flex;
     width: 100%;
 }
 
-.user_det_cont .user_pic_cont{
+.user_pic_cont{
     height: 60px;
     width: 60px;
     border-radius: 50%;
@@ -327,6 +336,26 @@ h4 {
     margin-right: 0.5rem;
     width: auto;
 }
+
+
+.post_button {
+    align-self: flex-end;
+    padding: 0.3rem 1rem;
+    border-radius: 2rem;
+    border: none;
+    background-color: var(--green-light);
+    color: white;
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    margin-left: 85%;
+    visibility: hidden;
+}
+
+.post_button:hover {
+    background-color: var(--green-dark);
+}
+
 /*************** Rating & Reviews ************/
 
 /************** Seller ******************/

@@ -226,3 +226,63 @@ image_select.addEventListener('click', (e)=>{
     }
 })
 
+
+/********************User Star Hover Functionality***************************************************/
+
+const star_cont=document.querySelector('.star_count_1');
+let star_hover_flag=true;
+
+function star_hover_highlighter(num){
+    document.querySelectorAll('.star_count_1 img').forEach(d=>{
+        if(+d.id<=+num){
+            d.src=`../assets/icons/star_filled.svg`;
+        }
+        else{
+            d.src=`../assets/icons/star_unfilled.svg`
+        }
+    })
+}
+
+star_cont.addEventListener("mousedown",(e)=>{
+    star_hover_highlighter(e.target.id);
+    star_hover_flag=!star_hover_flag;
+})
+
+star_cont.addEventListener("mousemove",(e)=>{
+    if(!star_hover_flag) return;
+    star_hover_highlighter(e.target.id);
+})
+
+/************************************************************************************************** */
+
+/**************************************************User Comment Poster*****************************************/
+let user_cmt_data={
+    'rating':'5',
+    'heading':'Product Review',
+    'comment':'asdfa',
+}
+
+const myReviewCont=document.querySelector('.my_review');
+const postButton=document.querySelector('.post_button');
+
+
+myReviewCont.addEventListener("click",(e)=>{
+    if(e.target.classList.contains('review_subject') || e.target.classList.contains('main_review_cont') || e.target.classList.length===0){
+        return;
+    }
+    let head=myReviewCont.querySelector('.review_subject');
+    let comment_review=myReviewCont.querySelector('.main_review_cont');
+    if(head.textContent.length===0 || head.textContent==='Product Review'){
+        head.textContent='Product Review';
+        postButton.style.visibility='hidden';
+    }
+    else if(comment_review.textContent.length===0 || comment_review.textContent==='Review Description'){
+        comment_review.textContent='Review Description';
+        postButton.style.visibility='hidden';
+    }
+    else{
+        postButton.style.visibility='visible';
+    }
+})
+
+
