@@ -274,13 +274,18 @@ myReviewCont.addEventListener("click",(e)=>{
     }
     let head=myReviewCont.querySelector('.review_subject');
     let comment_review=myReviewCont.querySelector('.main_review_cont');
-    console.log(comment_review.textContent.trim());
+    console.log(comment_review.textContent.trim().length);
     if(head.textContent.trim().length===0 || head.textContent.trim()==='Product Review'){
         head.textContent='Product Review';
         postButton.classList.add('disabled_btn');
         postButton.disabled=true;
     }
-    else if(comment_review.textContent.trim().length===0 || comment_review.textContent.trim()==='Review Description'){
+    else{
+        postButton.classList.remove('disabled_btn');
+        postButton.disabled=false;
+    }
+    if(comment_review.textContent.trim().length===0 || comment_review.textContent.trim()==='Review Description'){
+        console.log("Entering here");
         comment_review.textContent='Review Description';
         postButton.classList.add('disabled_btn');
         postButton.disabled=true;
