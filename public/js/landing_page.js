@@ -230,8 +230,7 @@ image_select.addEventListener('click', (e)=>{
 /********************User Star Hover Functionality***************************************************/
 
 const star_cont=document.querySelector('.star_count_1');
-let star_hover_flag=true;
-
+let star_num=1;
 function star_hover_highlighter(num){
     document.querySelectorAll('.star_count_1 img').forEach(d=>{
         if(+d.id<=+num){
@@ -244,13 +243,16 @@ function star_hover_highlighter(num){
 }
 
 star_cont.addEventListener("mousedown",(e)=>{
-    star_hover_highlighter(e.target.id);
-    star_hover_flag=!star_hover_flag;
+    star_num=+e.target.id;
 })
 
 star_cont.addEventListener("mousemove",(e)=>{
-    if(!star_hover_flag) return;
+    if(e.target.id.length===0) return; 
     star_hover_highlighter(e.target.id);
+})
+
+star_cont.addEventListener("mouseleave",(e)=>{
+    star_hover_highlighter(star_num);
 })
 
 /************************************************************************************************** */
@@ -264,7 +266,7 @@ let user_cmt_data={
 
 const myReviewCont=document.querySelector('.my_review');
 const postButton=document.querySelector('.post_button');
-
+postButton.disabled=true;
 
 myReviewCont.addEventListener("click",(e)=>{
     if(e.target.classList.contains('review_subject') || e.target.classList.contains('main_review_cont') || e.target.classList.length===0){
@@ -272,17 +274,25 @@ myReviewCont.addEventListener("click",(e)=>{
     }
     let head=myReviewCont.querySelector('.review_subject');
     let comment_review=myReviewCont.querySelector('.main_review_cont');
-    if(head.textContent.length===0 || head.textContent==='Product Review'){
+    console.log(comment_review.textContent.trim());
+    if(head.textContent.trim().length===0 || head.textContent.trim()==='Product Review'){
         head.textContent='Product Review';
-        postButton.style.visibility='hidden';
+        postButton.classList.add('disabled_btn');
+        postButton.disabled=true;
     }
-    else if(comment_review.textContent.length===0 || comment_review.textContent==='Review Description'){
+    else if(comment_review.textContent.trim().length===0 || comment_review.textContent.trim()==='Review Description'){
         comment_review.textContent='Review Description';
-        postButton.style.visibility='hidden';
+        postButton.classList.add('disabled_btn');
+        postButton.disabled=true;
     }
     else{
-        postButton.style.visibility='visible';
+        postButton.classList.remove('disabled_btn');
+        postButton.disabled=false;
     }
 })
 
-
+postButton.addEventListener('click',(e)=>{
+    postButton.classList.add('disabled_btn');
+    postButton.disabled=true;
+    location.href='#';
+})

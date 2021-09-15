@@ -349,11 +349,18 @@ h4 {
     cursor: pointer;
     margin-top: 0.5rem;
     margin-left: 85%;
-    visibility: hidden;
 }
 
 .post_button:hover {
     background-color: var(--green-dark);
+}
+
+.disabled_btn{
+    background-color: #808080;
+}
+
+.disabled_btn:hover{
+    background-color: #969696;
 }
 
 /*************** Rating & Reviews ************/
