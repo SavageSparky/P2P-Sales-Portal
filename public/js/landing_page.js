@@ -68,6 +68,8 @@ function date_splitter(date){
 let data = await db_get(db, `product/${id}`);
 data = await data.val();
 console.log(data);
+const product_price = data['price'];
+const product_minOrder = data["minOrders"];
 document.querySelector('.basic_details').innerHTML = `
 <div class="img_container">
     <div class="image_preview_wrap">
@@ -96,7 +98,7 @@ document.querySelector('.basic_details').innerHTML = `
 </div>
 <div class="product_details">
     <h1 class="product_name">${data["name"]}</h1>
-    <h3 class="product_price">Rs. ${data["price"]}</h3>
+    <h3 class="product_price">Rs. ${product_price}</h3>
     <h3 class="product_due">${date_splitter(data['due-date'])}</h3>
     <hr>
     <ul class="detail_list">
@@ -106,7 +108,7 @@ document.querySelector('.basic_details').innerHTML = `
         </li>
         <li>
             <h4 class="detail_list_elements">Min-order: </h4>
-            <h4 id="detail_quantiy"> ${data["minOrders"]} ${data['productScale']}</h4>
+            <h4 id="detail_quantiy"> ${product_minOrders} ${data['productScale']}</h4>
         </li>
         <li>
             <h4 class="detail_list_elements">Delivery:</h4>
@@ -130,16 +132,21 @@ document.querySelector('.basic_details').innerHTML = `
             id="quantity" 
             name="quantity" 
             min="1"
+            value=`${product_minOrder}` 
             required
             >
         </div> 
-        <h4 class="estimated_price">Estimated Price: Rs. 10,000</h4>
+        <h4 class="estimated_price">Estimated Price: Rs. 0</h4>
         <button type="submit" class="buy_button">
             Place Buy Request
         </button>
     </form>
 </div>
 `;
+
+document.getElementById('quantity').addEventListener('input', ()=>{
+    document.querySelector('.estimated_price').innerHTML = `Estimated Price: Rs. ${this.value * product_price}`;
+})
 
 document.querySelector('.description').innerHTML = `
 <div class="product_address">
