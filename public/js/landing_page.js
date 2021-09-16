@@ -132,7 +132,7 @@ document.querySelector('.basic_details').innerHTML = `
             id="quantity" 
             name="quantity" 
             min="1"
-            value=`${product_minOrder}` 
+            value= ${product_minOrder}
             required
             >
         </div> 
