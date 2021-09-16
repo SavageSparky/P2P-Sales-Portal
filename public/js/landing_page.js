@@ -108,7 +108,7 @@ document.querySelector('.basic_details').innerHTML = `
         </li>
         <li>
             <h4 class="detail_list_elements">Min-order: </h4>
-            <h4 id="detail_quantiy"> ${product_minOrders} ${data['productScale']}</h4>
+            <h4 id="detail_quantiy"> ${product_minOrder} ${data['productScale']}</h4>
         </li>
         <li>
             <h4 class="detail_list_elements">Delivery:</h4>
