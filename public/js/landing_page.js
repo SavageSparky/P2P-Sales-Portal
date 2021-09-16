@@ -136,7 +136,7 @@ document.querySelector('.basic_details').innerHTML = `
             required
             >
         </div> 
-        <h4 class="estimated_price">Estimated Price: Rs. 0</h4>
+        <h4 class="estimated_price">Estimated Price: Rs. ${product_price}</h4>
         <button type="submit" class="buy_button">
             Place Buy Request
         </button>
@@ -145,7 +145,7 @@ document.querySelector('.basic_details').innerHTML = `
 `;
 
 document.getElementById('quantity').addEventListener('input', ()=>{
-    document.querySelector('.estimated_price').innerHTML = `Estimated Price: Rs. ${this.value * product_price}`;
+    document.querySelector('.estimated_price').innerHTML = `Estimated Price: Rs. ${(+this.value) * (+product_price)}`;
 })
 
 document.querySelector('.description').innerHTML = `
