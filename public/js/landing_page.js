@@ -73,13 +73,13 @@ const product_price = data['price'];
 const product_minOrder = data["minOrders"];
 const product_remaining = data["remaining"];
 
-// const productImgArray = Object.keys(data["profile-des-imgs"]);
+const productImgArray = Object.keys(data["product-des-imgs"]).length;
 // console.log(productImgArray);
 const imageHolder = document.querySelector('.image_select');
 
 function getDesImage(){
     let text = "";
-    for(let i=0; i<3; i++) {
+    for(let i=0; i<productImgArray; i++) {
          text += `
             <div class="image_select_wrap">
                 <img class="img${i}" src=${data["product-des-imgs"][i]} alt="">
@@ -89,17 +89,6 @@ function getDesImage(){
     return text;
 }
 const imageHolderContent = getDesImage();
-
-
-// {/* <div class="image_select_wrap">
-//             <img class="img1" src=${data["product-des-imgs"][0]} alt="">
-//         </div>
-//         <div class="image_select_wrap">
-//             <img class="img2" src=${data["product-des-imgs"][1]} alt="">
-//         </div>
-//         <div class="image_select_wrap">
-//             <img class="img3" src=${data["product-des-imgs"][2]} alt="">
-//         </div> */}
 
 document.querySelector('.basic_details').innerHTML = `
 <div class="img_container">
