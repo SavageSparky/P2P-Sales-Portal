@@ -20,7 +20,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
 
 function date_splitter(date){
     date=date.split('-');
-    console.log(date);
+    // console.log(date);
     let txt;
     switch (+date[1]){
         case 1:
@@ -66,11 +66,41 @@ function date_splitter(date){
 
 
 let data = await db_get(db, `product/${id}`);
+// console.log(data);
 data = await data.val();
 // console.log(data);
 const product_price = data['price'];
 const product_minOrder = data["minOrders"];
 const product_remaining = data["remaining"];
+
+// const productImgArray = Object.keys(data["profile-des-imgs"]);
+// console.log(productImgArray);
+const imageHolder = document.querySelector('.image_select');
+
+function getDesImage(){
+    let text = "";
+    for(let i=0; i<3; i++) {
+         text += `
+            <div class="image_select_wrap">
+                <img class="img${i}" src=${data["product-des-imgs"][i]} alt="">
+            </div>
+            `;
+    }
+    return text;
+}
+const imageHolderContent = getDesImage();
+
+
+// {/* <div class="image_select_wrap">
+//             <img class="img1" src=${data["product-des-imgs"][0]} alt="">
+//         </div>
+//         <div class="image_select_wrap">
+//             <img class="img2" src=${data["product-des-imgs"][1]} alt="">
+//         </div>
+//         <div class="image_select_wrap">
+//             <img class="img3" src=${data["product-des-imgs"][2]} alt="">
+//         </div> */}
+
 document.querySelector('.basic_details').innerHTML = `
 <div class="img_container">
     <div class="image_preview_wrap">
@@ -83,15 +113,7 @@ document.querySelector('.basic_details').innerHTML = `
         <div class="image_select_wrap">
             <img class="img0" src=${data["profile-img"]} alt="">
         </div>
-        <div class="image_select_wrap">
-            <img class="img1" src=${data["product-des-imgs"][0]} alt="">
-        </div>
-        <div class="image_select_wrap">
-            <img class="img2" src=${data["product-des-imgs"][1]} alt="">
-        </div>
-        <div class="image_select_wrap">
-            <img class="img3" src=${data["product-des-imgs"][2]} alt="">
-        </div>
+        ${imageHolderContent}
         <div class="image_nav_arrow">
             <img src="../assets/icons/nav_arrow.svg" alt="" id="image_nav_arrow_right">
         </div>
@@ -145,6 +167,8 @@ document.querySelector('.basic_details').innerHTML = `
     </form>
 </div>
 `;
+
+
 
 document.getElementById('quantity').addEventListener('input', function (){
     document.querySelector('.estimated_price').innerHTML =
