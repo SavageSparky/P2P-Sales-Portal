@@ -197,6 +197,8 @@ ul {
     background: linear-gradient(45deg, rgb(155, 48, 255), rgb(68, 0, 255));
 }
 
+
+/******************** Search suggestions  **********************/
 .suggestions-cont{
     z-index: 9;
     position: fixed;
