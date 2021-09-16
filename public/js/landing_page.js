@@ -60,16 +60,17 @@ function date_splitter(date){
             txt=`${date[2]} Dec ${date[0]}`;
             break;
     }
-    console.log(txt);
+    // console.log(txt);
     return txt;
 }
 
 
 let data = await db_get(db, `product/${id}`);
 data = await data.val();
-console.log(data);
+// console.log(data);
 const product_price = data['price'];
 const product_minOrder = data["minOrders"];
+const product_remaining = data["remaining"];
 document.querySelector('.basic_details').innerHTML = `
 <div class="img_container">
     <div class="image_preview_wrap">
@@ -104,7 +105,7 @@ document.querySelector('.basic_details').innerHTML = `
     <ul class="detail_list">
         <li>
             <h4 class="detail_list_elements">Available: </h4>
-            <h4 id="detail_quantiy">${data["remaining"]}/${data["quantity"]}</h4>
+            <h4 id="detail_quantiy">${product_remaining}/${data["quantity"]}</h4>
         </li>
         <li>
             <h4 class="detail_list_elements">Min-order: </h4>
@@ -131,7 +132,8 @@ document.querySelector('.basic_details').innerHTML = `
             <input type="number"
             id="quantity" 
             name="quantity" 
-            min="1"
+            min=${product_minOrder}
+            max=${product_remaining}
             value= ${product_minOrder}
             required
             >
@@ -144,8 +146,9 @@ document.querySelector('.basic_details').innerHTML = `
 </div>
 `;
 
-document.getElementById('quantity').addEventListener('input', ()=>{
-    document.querySelector('.estimated_price').innerHTML = `Estimated Price: Rs. ${(+this.value) * (+product_price)}`;
+document.getElementById('quantity').addEventListener('input', function (){
+    document.querySelector('.estimated_price').innerHTML =
+        `Estimated Price: Rs. ${(this.value) * (product_price)}`;
 })
 
 document.querySelector('.description').innerHTML = `
@@ -199,7 +202,7 @@ document.querySelector('.description').innerHTML = `
 let seller_id = data["user-id"];
 let seller = await db_get(db, `user/${seller_id}`);
 seller = await seller.val();
-console.log(seller);
+// console.log(seller);
 document.querySelector('.seller_details').innerHTML = `
 <div class="seller_img_wrap">
     <img class="seller_img" src=${seller["profileImgUrl"]} alt="">
