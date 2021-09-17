@@ -197,7 +197,7 @@ h4 {
     flex-direction: column;
     justify-content: center;
     min-width: 300px;
-    align-items: center;
+    align-items: flex-start;
     margin: 0 2rem;
 }
 .product_address_label {
