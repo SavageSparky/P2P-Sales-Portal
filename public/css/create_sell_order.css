@@ -248,6 +248,14 @@ fieldset > .input_area {
     background-color: white;
 }
 
+.textarea{
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    width: 100%;
+    height: 300px;
+    overflow: auto;
+}
+
 .buttons {
     display: flex;
     justify-content: flex-end;
