@@ -67,6 +67,7 @@ const submit_btn=document.querySelector('#submit');
 const date_inp=document.querySelector('input[type=date]');
 let all_done_arr=0;
 let area;
+const description=document.querySelector('.textarea');
 const fileTypes = [
     "image/apng",
     "image/bmp",
@@ -228,8 +229,20 @@ pincode_tag.addEventListener('input',async ()=>{
 
 submit_btn.addEventListener("click",async (e)=>{
     // e.preventDefault();
-    if(profile_idx===null) return;
-    if(imagesArr.length<2) return;
+    if(profile_idx===null){
+        profile_pic_cont.style.boxShadow='0 0 5px red';
+        setTimeout(()=>{
+            profile_pic_cont.style.boxShadow='0 0 5px var(--primary-color)';
+        },3000);
+        return;
+    } 
+    if(imagesArr.length<2){
+        description_pic_cont[0].style.boxShadow='0 0 5px red'
+        setTimeout(()=>{
+            description_pic_cont[0].style.boxShadow='0 0 5px var(--blue-light)';
+        },3000)
+        return;
+    }
     const pid=pushKey(firebase.database(),'/product',`${user_id}`);
     const input_elements=document.querySelectorAll('.input_area');
     let returner=0;
@@ -237,6 +250,14 @@ submit_btn.addEventListener("click",async (e)=>{
         if(data.value===null || data.value==="" && indexx!==11)
         returner=1;
     })
+    if(input_elements[12].textContent.trim().length===0 || input_elements[12].textContent.trim()==="Please Fill Out this Field"){
+        returner=1;
+        input_elements[12].style.boxShadow='0 0 5px rgb(255, 0, 0)';
+        setTimeout(()=>{
+            input_elements[12].style.boxShadow='0 0 5px rgb(184, 184, 184)';
+        },3000);
+        input_elements[12].textContent="Please Fill Out this Field";
+    }
     if(returner===1) return;
     firebase_img_uploader(imagesArr[profile_idx],'profile',pid);
     const product_des_img_arr=[];
@@ -273,7 +294,7 @@ submit_btn.addEventListener("click",async (e)=>{
         "subArea":input_elements[9].value,
         "street":input_elements[10].value,
         "delivery-available":radio_val,
-        "description":input_elements[12].value,
+        "description":input_elements[12].innerHTML,
         "suggestions":suggestions,
         "district":district
     };
