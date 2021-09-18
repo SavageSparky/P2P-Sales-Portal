@@ -417,3 +417,50 @@ h4 {
     text-overflow: ellipsis;
 }
 /*********** Seller ************/
+
+
+
+/***************** on-click buy button ***************/
+
+.confirm_window {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    top: 60px;
+    bottom: 0;
+    margin: auto;
+    padding: 0 1rem;
+    height: 80vh;
+    width: 25rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.253);
+    background-color: var(--card-white);
+    z-index: 10;
+}
+
+.order_buttons {
+    display: flex;
+    justify-self: flex-end;
+    justify-content: space-between;
+}
+
+#cancel, #confirm {
+    padding: 0.5rem 3rem;
+    border: none;
+    font-size: 1.1rem;
+    border-radius: 1rem;
+    color: white;
+}
+
+#cancel {
+    background-color: rgb(250, 101, 101);
+}
+
+#confirm {
+    background-color: var(--green-light);
+}
+
+.none {
+     display: none;
+ }
+/***************** on-click buy button ***************/

@@ -58,7 +58,7 @@ main{
     width: 100%;
     display: flex;
     /* margin-left: 300px; */
-    padding: 2rem 10vw;
+    padding: 2rem 2rem;
     /* padding: 2rem; */
     padding-top: calc(60px + 2rem);
     flex-wrap: wrap;
@@ -89,23 +89,24 @@ ul {
 }
 
 .card:hover .prodcut_img_wrap{
-    box-shadow:0px 0px 15px 5px var(--green-light);
+    /* box-shadow:0px 0px 15px 5px var(--green-light); */
 }
 
 .prodcut_img_wrap{
-    height: 140px;
-    width: 140px;
+    height: 155px;
+    width: 155px;
     overflow: hidden;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     transition: all 1s ease;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.253);
 }
 
 .product_icon {
     width: auto;
-    height: 150px;
+    height: 155px;
     pointer-events: none;
 }
 .card_main_text {
