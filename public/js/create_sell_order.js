@@ -247,8 +247,13 @@ submit_btn.addEventListener("click",async (e)=>{
     const input_elements=document.querySelectorAll('.input_area');
     let returner=0;
     await input_elements.forEach((data,indexx)=>{
-        if(data.value===null || data.value==="" && indexx!==11)
-        returner=1;
+        if(data.value===null || data.value==='null' || data.value==="" && indexx!==11){
+            returner=1;
+            if(data.value==='null'){
+                pincode_tag.value=null;
+                returner=1;
+            }
+        }
     })
     if(input_elements[12].textContent.trim().length===0 || input_elements[12].textContent.trim()==="Please Fill Out this Field"){
         returner=1;
@@ -336,7 +341,7 @@ clicker();
 function pageRedirector(){
     if(imagesArr.length===all_done_arr){
         setTimeout(()=>{
-            // location.href='/pages/home.html';
+            location.href='/pages/home.html';
         },100);
     }
 }
