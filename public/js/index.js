@@ -1,4 +1,4 @@
-import { db_get, signIn, firebaseConfig, db_insert } from "./firebase-util.js";
+import { db_get, signIn, firebaseConfig, db_insert, regex_rem } from "./firebase-util.js";
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
@@ -66,7 +66,7 @@ submit_btn.addEventListener("click", (e) => {
   if (!submit_flag) return;
   name_input.value=name_input.value.trim();
   let obj={
-    'Name':name_input.value,
+    'Name':regex_rem(name_input.value),
     'Pincode':pincode_tag.value,
     'AllDone':'false',
     'profileImgUrl':'../assets/images/user_image.png'
