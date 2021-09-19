@@ -32,6 +32,9 @@ firebase.auth().onAuthStateChanged(async (user) => {
     if (temp === true) {
        location.href= "/pages/home.html"; /* If data is in db then redirect to main page */
     }
+    else{
+      popupHandler();
+    }
   } else {
     user_signin_flag = false;
   }
