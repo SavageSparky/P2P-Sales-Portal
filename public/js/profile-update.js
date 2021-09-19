@@ -1,4 +1,4 @@
-import { firebaseConfig,db_get,db_insert, db_update} from "./firebase-util.js";
+import { firebaseConfig,db_get,db_insert, db_update, regex_rem} from "./firebase-util.js";
 
 firebase.initializeApp(firebaseConfig);
 const auth=firebase.auth();
@@ -208,11 +208,11 @@ btn[0].addEventListener('click',()=>{
     }
     if(retun_var===1) return;
     let upload_obj={
-        'Name':`${input_ele[1].value}`,
-        'phNo':`${input_ele[2].value}`,
-        'street':`${input_ele[4].value}`,
-        'subArea':`${input_ele[5].value}`,
-        'Pincode':`${input_ele[6].value}`,
+        'Name':`${regex_rem(input_ele[1].value)}`,
+        'phNo':`${regex_rem(input_ele[2].value)}`,
+        'street':`${regex_rem(input_ele[4].value)}`,
+        'subArea':`${regex_rem(input_ele[5].value)}`,
+        'Pincode':`${regex_rem(input_ele[6].value)}`,
         'area':`${select_tag.value}`,
         'AllDone':`true`
     }
