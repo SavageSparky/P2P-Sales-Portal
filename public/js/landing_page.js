@@ -64,6 +64,7 @@ function date_splitter(date){
     return txt;
 }
 
+/*********************** Product details Fetch - Start ****************************/  
 
 let data = await db_get(db, `product/${id}`);
 // console.log(data);
@@ -156,7 +157,7 @@ document.querySelector('.basic_details').innerHTML = `
     </form>
 </div>
 `;
-
+/*********************** Product details Fetch - End ****************************/
 
 
 document.getElementById('quantity').addEventListener('input', function (){
@@ -164,6 +165,13 @@ document.getElementById('quantity').addEventListener('input', function (){
         `Estimated Price: Rs. ${(this.value) * (product_price)}`;
 })
 
+const buy_button = document.querySelector('.buy_button');
+const confirm_window = document.querySelector('.confirm_window');
+buy_button.addEventListener("click", ()=>{
+    confirm_window.ClassList.toggle('none');
+})
+
+/*************************** Address and Description ******************************/
 document.querySelector('.description').innerHTML = `
 <div class="product_address">
     <h3 class="product_address_label">Address: </h4>
@@ -248,7 +256,7 @@ image_select.addEventListener('click', (e)=>{
         //  Code to be done later
     }
 })
-
+ 
 
 /********************User Star Hover Functionality***************************************************/
 
@@ -324,3 +332,5 @@ postButton.addEventListener('click',(e)=>{
     postButton.disabled=true;
     location.href='#';
 })
+
+
