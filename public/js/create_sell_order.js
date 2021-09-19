@@ -1,4 +1,4 @@
-import { db_get, db_insert, firebaseConfig, pushKey } from "./firebase-util.js";
+import { db_get, db_insert, firebaseConfig, pushKey, regex_rem } from "./firebase-util.js";
 /*******************************FireBase Functions************************************ */
 firebase.initializeApp(firebaseConfig);
 let user_id;
@@ -263,9 +263,10 @@ submit_btn.addEventListener("click",async (e)=>{
     const product_des_img_arr=[];
     let suggestions=[...document.querySelector('.selected_suggestions').querySelectorAll('div')];
     suggestions=suggestions.map((data)=>{
-        return data.querySelector('p').textContent;
+        return regex_rem(data.querySelector('p').textContent);
     })
-    suggestions.push(input_elements[0].value);
+    suggestions.push(regex_rem(input_elements[0].value));
+    console.log(suggestions);
     imagesArr.forEach((data,index)=>{
         if(index!=profile_idx)
             product_des_img_arr.push(firebase_img_uploader(data,"abc",pid));
@@ -281,23 +282,26 @@ submit_btn.addEventListener("click",async (e)=>{
     let main_data_obj={
         pid,
         "user-id":user_id,
-        "name":input_elements[0].value,
-        "price":input_elements[1].value,
-        "quantity":input_elements[2].value,
-        "remaining":input_elements[2].value,
-        'productScale':input_elements[3].value,
-        'minOrders':input_elements[4].value,
-        "type":input_elements[5].value,
-        "due-date":input_elements[6].value,
-        "pincode":input_elements[7].value,
-        "area":input_elements[8].value,
-        "subArea":input_elements[9].value,
-        "street":input_elements[10].value,
+        "name":regex_rem(input_elements[0].value),
+        "price":regex_rem(input_elements[1].value),
+        "quantity":regex_rem(input_elements[2].value),
+        "remaining":regex_rem(input_elements[2].value),
+        'productScale':regex_rem(input_elements[3].value),
+        'minOrders':regex_rem(input_elements[4].value),
+        "type":regex_rem(input_elements[5].value),
+        "due-date":regex_rem(input_elements[6].value),
+        "pincode":regex_rem(input_elements[7].value),
+        "area":regex_rem(input_elements[8].value),
+        "subArea":regex_rem(input_elements[9].value),
+        "street":regex_rem(input_elements[10].value),
         "delivery-available":radio_val,
         "description":input_elements[12].innerHTML,
         "suggestions":suggestions,
         "district":district
     };
+
+    console.log(main_data_obj);
+
     let p=await db_get(firebase.database(),`user/${user_id}/products`)
     suggestions.forEach(async d=>{
         let temp=await db_get(firebase.database(),`suggestions/${d}`);
@@ -332,7 +336,7 @@ clicker();
 function pageRedirector(){
     if(imagesArr.length===all_done_arr){
         setTimeout(()=>{
-            location.href='/pages/home.html';
+            // location.href='/pages/home.html';
         },100);
     }
 }
