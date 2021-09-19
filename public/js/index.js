@@ -30,8 +30,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
       await detCheck(); /* This checks that if the user  data is in db*/
     console.log(temp);
     if (temp === true) {
-      location.href =
-        "/pages/home.html"; /* If data is in db then redirect to main page */
+       location.href= "/pages/home.html"; /* If data is in db then redirect to main page */
     }
   } else {
     user_signin_flag = false;
