@@ -40,3 +40,15 @@ export function pushKey(db, reference, key){
 export function db_update(db,path,val){
   db.ref(path).update(val);
 }
+
+export function regex_rem(txt){
+    txt=txt.replaceAll('<','');
+    txt=txt.replaceAll('>','');
+    txt=slashRem(txt);
+    return txt
+}
+
+export function slashRem(txt){
+  txt=txt.replaceAll('/','');
+  return txt;
+}
