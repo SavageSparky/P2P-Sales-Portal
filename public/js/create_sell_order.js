@@ -15,6 +15,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
         adone=adone.val();
         document.querySelector('.loading-cont').style.display='none';
         defaultPincodeFiller();
+        console.log(adone);
         if(adone===null || adone==='false' || adone===false){
             user_signin_flag=false;
             location.href='/pages/home.html';
