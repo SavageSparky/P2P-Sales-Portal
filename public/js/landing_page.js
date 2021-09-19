@@ -151,9 +151,9 @@ document.querySelector('.basic_details').innerHTML = `
             >
         </div> 
         <h4 class="estimated_price">Estimated Price: Rs. ${product_price}</h4>
-        <button type="submit" class="buy_button">
+        <div class="buy_button">
             Place Buy Request
-        </button>
+        </div>
     </form>
 </div>
 `;
@@ -167,8 +167,17 @@ document.getElementById('quantity').addEventListener('input', function (){
 
 const buy_button = document.querySelector('.buy_button');
 const confirm_window = document.querySelector('.confirm_window');
+const confirmWindow_cancel = document.getElementById("cancel");
+const main_div = document.querySelector("main");
+
 buy_button.addEventListener("click", ()=>{
-    confirm_window.ClassList.toggle('none');
+    confirm_window.classList.toggle('none');
+    main_div.style.filter = "blur(5px)";
+})
+
+confirmWindow_cancel.addEventListener('click', ()=> {
+    confirm_window.classList.toggle('none');
+    main_div.style.filter = "none";
 })
 
 /*************************** Address and Description ******************************/

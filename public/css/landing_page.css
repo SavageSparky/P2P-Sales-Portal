@@ -1,3 +1,7 @@
+body {
+    display: flex;
+    justify-content: center;
+}
 main{
     /* width: calc(100% - 300px); */
     width: 100%;
@@ -177,6 +181,7 @@ h4 {
     color: white;
     font-size: 1.2rem;
     cursor: pointer;
+    text-align: center;
 }
 .buy_button:hover {
     background-color: var(--green-dark);
