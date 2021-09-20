@@ -172,6 +172,10 @@ async function PincodeFiller(){
 }
 
 
+document.querySelectorAll('.input_area')[2].addEventListener('input',(e)=>{
+    document.querySelectorAll('.input_area')[4].max=+e.srcElement.value;
+})
+
 inp_tag_profile.addEventListener('change',()=>{
     const currFiles=[...inp_tag_profile.files];
         currFiles.forEach((file,index)=>{
@@ -256,6 +260,7 @@ submit_btn.addEventListener("click",async (e)=>{
             }
         }
     })
+
     if(input_elements[12].textContent.trim().length===0 || input_elements[12].textContent.trim()==="Please Fill Out this Field"){
         returner=1;
         input_elements[12].style.boxShadow='0 0 5px rgb(255, 0, 0)';
@@ -263,6 +268,9 @@ submit_btn.addEventListener("click",async (e)=>{
             input_elements[12].style.boxShadow='0 0 5px rgb(184, 184, 184)';
         },3000);
         input_elements[12].textContent="Please Fill Out this Field";
+    }
+    if(input_elements[1].value<=0 || input_elements[2].value<=0 || input_elements[4].value<=0 || input_elements[2].value<input_elements[4].value){
+        returner=1;
     }
     if(returner===1) return;
     firebase_img_uploader(imagesArr[profile_idx],'profile',pid);
