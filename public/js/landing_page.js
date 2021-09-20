@@ -172,11 +172,13 @@ const main_div = document.querySelector("main");
 
 buy_button.addEventListener("click", ()=>{
     confirm_window.classList.toggle('none');
+    main_div.classList.toggle('background_disabled');
     main_div.style.filter = "blur(5px)";
 })
 
 confirmWindow_cancel.addEventListener('click', ()=> {
     confirm_window.classList.toggle('none');
+    main_div.classList.toggle('background_disabled');
     main_div.style.filter = "none";
 })
 

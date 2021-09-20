@@ -485,4 +485,11 @@ h4 {
 .none {
      display: none;
  }
+
+ .background_disabled {
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    pointer-events: none;
+ }
+ 
 /***************** on-click buy button ***************/
