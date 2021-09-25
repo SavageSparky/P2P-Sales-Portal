@@ -151,6 +151,7 @@ async function cardUpdater(p_id) {
 function redirector() {
   document.querySelectorAll(".card").forEach((d) => {
     d.addEventListener("click", () => {
+      search_bar.value=null;
       window.location = `/pages/landing_page.html?id=${d.dataset.id}`;
     });
   });
