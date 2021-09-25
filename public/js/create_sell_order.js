@@ -6,6 +6,9 @@ let user_signin_flag=false;
 let firstClick=false;
 let imagesArr=[];
 let district;
+document.querySelector('nav').style.display='none';
+
+
 
 firebase.auth().onAuthStateChanged(async (user) => {
     if (user) {

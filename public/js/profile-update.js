@@ -16,6 +16,8 @@ const otp_verify_btn=document.querySelector('.check-otp-btn');
 let otp_verified_flag=false;
 let profile_pic;
 let profile_pic_click_flag=false;
+document.querySelector('nav').style.display='none';
+
 
 function otpGenerator(){
     return Math.floor(Math.random()*(9999-1111)+1111);
