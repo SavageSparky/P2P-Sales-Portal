@@ -5,10 +5,20 @@ const db=firebase.database();
 const params = new URLSearchParams(window.location.search);
 console.log(params);
 const id = params.get("id");
-
+let user_id;
+const myReviewCont=document.querySelector('.my_review');
+const postButton=document.querySelector('.post_button');
+postButton.disabled=true;
+let prev_cmnt_heading='Product Review';
+let prev_cmnt_body='Review Description';
+let user_cmt_data;
+const ratings_reviews_cont=document.querySelector('.rating_reviews');
 
 firebase.auth().onAuthStateChanged(async (user) => {
     if(user){
+        user_id=user.uid;
+        console.log(user_id);
+        defaultUserCmntData();
         document.querySelector('.loading-cont').style.display='none';
     }
     else{
@@ -300,15 +310,101 @@ star_cont.addEventListener("mouseleave",(e)=>{
 /************************************************************************************************** */
 
 /**************************************************User Comment Poster*****************************************/
-let user_cmt_data={
-    'rating':'5',
-    'heading':'Product Review',
-    'comment':'asdfa',
+
+// let comments_data=await db_get(db,`product/${id}/comments`);
+// comments_data=comments_data.val();
+
+// if(comments_data){
+//     console.log(comments_data);
+//     ratings_reviews_cont.innerHTML='';
+//     for(const key in comments_data){
+//         comment_filler(key,comments_data[key]);
+//     }
+// }
+
+let commnetsDbRef=db.ref(`product/${id}/comments`);
+commnetsDbRef.on('value',(comments_data)=>{
+    console.log("Entering here db reff");
+    comments_data=comments_data.val();
+    if(comments_data){
+        ratings_reviews_cont.innerHTML='';
+        for(const key in comments_data){
+            comment_filler(key,comments_data[key]);
+        }
+    }
+})
+
+function starsReturner(num){
+    let str='';
+    for(let i=1;i<=num;i++){
+        str+=`<img id="${i}" src="../assets/icons/star_filled.svg" alt="">`;
+    }
+    for(let i=num+1;i<=5;i++){
+        str+=`<img id="${i}" src="../assets/icons/star_unfilled.svg" alt="">`;
+    }
+    console.log(str);
+    return str;
 }
 
-const myReviewCont=document.querySelector('.my_review');
-const postButton=document.querySelector('.post_button');
-postButton.disabled=true;
+
+
+async function defaultUserCmntData(){
+    let user_details=await db_get(db,`/user/${user_id}`);
+    user_details=user_details.val();
+    myReviewCont.querySelector('.user_det_cont').innerHTML=`<div class="user_pic_cont"><img src="${user_details['profileImgUrl']}" alt=""></div>
+<div class="user_det">
+    <h3 class="user_name">${user_details['Name']}</h3>
+    <div class="date_cont">${date_splitter(new Date().toISOString().slice(0, 10))}, ${user_details['area']}</div>
+    </div>`;
+}
+
+
+async function comment_filler(data,user_cmt_data){
+    console.log(data);
+    let user_details=await db_get(db,`/user/${data}`);
+    user_details=user_details.val();
+    if(data===user_id){
+        myReviewCont.querySelector('.user_det_cont').innerHTML=`<div class="user_pic_cont"><img src="${user_details['profileImgUrl']}" alt=""></div>
+        <div class="user_det">
+            <h3 class="user_name">${user_details['Name']}</h3>
+            <div class="date_cont">${user_cmt_data['date']}, ${user_details['area']}</div>
+        </div>`
+        star_num=+user_cmt_data['rating'];
+        star_hover_highlighter(star_num);
+        prev_cmnt_heading=user_cmt_data['heading'];
+        prev_cmnt_body=user_cmt_data['comment'];
+        myReviewCont.querySelector('.review_subject').textContent=user_cmt_data['heading'];
+        myReviewCont.querySelector('.main_review_cont').innerHTML=user_cmt_data['comment'];
+    }
+    else{
+        ratings_reviews_cont.innerHTML+=`<div class="user_review">
+        <div class="user_det_cont">
+            <div class="user_pic_cont"><img src="${user_details['profileImgUrl']}" alt=""></div>
+            <div class="user_det">
+                <h3 class="user_name">${user_details['Name']}</h3>
+                <div class="date_cont">${user_cmt_data['date']}, ${user_details['area']}</div>
+            </div>
+        </div>
+        <div class="star_heading_cont">
+            <div class="star_count">
+                ${starsReturner(user_cmt_data['rating'])}
+            </div>
+            <h3 class="review_subject">${user_cmt_data['heading']}</h3>
+        </div>
+        <div class="main_review_cont">
+            ${user_cmt_data['comment']}
+        </div>
+        <div class="like_dislike_cont">
+            <div class="like_cont"><img src="../assets/icons/like_checked.svg" alt="">
+            <h4>32 likes</h4>
+            </div>
+            <div class="dislike_cont"><img src="../assets/icons/dislike_unchecked.svg" alt="">
+            <h4>10 dislikes</h4>
+            </div>
+        </div>
+    </div>`
+    }
+}
 
 myReviewCont.addEventListener("click",(e)=>{
     if(e.target.classList.contains('review_subject') || e.target.classList.contains('main_review_cont') || e.target.classList.length===0){
@@ -317,8 +413,8 @@ myReviewCont.addEventListener("click",(e)=>{
     let head=myReviewCont.querySelector('.review_subject');
     let comment_review=myReviewCont.querySelector('.main_review_cont');
     console.log(comment_review.textContent.trim().length);
-    if(head.textContent.trim().length===0 || head.textContent.trim()==='Product Review'){
-        head.textContent='Product Review';
+    if(head.textContent.trim().length===0 || head.textContent.trim()===prev_cmnt_heading){
+        head.textContent=prev_cmnt_heading;
         postButton.classList.add('disabled_btn');
         postButton.disabled=true;
     }
@@ -326,9 +422,9 @@ myReviewCont.addEventListener("click",(e)=>{
         postButton.classList.remove('disabled_btn');
         postButton.disabled=false;
     }
-    if(comment_review.textContent.trim().length===0 || comment_review.textContent.trim()==='Review Description'){
+    if(comment_review.textContent.trim().length===0 || comment_review.textContent.trim()===prev_cmnt_body){
         console.log("Entering here");
-        comment_review.textContent='Review Description';
+        comment_review.textContent=prev_cmnt_body;
         postButton.classList.add('disabled_btn');
         postButton.disabled=true;
     }
@@ -341,7 +437,14 @@ myReviewCont.addEventListener("click",(e)=>{
 postButton.addEventListener('click',(e)=>{
     postButton.classList.add('disabled_btn');
     postButton.disabled=true;
-    location.href='#';
+    console.log(user_cmt_data);
+    user_cmt_data={
+        'rating':star_num,
+        'heading':myReviewCont.querySelector('.review_subject').textContent.trim(),
+        'comment':myReviewCont.querySelector('.main_review_cont').innerHTML.trim(),
+        'user_id':user_id,
+        'date':date_splitter(new Date().toISOString().slice(0, 10))
+    }
+    console.log(user_cmt_data);
+    db_insert(db,`/product/${id}/comments/${user_id}`,user_cmt_data);
 })
-
-
