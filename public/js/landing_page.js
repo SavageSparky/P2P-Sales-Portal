@@ -123,28 +123,33 @@ document.querySelector('.basic_details').innerHTML = `
     <h3 class="product_price">Rs. ${product_price}</h3>
     <h3 class="product_due">${date_splitter(data['due-date'])}</h3>
     <hr>
-    <ul class="detail_list">
-        <li>
-            <h4 class="detail_list_elements">Available: </h4>
-            <h4 id="detail_quantiy">${product_remaining}/${data["quantity"]}</h4>
-        </li>
-        <li>
-            <h4 class="detail_list_elements">Min-order: </h4>
-            <h4 id="detail_quantiy"> ${product_minOrder} ${data['productScale']}</h4>
-        </li>
-        <li>
-            <h4 class="detail_list_elements">Delivery:</h4>
-            <h4 id="delivery"> ${data["delivery-available"]}</h4>
-        </li>
-        <li>
-            <h4 class="detail_list_elements">Category: </h4>
-            <h4 id="detail_type"> ${data["type"]}</h4>
-        </li>
-        <li>
-            <h4 class="detail_list_elements">Manufact. date: </h4>
-            <h4 id="detail_type"> March, 2021</h4>
-        </li>
-    </ul>
+    <table class="detail_list">
+        <tr>
+            <td><h4 class="detail_list_elements">Available </h4></td>
+            <td><h4>:</h4></td>
+            <td><h4 id="detail_quantiy">${product_remaining}/${data["quantity"]}</h4></td>
+        </tr>
+        <tr>
+            <td><h4 class="detail_list_elements">Min-order </h4></td>
+            <td><h4>:</h4></td>
+            <td><h4 id="detail_quantiy"> ${product_minOrder} ${data['productScale']}</h4></td>
+        </tr>
+        <tr>
+            <td><h4 class="detail_list_elements">Delivery </h4></td>
+            <td><h4>:</h4></td>
+            <td><h4 id="delivery"> ${data["delivery-available"]}</h4></td>
+        </tr>
+        <tr>
+            <td><h4 class="detail_list_elements">Category </h4></td>
+            <td><h4>:</h4></td>
+            <td><h4 id="detail_type"> ${data["type"]}</h4></td>
+        </tr>
+        <tr>
+            <td><h4 class="detail_list_elements">Manufact. date </h4></td>
+            <td><h4>:</h4></td>
+            <td><h4 id="detail_type"> March, 2021</h4></td>
+        </tr>
+    </table>
     <hr>
     
     <form class="product_buy">
