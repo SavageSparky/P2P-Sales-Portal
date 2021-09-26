@@ -267,6 +267,8 @@ h4 {
     height: 60px;
     width: 60px;
     border-radius: 50%;
+    display: flex;
+    justify-content: center;
     overflow: hidden;
     margin-right: 1rem;
 }
