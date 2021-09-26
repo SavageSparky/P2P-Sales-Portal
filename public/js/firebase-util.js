@@ -52,3 +52,48 @@ export function slashRem(txt){
   txt=txt.replaceAll('/','');
   return txt;
 }
+
+export function date_splitter(date) {
+  date = date.split("-");
+  console.log(date);
+  let txt;
+  switch (+date[1]) {
+    case 1:
+      txt = `${date[2]} Jan ${date[0]}`;
+      break;
+    case 2:
+      txt = `${date[2]} Feb ${date[0]}`;
+      break;
+    case 3:
+      txt = `${date[2]} Mar ${date[0]}`;
+      break;
+    case 4:
+      txt = `${date[2]} Apr ${date[0]}`;
+      break;
+    case 5:
+      txt = `${date[2]} May ${date[0]}`;
+      break;
+    case 6:
+      txt = `${date[2]} Jun ${date[0]}`;
+      break;
+    case 7:
+      txt = `${date[2]} Jul ${date[0]}`;
+      break;
+    case 8:
+      txt = `${date[2]} Aug ${date[0]}`;
+      break;
+    case 9:
+      txt = `${date[2]} Sept ${date[0]}`;
+      break;
+    case 10:
+      txt = `${date[2]} Oct ${date[0]}`;
+      break;
+    case 11:
+      txt = `${date[2]} Nov ${date[0]}`;
+      break;
+    case 12:
+      txt = `${date[2]} Dec ${date[0]}`;
+      break;
+  }
+  return txt;
+}
