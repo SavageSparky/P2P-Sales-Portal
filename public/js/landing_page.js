@@ -17,7 +17,6 @@ const ratings_reviews_cont=document.querySelector('.rating_reviews');
 firebase.auth().onAuthStateChanged(async (user) => {
     if(user){
         user_id=user.uid;
-        console.log(user_id);
         defaultUserCmntData();
         document.querySelector('.loading-cont').style.display='none';
     }
@@ -77,15 +76,15 @@ function date_splitter(date){
 /*********************** Product details Fetch - Start ****************************/  
 
 let data = await db_get(db, `product/${id}`);
-// console.log(data);
+
 data = await data.val();
-// console.log(data);
+
 const product_price = data['price'];
 const product_minOrder = data["minOrders"];
 const product_remaining = data["remaining"];
 
 const productImgArray = Object.keys(data["product-des-imgs"]).length;
-// console.log(productImgArray);
+
 const imageHolder = document.querySelector('.image_select');
 
 function getDesImage(){
@@ -321,17 +320,19 @@ star_cont.addEventListener("mouseleave",(e)=>{
 //         comment_filler(key,comments_data[key]);
 //     }
 // }
-
+ratings_reviews_cont.innerHTML='';
 let commnetsDbRef=db.ref(`product/${id}/comments`);
-commnetsDbRef.on('value',(comments_data)=>{
-    console.log("Entering here db reff");
+
+commnetsDbRef.on('child_added',(comments_data)=>{
     comments_data=comments_data.val();
-    if(comments_data){
-        ratings_reviews_cont.innerHTML='';
-        for(const key in comments_data){
-            comment_filler(key,comments_data[key]);
-        }
-    }
+    comment_filler(comments_data);
+});
+
+commnetsDbRef.on('child_changed',(data)=>{
+    data=data.val();
+    console.log(data);
+    if(data['user_id']===user_id) return;
+    comment_Modifier(data);
 })
 
 function starsReturner(num){
@@ -342,7 +343,6 @@ function starsReturner(num){
     for(let i=num+1;i<=5;i++){
         str+=`<img id="${i}" src="../assets/icons/star_unfilled.svg" alt="">`;
     }
-    console.log(str);
     return str;
 }
 
@@ -359,11 +359,10 @@ async function defaultUserCmntData(){
 }
 
 
-async function comment_filler(data,user_cmt_data){
-    console.log(data);
-    let user_details=await db_get(db,`/user/${data}`);
+async function comment_filler(user_cmt_data){
+    let user_details=await db_get(db,`/user/${user_cmt_data['user_id']}`);
     user_details=user_details.val();
-    if(data===user_id){
+    if(user_cmt_data['user_id']===user_id){
         myReviewCont.querySelector('.user_det_cont').innerHTML=`<div class="user_pic_cont"><img src="${user_details['profileImgUrl']}" alt=""></div>
         <div class="user_det">
             <h3 class="user_name">${user_details['Name']}</h3>
@@ -377,7 +376,7 @@ async function comment_filler(data,user_cmt_data){
         myReviewCont.querySelector('.main_review_cont').innerHTML=user_cmt_data['comment'];
     }
     else{
-        ratings_reviews_cont.innerHTML+=`<div class="user_review">
+        ratings_reviews_cont.innerHTML+=`<div class="user_review" data-cmntid="${user_cmt_data['user_id']}">
         <div class="user_det_cont">
             <div class="user_pic_cont"><img src="${user_details['profileImgUrl']}" alt=""></div>
             <div class="user_det">
@@ -406,13 +405,42 @@ async function comment_filler(data,user_cmt_data){
     }
 }
 
+async function comment_Modifier(user_cmt_data){
+    const tag=document.querySelector(`.user_review[data-cmntid=${user_cmt_data['user_id']}`);
+    let user_details=await db_get(db,`/user/${user_cmt_data['user_id']}`);
+    user_details=user_details.val();
+    tag.innerHTML=` <div class="user_det_cont">
+    <div class="user_pic_cont"><img src="${user_details['profileImgUrl']}" alt=""></div>
+    <div class="user_det">
+        <h3 class="user_name">${user_details['Name']}</h3>
+        <div class="date_cont">${user_cmt_data['date']}, ${user_details['area']}</div>
+    </div>
+</div>
+<div class="star_heading_cont">
+    <div class="star_count">
+        ${starsReturner(user_cmt_data['rating'])}
+    </div>
+    <h3 class="review_subject">${user_cmt_data['heading']}</h3>
+</div>
+<div class="main_review_cont">
+    ${user_cmt_data['comment']}
+</div>
+<div class="like_dislike_cont">
+    <div class="like_cont"><img src="../assets/icons/like_checked.svg" alt="">
+    <h4>32 likes</h4>
+    </div>
+    <div class="dislike_cont"><img src="../assets/icons/dislike_unchecked.svg" alt="">
+    <h4>10 dislikes</h4>
+    </div>
+</div>`;
+}
+
 myReviewCont.addEventListener("click",(e)=>{
     if(e.target.classList.contains('review_subject') || e.target.classList.contains('main_review_cont') || e.target.classList.length===0){
         return;
     }
     let head=myReviewCont.querySelector('.review_subject');
     let comment_review=myReviewCont.querySelector('.main_review_cont');
-    console.log(comment_review.textContent.trim().length);
     if(head.textContent.trim().length===0 || head.textContent.trim()===prev_cmnt_heading){
         head.textContent=prev_cmnt_heading;
         postButton.classList.add('disabled_btn');
@@ -423,8 +451,7 @@ myReviewCont.addEventListener("click",(e)=>{
         postButton.disabled=false;
     }
     if(comment_review.textContent.trim().length===0 || comment_review.textContent.trim()===prev_cmnt_body){
-        console.log("Entering here");
-        comment_review.textContent=prev_cmnt_body;
+        comment_review.innerHTML=prev_cmnt_body;
         postButton.classList.add('disabled_btn');
         postButton.disabled=true;
     }
@@ -437,7 +464,6 @@ myReviewCont.addEventListener("click",(e)=>{
 postButton.addEventListener('click',(e)=>{
     postButton.classList.add('disabled_btn');
     postButton.disabled=true;
-    console.log(user_cmt_data);
     user_cmt_data={
         'rating':star_num,
         'heading':myReviewCont.querySelector('.review_subject').textContent.trim(),
@@ -445,6 +471,5 @@ postButton.addEventListener('click',(e)=>{
         'user_id':user_id,
         'date':date_splitter(new Date().toISOString().slice(0, 10))
     }
-    console.log(user_cmt_data);
     db_insert(db,`/product/${id}/comments/${user_id}`,user_cmt_data);
 })
