@@ -14,6 +14,7 @@ const name_input = document.querySelectorAll("form input")[0];
 const nav=document.querySelector('nav');
 const popup_close_icon=document.querySelector('.popup .close_icon');
 let user_signin_flag = false;
+let area=null;
 let submit_flag = false;
 let user_id;
 let authFlag = 0;
@@ -71,7 +72,8 @@ submit_btn.addEventListener("click", (e) => {
     'Name':regex_rem(name_input.value),
     'Pincode':pincode_tag.value,
     'AllDone':'false',
-    'profileImgUrl':'../assets/images/user_image.png'
+    'profileImgUrl':'../assets/images/user_image.png',
+    'area':area
   }
   // db_insert(db, `user/${user_id}/Name`, name_input.value);
   // db_insert(db, `user/${user_id}/Pincode`, pincode_tag.value);
@@ -94,6 +96,8 @@ pincode_tag.addEventListener("input", async () => {
     data = await data.json();
     if (data[0]["Status"] === "Success") {
       pincode_error.style.display = "none";
+      area=data[0]['PostOffice'][0]['Name'];
+      console.log(area);
       submit_flag = true;
     } else {
       pincode_error.style.display = "block";
