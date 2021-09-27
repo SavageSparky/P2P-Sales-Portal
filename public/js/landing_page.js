@@ -10,9 +10,11 @@ const myReviewCont=document.querySelector('.my_review');
 const postButton=document.querySelector('.post_button');
 postButton.disabled=true;
 let prev_cmnt_heading='Product Review';
+let prev_rating=1
 let prev_cmnt_body='Review Description';
 let user_cmt_data;
 const ratings_reviews_cont=document.querySelector('.rating_reviews');
+let postBtnArr=[0,0,0]
 
 firebase.auth().onAuthStateChanged(async (user) => {
     if(user){
@@ -325,6 +327,13 @@ function star_hover_highlighter(num){
 
 star_cont.addEventListener("mousedown",(e)=>{
     star_num=+e.target.id;
+    if(star_num!==prev_rating){
+            postBtnArr[0]=1;
+    }
+    else{
+        postBtnArr[0]=0;
+    }
+    postButtonToggler(postBtnArr);
 })
 
 star_cont.addEventListener("mousemove",(e)=>{
@@ -389,7 +398,6 @@ async function defaultUserCmntData(){
 }
 
 function like_dislike_filler(likes,dislikes){
-    console.log(likes,dislikes);
     let ans=''
     if(likes===undefined){
         likes=[];
@@ -414,7 +422,6 @@ function like_dislike_filler(likes,dislikes){
     let dislike_arr=dislikes.filter((a)=>{
         return a===user_id
     });
-    console.log(like_arr,dislike_arr);
     if(like_arr.length>=1){
         ans+=    `<div class="like_cont"><img class="like-icon active-btn" src="../assets/icons/like_checked.svg" alt="">
         <h4>${likes.length} likes</h4>
@@ -446,7 +453,6 @@ function like_dislike_filler(likes,dislikes){
 async function comment_filler(user_cmt_data){
     let user_details=await db_get(db,`/user/${user_cmt_data['user_id']}`);
     user_details=user_details.val();
-    console.log(user_cmt_data);
     if(user_cmt_data['user_id']===user_id){
         myReviewCont.querySelector('.user_det_cont').innerHTML=`<div class="user_pic_cont"><img src="${user_details['profileImgUrl']}" alt=""></div>
         <div class="user_det">
@@ -457,6 +463,7 @@ async function comment_filler(user_cmt_data){
         star_hover_highlighter(star_num);
         prev_cmnt_heading=user_cmt_data['heading'];
         prev_cmnt_body=user_cmt_data['comment'];
+        prev_rating=user_cmt_data['rating'];
         myReviewCont.querySelector('.review_subject').textContent=user_cmt_data['heading'];
         myReviewCont.querySelector('.main_review_cont').innerHTML=user_cmt_data['comment'];
     }
@@ -515,33 +522,60 @@ async function comment_Modifier(user_cmt_data){
 }
 
 myReviewCont.addEventListener("click",(e)=>{
-    if(e.target.classList.contains('review_subject') || e.target.classList.contains('main_review_cont') || e.target.classList.length===0){
-        return;
-    }
+
     let head=myReviewCont.querySelector('.review_subject');
     let comment_review=myReviewCont.querySelector('.main_review_cont');
-    if(head.textContent.trim().length===0 || head.textContent.trim()===prev_cmnt_heading){
+
+    if(head.textContent.trim().length===0){
         head.textContent=prev_cmnt_heading;
-        postButton.classList.add('disabled_btn');
-        postButton.disabled=true;
     }
-    else{
-        postButton.classList.remove('disabled_btn');
-        postButton.disabled=false;
-    }
-    if(comment_review.textContent.trim().length===0 || comment_review.textContent.trim()===prev_cmnt_body){
+
+    if(comment_review.textContent.trim().length===0){
         comment_review.innerHTML=prev_cmnt_body;
-        postButton.classList.add('disabled_btn');
-        postButton.disabled=true;
-    }
-    else{
-        postButton.classList.remove('disabled_btn');
-        postButton.disabled=false;
     }
 })
 
+myReviewCont.querySelector('.review_subject').addEventListener('input',()=>{
+    let head=myReviewCont.querySelector('.review_subject');
+    if(head.textContent.trim().length===0 || head.textContent.trim()===prev_cmnt_heading){
+        postBtnArr[1]=0;
+    }
+    else{
+        postBtnArr[1]=1;
+    }
+    postButtonToggler(postBtnArr);
+})
+
+myReviewCont.querySelector('.main_review_cont').addEventListener('input',()=>{
+    let comment_review=myReviewCont.querySelector('.main_review_cont');
+    if(comment_review.textContent.trim().length===0 || comment_review.innerHTML.trim()===prev_cmnt_body){
+        postBtnArr[2]=0;
+    }
+    else{
+        postBtnArr[2]=1;
+    }
+    postButtonToggler(postBtnArr);
+})
+
+
+function postButtonToggler(arr){
+    let enabler=false;
+    arr.forEach(d=>{
+        if(d===1) enabler=true;
+    });
+    if(enabler===true){
+        postButton.classList.remove('disabled_btn');
+        postButton.disabled=false;
+    }
+    else{
+        postButton.classList.add('disabled_btn');
+        postButton.disabled=true;
+    }
+}
+
 postButton.addEventListener('click',(e)=>{
     postButton.classList.add('disabled_btn');
+    console.log(postButton);
     postButton.disabled=true;
     user_cmt_data={
         'rating':star_num,
@@ -551,6 +585,10 @@ postButton.addEventListener('click',(e)=>{
         'date':date_splitter(new Date().toISOString().slice(0, 10))
     }
     db_insert(db,`/product/${id}/comments/${user_id}`,user_cmt_data);
+    prev_cmnt_heading=myReviewCont.querySelector('.review_subject').textContent.trim();
+    prev_cmnt_body=myReviewCont.querySelector('.main_review_cont').innerHTML.trim();
+    prev_rating=star_num;
+    postBtnArr=[0,0,0]
 })
 
 function liker(){
