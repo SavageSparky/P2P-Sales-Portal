@@ -332,13 +332,19 @@ h4 {
     align-items: center;
 }
 
-.like_cont img {
+.like_cont svg {
     height: 25px;
     margin-right: 0.5rem;
     width: auto;
 }
 
-.like_dislike_cont img {
+
+.like_dislike_cont img{
+    cursor: pointer;
+}
+
+
+.like_dislike_cont img{
     height: 25px;
     margin-right: 0.5rem;
     width: auto;
