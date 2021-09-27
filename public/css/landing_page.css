@@ -7,8 +7,8 @@ main{
     width: 100%;
     display: flex;
     /* margin-left: 300px; */
-    padding: 2rem 10vw;
-    /* padding: 2rem; */
+    /* padding: 2rem 10vw; */
+    padding: 0rem 4rem;
     padding-top: calc(60px + 2rem);
     /* flex-wrap: wrap; */
     justify-content: center;
@@ -59,13 +59,14 @@ h4 {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     padding: 1rem;
     flex: 3;
 }
 .image_preview_wrap {
     display: flex;
     justify-content: center;
-    width: auto;
+    width: 640px;
     height: 360px;
     overflow: hidden;
     margin-bottom: 1rem;
@@ -185,7 +186,7 @@ h4 {
 
 .buy_button {
     padding: 1rem;
-    width: 90%;
+    width: 100%;
     border-radius: 2rem;
     border: none;
     background-color: var(--green-light);
@@ -394,7 +395,7 @@ h4 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: 300px;
     height: 800px;
     border-radius: 0.5rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.253);
