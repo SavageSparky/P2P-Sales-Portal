@@ -82,6 +82,8 @@ data = await data.val();
 const product_price = data['price'];
 const product_minOrder = data["minOrders"];
 const product_remaining = data["remaining"];
+let final_price = product_minOrder * product_price;
+let final_qty = product_minOrder;
 
 const productImgArray = Object.keys(data["product-des-imgs"]).length;
 
@@ -175,10 +177,13 @@ document.querySelector('.basic_details').innerHTML = `
 
 
 document.getElementById('quantity').addEventListener('input', function (){
+    final_qty = this.value;
+    final_price = (this.value) * (product_price);
     document.querySelector('.estimated_price').innerHTML =
-        `Estimated Price: Rs. ${(this.value) * (product_price)}`;
+        `Estimated Price: Rs. ${final_price}`;
 })
 
+/**********************Confirm window ********************/
 const buy_button = document.querySelector('.buy_button');
 const confirm_window = document.querySelector('.confirm_window');
 const confirmWindow_cancel = document.getElementById("cancel");
@@ -188,6 +193,25 @@ buy_button.addEventListener("click", ()=>{
     confirm_window.classList.toggle('none');
     main_div.classList.toggle('background_disabled');
     main_div.style.filter = "blur(5px)";
+    const cw_table = document.querySelector('.confirm_window > table');
+    cw_table.innerHTML = `
+    <tr>
+        <td><h3 class="cw_product_name_label">Product</h3></td>
+        <td><h3 class="cw_product_name cw_details">${data["name"]}</h3></td>
+    </tr>
+    <tr>
+        <td><h3 class="cw_price_label">Price/ Unit</h3></td>
+        <td><h3 class="cw_price cw_details">${product_price}</h3></td>
+    </tr>
+    <tr>
+        <td><h3 class="cw_quantity_label">Quantity</h3></td>
+        <td><h3 class="cw_quantity cw_details">${final_qty}</h3></td>
+    </tr>
+    <tr>
+        <td><h3 class="cw_amount_label">Final Amount</h3></td>
+        <td><h3 class="cw_amount cw_details">Rs.${final_price}</h3></td>
+    </tr>
+    `
 })
 
 confirmWindow_cancel.addEventListener('click', ()=> {
@@ -195,6 +219,7 @@ confirmWindow_cancel.addEventListener('click', ()=> {
     main_div.classList.toggle('background_disabled');
     main_div.style.filter = "none";
 })
+
 
 /*************************** Address and Description ******************************/
 document.querySelector('.description').innerHTML = `
