@@ -1,4 +1,4 @@
-import { db_get,firebaseConfig,db_insert} from "./firebase-util.js";
+import { db_get,firebaseConfig,db_insert, db_del} from "./firebase-util.js";
 
 firebase.initializeApp(firebaseConfig);
 const db=firebase.database();
@@ -358,10 +358,65 @@ async function defaultUserCmntData(){
     </div>`;
 }
 
+function like_dislike_filler(likes,dislikes){
+    console.log(likes,dislikes);
+    let ans=''
+    if(likes===undefined){
+        likes=[];
+    }
+    if(dislikes===undefined){
+        dislikes=[];
+    }
+    let temp_likes=[];
+    for(let key in likes){
+        temp_likes.push(key);
+    }
+    likes=temp_likes;
+    temp_likes=[];
+    for(let key in dislikes){
+        temp_likes.push(key);
+    }
+    dislikes=temp_likes;
+
+    let like_arr=likes.filter((a)=>{
+        return a===user_id
+    });
+    let dislike_arr=dislikes.filter((a)=>{
+        return a===user_id
+    });
+    console.log(like_arr,dislike_arr);
+    if(like_arr.length>=1){
+        ans+=    `<div class="like_cont"><img class="like-icon active-btn" src="../assets/icons/like_checked.svg" alt="">
+        <h4>${likes.length} likes</h4>
+        </div>
+        <div class="dislike_cont"><img class="dislike-icon" src="../assets/icons/dislike_unchecked.svg" alt="">
+        <h4>${dislikes.length} dislikes</h4>
+        </div>`
+    }
+    else if(dislike_arr.length>=1){
+        ans+=    `<div class="like_cont"><img class="like-icon" src="../assets/icons/like_unchecked.svg" alt="">
+        <h4>${likes.length} likes</h4>
+        </div>
+        <div class="dislike_cont active-btn"><img class="dislike-icon active-btn" src="../assets/icons/dislike_checked.svg" alt="">
+        <h4>${dislikes.length} dislikes</h4>
+        </div>`
+    }
+    else{
+        ans+=    `<div class="like_cont"><img class="like-icon" src="../assets/icons/like_unchecked.svg" alt="">
+        <h4>${likes.length} likes</h4>
+        </div>
+        <div class="dislike_cont"><img class="dislike-icon" src="../assets/icons/dislike_unchecked.svg" alt="">
+        <h4>${dislikes.length} dislikes</h4>
+        </div>`
+    }
+    return ans;
+}
+
 
 async function comment_filler(user_cmt_data){
     let user_details=await db_get(db,`/user/${user_cmt_data['user_id']}`);
     user_details=user_details.val();
+    console.log(user_cmt_data);
     if(user_cmt_data['user_id']===user_id){
         myReviewCont.querySelector('.user_det_cont').innerHTML=`<div class="user_pic_cont"><img src="${user_details['profileImgUrl']}" alt=""></div>
         <div class="user_det">
@@ -394,44 +449,38 @@ async function comment_filler(user_cmt_data){
             ${user_cmt_data['comment']}
         </div>
         <div class="like_dislike_cont">
-            <div class="like_cont"><img src="../assets/icons/like_checked.svg" alt="">
-            <h4>32 likes</h4>
-            </div>
-            <div class="dislike_cont"><img src="../assets/icons/dislike_unchecked.svg" alt="">
-            <h4>10 dislikes</h4>
-            </div>
-        </div>
+        ${like_dislike_filler(user_cmt_data['likes'],user_cmt_data['dislikes'])}
     </div>`
     }
+    liker();
 }
 
 async function comment_Modifier(user_cmt_data){
     const tag=document.querySelector(`.user_review[data-cmntid=${user_cmt_data['user_id']}`);
     let user_details=await db_get(db,`/user/${user_cmt_data['user_id']}`);
     user_details=user_details.val();
-    tag.innerHTML=` <div class="user_det_cont">
-    <div class="user_pic_cont"><img src="${user_details['profileImgUrl']}" alt=""></div>
+    tag.innerHTML = ` <div class="user_det_cont">
+    <div class="user_pic_cont"><img src="${
+      user_details["profileImgUrl"]
+    }" alt=""></div>
     <div class="user_det">
-        <h3 class="user_name">${user_details['Name']}</h3>
-        <div class="date_cont">${user_cmt_data['date']}, ${user_details['area']}</div>
+        <h3 class="user_name">${user_details["Name"]}</h3>
+        <div class="date_cont">${user_cmt_data["date"]}, ${
+      user_details["area"]
+    }</div>
     </div>
 </div>
 <div class="star_heading_cont">
     <div class="star_count">
-        ${starsReturner(user_cmt_data['rating'])}
+        ${starsReturner(user_cmt_data["rating"])}
     </div>
-    <h3 class="review_subject">${user_cmt_data['heading']}</h3>
+    <h3 class="review_subject">${user_cmt_data["heading"]}</h3>
 </div>
 <div class="main_review_cont">
-    ${user_cmt_data['comment']}
+    ${user_cmt_data["comment"]}
 </div>
 <div class="like_dislike_cont">
-    <div class="like_cont"><img src="../assets/icons/like_checked.svg" alt="">
-    <h4>32 likes</h4>
-    </div>
-    <div class="dislike_cont"><img src="../assets/icons/dislike_unchecked.svg" alt="">
-    <h4>10 dislikes</h4>
-    </div>
+  ${like_dislike_filler(user_cmt_data['likes'],user_cmt_data['dislikes'])}
 </div>`;
 }
 
@@ -473,3 +522,30 @@ postButton.addEventListener('click',(e)=>{
     }
     db_insert(db,`/product/${id}/comments/${user_id}`,user_cmt_data);
 })
+
+function liker(){
+    document.querySelectorAll('.user_review').forEach(data=>{
+        data.addEventListener("click",(e)=>{
+            console.log(e.target);
+            const user_cmt_id=e.path[3].dataset['cmntid'];
+            if(e.target.classList.contains('like-icon')){
+                if(e.target.classList.contains('active-btn')){
+                    db_del(db,`/product/${id}/comments/${user_cmt_id}/likes/${user_id}`);
+                }
+                else{
+                    db_insert(db,`/product/${id}/comments/${user_cmt_id}/likes/${user_id}`,'');
+                    db_del(db,`/product/${id}/comments/${user_cmt_id}/dislikes/${user_id}`);   
+                }
+            }
+            if(e.target.classList.contains('dislike-icon')){
+                if(e.target.classList.contains('active-btn')){
+                    db_del(db,`/product/${id}/comments/${user_cmt_id}/dislikes/${user_id}`);
+                }
+                else{
+                    db_insert(db,`/product/${id}/comments/${user_cmt_id}/dislikes/${user_id}`,'');
+                    db_del(db,`/product/${id}/comments/${user_cmt_id}/likes/${user_id}`);
+                }
+            }
+        })
+    })
+}
