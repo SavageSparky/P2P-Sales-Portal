@@ -13,6 +13,5 @@ const buyers = document.querySelectorAll('.buyer');
 buyers.forEach( (buyer)=> {
     buyer.addEventListener('click', () => {
         buyer.querySelector('.buyer_expand').classList.toggle('triggered');
-        console.log(buyer);
     })
 })
