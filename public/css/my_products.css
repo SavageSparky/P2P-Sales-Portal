@@ -22,13 +22,19 @@
 
 /********************************** Buyer Panel ****************************/
 .side_panel {
-    display: flex;
+    display: none;
+    flex-direction: column;
     position:fixed;
     right: 0;
     width: 350px;
     height: 100%;
     background-color: var(--card-white);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.253);
+    overflow-y: scroll;
+}
+
+.triggered{
+    display: flex;
 }
 
 .buyer {
@@ -36,6 +42,11 @@
     padding: 1rem;
     justify-content: space-between;
     width: 100%;
+    border-radius: 0.5rem;
+}
+
+.buyer:hover {
+    background-color: var(--green-light);
 }
 
 .buyer_details_container {
@@ -47,6 +58,7 @@
     height: 50px;
     overflow: hidden;
     border-radius: 50%;
+    margin-right: 0.5rem;
 }
 
 .profile_img {
@@ -54,15 +66,26 @@
     height: 50px;
 }
 
+.name {
+    font-weight: 100;
+}
+
+.place {
+    font-weight: 100;
+}
+
 .buy_size {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
 }
 
 .buy_amount {
+    font-weight: 100;
+}
 
+.buy_units {
+    font-weight: 100;
 }
 
 
