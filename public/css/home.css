@@ -60,9 +60,27 @@ main{
     /* margin-left: 300px; */
     padding: 2rem 2rem;
     /* padding: 2rem; */
+    flex-direction: column;
     padding-top: calc(60px + 2rem);
     flex-wrap: wrap;
     justify-content: center;
+}
+
+.main-category-wrapper{
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.category-wrapper{
+    width: 100%;
+    height: 550px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-bottom: 1rem;
+    cursor: grab;
 }
 
 /* card */
@@ -83,9 +101,38 @@ ul {
     border-radius: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.253);
     transition: all 1s ease;
-    height: 450px;
-    width: 280px;
+    min-height: 450px;
+    min-width: 280px;
     cursor: pointer;
+    user-select: none;
+}
+
+.category-heading:nth-child(1){
+    margin: 0;
+}
+
+.nav-arrow-cont{
+    position: absolute;
+    bottom: 0%;
+    left: 50%;
+    width: 280px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transform: translateX(-50%);
+}
+
+.nav-arrow-cont>*{
+    cursor: pointer;
+}
+
+.right-arrow img{
+    transform: rotate(180deg);
+}
+
+.category-heading{
+    margin-top: 1.5rem;
+    font-size: 2rem;
 }
 
 .card:hover .prodcut_img_wrap{
