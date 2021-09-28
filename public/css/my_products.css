@@ -29,24 +29,26 @@
     width: 350px;
     height: 100%;
     background-color: var(--card-white);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.253);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.356);
     overflow-y: scroll;
-}
-
-.triggered{
-    display: flex;
 }
 
 .buyer {
     display: flex;
+    flex-direction: column;
+    background-color: white;
     padding: 1rem;
+}
+
+.buyer_overview {
+    display: flex;
     justify-content: space-between;
     width: 100%;
     border-radius: 0.5rem;
 }
 
 .buyer:hover {
-    background-color: var(--green-light);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.253);
 }
 
 .buyer_details_container {
@@ -87,6 +89,32 @@
 .buy_units {
     font-weight: 100;
 }
+
+.buyer_expand {
+    display: none;
+}
+
+.buyer_actions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 1rem 1rem 0;
+}
+
+#accept {
+    padding: 0.5rem 1rem;
+    background-color: var(--green-light);
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+#reject {
+    padding: 0.5rem 1rem;
+    background-color: rgb(255, 83, 83);
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
 
 
 /**************** card ********************/
@@ -219,4 +247,9 @@ ul {
 }
 .card:hover .ribbons {
     background: linear-gradient(45deg, rgb(155, 48, 255), rgb(68, 0, 255));
+}
+
+/* top priority */
+.triggered{
+    display: flex;
 }
