@@ -255,3 +255,86 @@ window.addEventListener("click", (e) => {
     prevElement !== null ? (prevElement.style.backgroundColor = "initial") : "";
   }
 });
+
+/********************************Drag Functionality for cards in home page*********************************** */
+let autoScrollFalg=true;
+
+function autoScroller(){
+  if(!autoScrollFalg) return;
+  console.log("Entering Here");
+  document.querySelectorAll('.main-category-wrapper').forEach(d=>{
+    let tag=d.querySelector('.category-wrapper');
+    console.log(tag.scrollWidth,tag.scrollLeft);
+    if(tag.scrollLeft+tag.offsetWidth>=tag.scrollWidth){
+      tag.scrollLeft=0;
+    }
+    tag.scrollLeft+=100;
+  });
+}
+
+const category_cont=document.querySelectorAll('.main-category-wrapper');
+category_cont.forEach(data=>{
+  console.log(data.scrollWidth);
+  let crdCont=data.querySelector('.category-wrapper');
+  let leftBtn=data.querySelector('.left-arrow');
+  let rightBtn=data.querySelector('.right-arrow');
+  let dragFlag=false;
+  let prevX=0;
+  leftBtn.addEventListener("click",()=>{
+    crdCont.scrollLeft-=280;
+    if(crdCont.scrollLeft<=0){
+      crdCont.scrollLeft=0;
+    }
+    autoScrollFalg=false;
+    setTimeout(()=>{
+      autoScrollFalg=true;
+    },2000);
+    console.log(crdCont.scrollLeft);
+  });
+  rightBtn.addEventListener('click',()=>{
+    crdCont.scrollLeft+=280;
+    if(crdCont.scrollLeft+crdCont.offsetWidth>=crdCont.scrollWidth){
+      crdCont.scrollLeft=crdCont.scrollWidth;
+    }
+    autoScrollFalg=false;
+    setTimeout(()=>{
+      autoScrollFalg=true;
+    },2000);
+    console.log(crdCont.scrollLeft);
+  });
+  crdCont.addEventListener("mousedown",(e)=>{
+    dragFlag=true;
+    autoScrollFalg=false;
+    prevX=e.screenX;
+    crdCont.style.cursor="grabbing";
+    crdCont.querySelectorAll('.card').forEach(d=>{
+      d.style.cursor="grabbing";
+    });
+    console.log(e);
+  })
+  crdCont.addEventListener("mouseup",(e)=>{
+    dragFlag=false;
+    crdCont.style.cursor="grab";
+    crdCont.querySelectorAll('.card').forEach(d=>{
+      d.style.cursor="pointer";
+    });
+    setTimeout(()=>{
+      autoScrollFalg=true;
+    },2000);
+    console.log(e);
+  })
+  crdCont.addEventListener("mousemove",(e)=>{
+    if(!dragFlag) return;
+    console.log(e);
+    crdCont.style.cursor="grabbing";
+    crdCont.scrollLeft+=-(e.screenX-prevX)/40;
+    if(crdCont.scrollLeft<0){crdCont.scrollLeft=0;}
+    if(crdCont.scrollLeft>crdCont.scrollWidth){crdCont.scrollLeft=crdCont.scrollWidth;}
+  })
+  crdCont.addEventListener("mouseleave",()=>{
+    dragFlag=false;
+    crdCont.style.cursor="grab";
+  });
+})
+
+setInterval(autoScroller,3000);
