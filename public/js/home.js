@@ -278,6 +278,7 @@ category_cont.forEach(data=>{
   let rightBtn=data.querySelector('.right-arrow');
   let dragFlag=false;
   let prevX=0;
+  let scrollLeft;
   leftBtn.addEventListener("click",()=>{
     crdCont.scrollLeft-=280;
     if(crdCont.scrollLeft<=0){
@@ -303,7 +304,8 @@ category_cont.forEach(data=>{
   crdCont.addEventListener("mousedown",(e)=>{
     dragFlag=true;
     autoScrollFalg=false;
-    prevX=e.screenX;
+    prevX=e.pageX-crdCont.offsetLeft;
+    scrollLeft=crdCont.scrollLeft;
     crdCont.style.cursor="grabbing";
     crdCont.querySelectorAll('.card').forEach(d=>{
       d.style.cursor="grabbing";
@@ -324,6 +326,9 @@ category_cont.forEach(data=>{
   crdCont.addEventListener("mousemove",(e)=>{
     if(!dragFlag) return;
     console.log(e);
+    const x=e.pageX-crdCont.offsetLeft;
+    const walk=(Math.ceil(x)-prevX);
+    crdCont.scrollLeft=scrollLeft-walk;
     crdCont.style.cursor="grabbing";
     crdCont.scrollLeft+=-(e.screenX-prevX)/40;
     if(crdCont.scrollLeft<0){crdCont.scrollLeft=0;}
