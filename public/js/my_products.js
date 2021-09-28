@@ -15,3 +15,6 @@ buyers.forEach( (buyer)=> {
         buyer.querySelector('.buyer_expand').classList.toggle('triggered');
     })
 })
+
+// new order link
+cosnt new_order = document.querySelector('.card_new_order');
