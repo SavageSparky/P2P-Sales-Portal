@@ -262,14 +262,12 @@ let autoScrollFalg=true;
 function autoScroller(){
   if(!autoScrollFalg) return;
   console.log("Entering Here");
-  document.querySelectorAll('.main-category-wrapper').forEach(d=>{
-    let tag=d.querySelector('.category-wrapper');
+  let tag=document.querySelector('.main-category-wrapper .category-wrapper');
     console.log(tag.scrollWidth,tag.scrollLeft);
     if(tag.scrollLeft+tag.offsetWidth>=tag.scrollWidth){
       tag.scrollLeft=0;
     }
     tag.scrollLeft+=100;
-  });
 }
 
 const category_cont=document.querySelectorAll('.main-category-wrapper');
