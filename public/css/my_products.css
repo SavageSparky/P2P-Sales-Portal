@@ -53,6 +53,8 @@
     background-color: white;
     padding: 1rem;
     border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.256);
+    margin: 5px 10px;
 }
 
 .buyer_overview {
@@ -316,6 +318,10 @@ ul {
     width: 280px;
     cursor: pointer;
     text-decoration: none;
+}
+
+.card_new_order:hover {
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
 }
 
 .new_order_img_cont {
