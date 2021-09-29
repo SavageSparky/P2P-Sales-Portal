@@ -159,6 +159,8 @@ function redirector() {
 
 function main_div_loader(txt) {
   const main_tag = document.querySelector("main");
+  main_tag.style.flexDirection='unset';
+  autoScrollFalg=false;
   main_tag.innerHTML = "";
   suggestions[txt].forEach((data) => {
     cardUpdater(data);
