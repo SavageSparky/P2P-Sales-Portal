@@ -259,17 +259,17 @@ window.addEventListener("click", (e) => {
 });
 
 /********************************Drag Functionality for cards in home page*********************************** */
-let autoScrollFalg=true;
 
-function autoScroller(){
-  if(!autoScrollFalg) return;
-  console.log("Entering Here");
-  let tag=document.querySelector('.main-category-wrapper .category-wrapper');
-    console.log(tag.scrollWidth,tag.scrollLeft);
-    if(tag.scrollLeft+tag.offsetWidth>=tag.scrollWidth){
-      tag.scrollLeft=0;
-    }
-    tag.scrollLeft+=100;
+
+let svgi=1;
+
+
+function carousel(){
+  document.querySelector('.banner-card img').src=`../assets/images/banner${svgi}.svg`;
+  svgi++;
+  if(svgi>3){
+    svgi=1;
+  }
 }
 
 const category_cont=document.querySelectorAll('.main-category-wrapper');
@@ -301,7 +301,6 @@ category_cont.forEach(data=>{
     setTimeout(()=>{
       autoScrollFalg=true;
     },2000);
-    console.log(crdCont.scrollLeft);
   });
   crdCont.addEventListener("mousedown",(e)=>{
     dragFlag=true;
@@ -312,7 +311,6 @@ category_cont.forEach(data=>{
     crdCont.querySelectorAll('.card').forEach(d=>{
       d.style.cursor="grabbing";
     });
-    console.log(e);
   })
   crdCont.addEventListener("mouseup",(e)=>{
     dragFlag=false;
@@ -323,7 +321,6 @@ category_cont.forEach(data=>{
     setTimeout(()=>{
       autoScrollFalg=true;
     },2000);
-    console.log(e);
   })
   crdCont.addEventListener("mousemove",(e)=>{
     if(!dragFlag) return;
@@ -342,4 +339,4 @@ category_cont.forEach(data=>{
   });
 })
 
-setInterval(autoScroller,3000);
+setInterval(carousel,8000);
