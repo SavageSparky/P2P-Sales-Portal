@@ -160,7 +160,6 @@ function redirector() {
 function main_div_loader(txt) {
   const main_tag = document.querySelector("main");
   main_tag.style.flexDirection='unset';
-  autoScrollFalg=false;
   main_tag.innerHTML = "";
   suggestions[txt].forEach((data) => {
     cardUpdater(data);
@@ -261,7 +260,7 @@ window.addEventListener("click", (e) => {
 /********************************Drag Functionality for cards in home page*********************************** */
 
 
-let svgi=1;
+let svgi=2;
 
 
 function carousel(){
@@ -286,25 +285,15 @@ category_cont.forEach(data=>{
     if(crdCont.scrollLeft<=0){
       crdCont.scrollLeft=0;
     }
-    autoScrollFalg=false;
-    setTimeout(()=>{
-      autoScrollFalg=true;
-    },2000);
-    console.log(crdCont.scrollLeft);
   });
   rightBtn.addEventListener('click',()=>{
     crdCont.scrollLeft+=280;
     if(crdCont.scrollLeft+crdCont.offsetWidth>=crdCont.scrollWidth){
       crdCont.scrollLeft=crdCont.scrollWidth;
     }
-    autoScrollFalg=false;
-    setTimeout(()=>{
-      autoScrollFalg=true;
-    },2000);
   });
   crdCont.addEventListener("mousedown",(e)=>{
     dragFlag=true;
-    autoScrollFalg=false;
     prevX=e.pageX-crdCont.offsetLeft;
     scrollLeft=crdCont.scrollLeft;
     crdCont.style.cursor="grabbing";
@@ -318,9 +307,6 @@ category_cont.forEach(data=>{
     crdCont.querySelectorAll('.card').forEach(d=>{
       d.style.cursor="pointer";
     });
-    setTimeout(()=>{
-      autoScrollFalg=true;
-    },2000);
   })
   crdCont.addEventListener("mousemove",(e)=>{
     if(!dragFlag) return;
@@ -339,4 +325,4 @@ category_cont.forEach(data=>{
   });
 })
 
-setInterval(carousel,8000);
+setInterval(carousel,5000);
