@@ -131,6 +131,7 @@ ul {
     height: auto;
     user-select: none;
     -webkit-user-drag: none;
+    /* animation: blinker 5s ease infinite; */
 }
 
 .nav-arrow-cont{
@@ -294,4 +295,14 @@ ul {
 .blurrer{
     filter: blur(5px);
     pointer-events: none;
+}
+
+@keyframes blinker {
+    0%{opacity: 0;}
+    10%{opacity: 0;}
+    35%{opacity: 1;}
+    50%{opacity: 1;}
+    75%{opacity: 1;}
+    85%{opacity: 1;}
+    100%{opacity: 0;}
 }
