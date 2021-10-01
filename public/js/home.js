@@ -276,6 +276,7 @@ let svgi=1;
 function carousel(){
   if(!carouselFlag) return;
   const banner=document.querySelector('.banner-card img');
+  banner.style.animation='blinker 5s ease infinite';
   banner.src=`../assets/images/banner${svgi}.svg`;
   svgi++;
   if(svgi>3){

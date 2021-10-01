@@ -131,7 +131,7 @@ ul {
     height: auto;
     user-select: none;
     -webkit-user-drag: none;
-    animation: blinker 5s ease infinite;
+    /* animation: blinker 5s ease infinite; */
 }
 
 .nav-arrow-cont{
