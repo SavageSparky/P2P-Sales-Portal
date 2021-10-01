@@ -17,6 +17,7 @@
             <div><div></div></div>
             <div><div></div></div>
             </div></div>
+        <div class="message-txt"></div>
     </div>
 
     <header>
@@ -103,13 +104,28 @@
 
                 <div class="contents">
                     <label for="pro_scale">Measuring Scale</label>
-                    <input class="input_area"
+                    <!-- <input class="input_area"
                     type="text"
                     id="pro_scale"
                     name="prod_scale"
                     placeholder="ex: piece / kg / gm / litre"
                     required
-                    >
+                    > -->
+                    <select name="pro_scale" class="input_area" id="pro_sclae">
+                        <option value="kg (kilogram)">kg (kilogram)</option>
+                        <option value="g (gram)">g (gram)</option>
+                        <option value="mg (milli gram)">mg (milligram)</option>
+                        <option value="m (metre)">m (metre)</option>
+                        <option value="cm (centimetre)">cm (centimetre)</option>
+                        <option value="l (litre)">l (litre)</option>
+                        <option value="ml (milli litre)">ml (milli litre)</option>
+                        <option value="in (inches)">in (inche)</option>
+                        <option value="ft (feet)">ft (feet)</option>
+                        <option value="q (quintal)">q (quintal)</option>
+                        <option value="ton (tonne)">ton (tonne)</option>
+                        <option value="sippam (sack)">sippam (sack)</option>
+                        <option value="piece">piece</option>
+                    </select>
                 </div>
 
                 <div class="contents">
@@ -127,13 +143,28 @@
 
                 <div class="contents">
                     <label for="type">Type</label>
-                    <input class="input_area"
+                    <!-- <input class="input_area"
                     type="text"
                     id="type"
                     name="type"
                     placeholder=""
                     required
-                    >
+                    > -->
+                    <select name="type" class="input_area" id="type">
+                        <option value="Electronics">Electronics</option>
+                        <option value="Food">Food</option>
+                        <option value="Fertilizers">Fertilizers</option>
+                        <option value="Groceries">Groceries</option>
+                        <option value="Farming and Garden">Farming and Garden</option>
+                        <option value="Vegetables">Vegetables</option>
+                        <option value="Mobiles and Accessories">Mobiles and Accessories</option>
+                        <option value="Fashion">Fashion</option>
+                        <option value="Herbs and Related">Herbs and Related</option>
+                        <option value="Vehicles and Accessories">Vehicles and Accessories</option>
+                        <option value="Furniture">Furniture</option>
+                        <option value="Work and Household Tools">Work and Household Tools</option>
+                        <option value="Others">Others</option>
+                    </select>
                 </div>
 
                 <div class="contents">
