@@ -112,7 +112,6 @@ function date_splitter(date) {
 
 async function cardUpdater(p_id) {
   let data = await db_get(db, `product/${p_id}`);
-  console.log(data);
   data = await data.val();
   console.log(data);
   document.querySelector("main").innerHTML += `

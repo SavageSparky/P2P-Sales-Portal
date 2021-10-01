@@ -3,15 +3,25 @@ import { db_get, firebaseConfig } from "./firebase-util.js";
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
+// variables
+const mainPanel = document.querySelector('.main_panel');
+const sidePanel = document.querySelector('.side_panel');
+const cardSection = document.querySelector('.card_section');
+
+
+
 firebase.auth().onAuthStateChanged(async (user) => {
   if (user) {
     document.querySelector(".loading-cont").style.display = "none";
     let user_id = user.uid;
     let adone = await db_get(firebase.database(), `user/${user_id}`);
     adone = adone.val();
-    console.log(adone);
+    // console.log(adone);
     if (adone === null) {
       location.href = "/index.html";
+    }
+    else {
+      fetchPdtIds(user_id);
     }
   } else {
     document.querySelector(".loading-cont").style.display = "flex";
@@ -20,18 +30,125 @@ firebase.auth().onAuthStateChanged(async (user) => {
 });
 
 
+function date_splitter(date) {
+  date = date.split("-");
+  // console.log(date);
+  let txt;
+  switch (+date[1]) {
+    case 1:
+      txt = `${date[2]} Jan ${date[0]}`;
+      break;
+    case 2:
+      txt = `${date[2]} Feb ${date[0]}`;
+      break;
+    case 3:
+      txt = `${date[2]} Mar ${date[0]}`;
+      break;
+    case 4:
+      txt = `${date[2]} Apr ${date[0]}`;
+      break;
+    case 5:
+      txt = `${date[2]} May ${date[0]}`;
+      break;
+    case 6:
+      txt = `${date[2]} Jun ${date[0]}`;
+      break;
+    case 7:
+      txt = `${date[2]} Jul ${date[0]}`;
+      break;
+    case 8:
+      txt = `${date[2]} Aug ${date[0]}`;
+      break;
+    case 9:
+      txt = `${date[2]} Sept ${date[0]}`;
+      break;
+    case 10:
+      txt = `${date[2]} Oct ${date[0]}`;
+      break;
+    case 11:
+      txt = `${date[2]} Nov ${date[0]}`;
+      break;
+    case 12:
+      txt = `${date[2]} Dec ${date[0]}`;
+      break;
+  }
+  // console.log(txt);
+  return txt;
+}
+
+//main panel fetch
+async function fetchPdtIds(user_id) {
+  let userProducts = await db.ref(`user/${user_id}/products`).get();
+  userProducts = userProducts.val();
+  console.log(userProducts);
+  for(let key in userProducts) {
+    await cardUpdater(userProducts[key]);
+  }
+  enableCardEvents();
+}
+
+
+async function cardUpdater(p_id) {
+  let data = await db_get(db, `product/${p_id}`);
+  data = await data.val();
+  // console.log(data);
+  cardSection.innerHTML += `
+    <div class="card" data-id="${p_id}">
+    <div class="prodcut_img_wrap">
+    <img class="product_icon" src=${data["profile-img"]} alt="">
+    </div>
+    <ul class="card_main_text">
+        <li><h3 class="product_name">${data["name"]}</h3></li>
+        <li><h3 class="price">Rs. ${data["price"]}</h3></li>
+    </ul>
+    <ul class="card_body_text">
+        <li>
+            <img src="../assets/icons/capacity.svg" alt="">
+            <h4 class="quantity">${data["remaining"]}/${data["quantity"]}</h4>
+        </li>
+        <li>
+            <img src="../assets/icons/location.svg" alt="">
+            <h4 class="address">${data["street"]},${data["area"]}</h4>
+        </li>
+        <li>
+            <img src="../assets/icons/info.svg" alt="">
+            <h4 class="category">${data["type"]}</h4>
+        </li>
+    </ul>
+    <div class="end_time_div">
+        <img src="../assets/icons/timer.svg" alt="">
+        <h4 class="due_date">Ends in: ${date_splitter(data["due-date"])}</h4>
+    </div>
+    <div class="badges">
+        ${
+          data["delivery-available"] === "Yes"
+            ? `<img src="../assets/icons/delivery_icon.svg" alt="">`
+            : ``
+        }
+    </div>
+    <div class="ribbons">
+        <p>Featured</p>
+    </div>
+</div>
+    `;
+}
+
 // card click
-const cards = document.querySelectorAll('.card');
-const mainPanel = document.querySelector('.main_panel');
-const sidePanel = document.querySelector('.side_panel');
-cards.forEach((card) => {
+function enableCardEvents() {
+  const cards = document.querySelectorAll('.card');
+  cards.forEach((card) => {
     card.addEventListener('click', () => {
         sidePanel.classList.toggle('triggered');
         mainPanel.classList.toggle('side_panel_space');
-    })
-})
+    });
+  });
+}
+
 
 // side panel
+function buyerUpdater(){
+  
+}
 const buyers = document.querySelectorAll('.buyer');
 buyers.forEach( (buyer)=> {
     buyer.addEventListener('click', () => {

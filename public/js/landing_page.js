@@ -189,6 +189,7 @@ document.getElementById('quantity').addEventListener('input', function (){
 const buy_button = document.querySelector('.buy_button');
 const confirm_window = document.querySelector('.confirm_window');
 const confirmWindow_cancel = document.getElementById("cancel");
+const confirmWindow_confirm = document.getElementById('confirm');
 const main_div = document.querySelector("main");
 
 buy_button.addEventListener("click", ()=>{
@@ -213,13 +214,33 @@ buy_button.addEventListener("click", ()=>{
         <td><h3 class="cw_amount_label">Final Amount</h3></td>
         <td><h3 class="cw_amount cw_details">Rs.${final_price}</h3></td>
     </tr>
-    `
+    `;
 })
 
 confirmWindow_cancel.addEventListener('click', ()=> {
     confirm_window.classList.toggle('none');
     main_div.classList.toggle('background_disabled');
     main_div.style.filter = "none";
+})
+
+/*************************** place Buy request **********************************/ 
+
+confirmWindow_confirm.addEventListener('click', ()=> {
+    let order_object = {
+        "quantity_0": final_qty;
+    }
+    if(data.hasOwnProperty("buy_requests")){
+        if(data.buy_requests.hasOwnProperty(user_id)) {
+            data.buy_requests[user_id]
+        }
+        else {
+            db.ref(`product/${id}/buy_requests`).set(order_object)
+        }
+    }
+    else {
+
+    }
+    
 })
 
 
