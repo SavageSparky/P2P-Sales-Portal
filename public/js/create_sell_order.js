@@ -7,7 +7,8 @@ let firstClick=false;
 let imagesArr=[];
 let district;
 document.querySelector('nav').style.display='none';
-
+const loading_not=document.querySelector('.message-txt');
+loading_not.style.display='none';
 
 
 firebase.auth().onAuthStateChanged(async (user) => {
@@ -33,26 +34,38 @@ firebase.auth().onAuthStateChanged(async (user) => {
 
   let cnt=0;
   let scnt=0;
+  let profileImgUrl;
+  let desImgsUrl=[];
   function firebase_img_uploader(file,type,pid){
     const file_name=(type==='profile')?`${pid}-product-profile`:`${pid}-product-${scnt}`;
     const imagesRef = firebase.storage().ref(`images/${user_id}/products/${pid}`);
     let upload_task=imagesRef.child(file_name).put(file);
     scnt++;
+    loading_not.textContent="Images are Uploading...Please Wait";
     upload_task.on('state_changed',
     (snapshot) => {}, 
     (error) => {
         console.log(error);
+        loading_not.textContent="Error in Uploading the Image...Please Try Again";
+        setTimeout(()=>{
+            loading_not.textContent=''
+            document.querySelector('.loading-cont').style.display='none';
+        },2000);
     },
     ()=>{
             imagesRef.child(file_name).getDownloadURL().then((url)=>{
                 if(type==='profile'){
-                    db_insert(firebase.database(),`product/${pid}/profile-img`,url);
+                    profileImgUrl=url;
                     all_done_arr++;
                 }
                 else{
-                    db_insert(firebase.database(),`product/${pid}/product-des-imgs/${cnt}`,url);
+                    desImgsUrl.push(url);
                     cnt++;
                     all_done_arr++;
+                }
+                if(all_done_arr===imagesArr.length){
+                    loading_not.textContent="Datas are Uploading...Please Wait"
+                    dbUploader();
                 }
             });
       }
@@ -72,6 +85,9 @@ const date_inp=document.querySelector('input[type=date]');
 let all_done_arr=0;
 let area;
 const description=document.querySelector('.textarea');
+const pid=pushKey(firebase.database(),'/product',`${user_id}`);
+const input_elements=document.querySelectorAll('.input_area');
+
 const fileTypes = [
     "image/apng",
     "image/bmp",
@@ -235,6 +251,69 @@ pincode_tag.addEventListener('input',async ()=>{
     }
 })
 
+
+function dbUploader(){
+    let suggestions=[...document.querySelector('.selected_suggestions').querySelectorAll('div')];
+    suggestions=suggestions.map((data)=>{
+        return regex_rem(data.querySelector('p').textContent.toLowerCase());
+    })
+    suggestions.push(regex_rem(input_elements[0].value));
+    console.log(suggestions);
+    let radio_val;
+    document.querySelectorAll('input[type=radio]').forEach(data=>{
+        if(data.checked){
+            radio_val=data.value;
+        }
+    })
+
+    
+    let main_data_obj={
+        pid,
+        "profile-img":profileImgUrl,
+        "product-des-imgs":desImgsUrl,
+        "user-id":user_id,
+        "name":regex_rem(input_elements[0].value),
+        "price":regex_rem(input_elements[1].value),
+        "quantity":regex_rem(input_elements[2].value),
+        "remaining":regex_rem(input_elements[2].value),
+        'productScale':regex_rem(input_elements[3].value),
+        'minOrders':regex_rem(input_elements[4].value),
+        "type":regex_rem(input_elements[5].value),
+        "due-date":regex_rem(input_elements[6].value),
+        "pincode":regex_rem(input_elements[7].value),
+        "area":regex_rem(input_elements[8].value),
+        "subArea":regex_rem(input_elements[9].value),
+        "street":regex_rem(input_elements[10].value),
+        "delivery-available":radio_val,
+        "description":input_elements[12].innerHTML,
+        "suggestions":suggestions,
+        "district":district
+    };
+
+    console.log(main_data_obj);
+
+    suggestions.forEach(async d=>{
+        db_insert(firebase.database(),`suggestions/${d}/${pid}`,pid);
+    });
+
+    db_insert(firebase.database(),`user/${user_id}/products/${pid}`,pid);
+    firebase.database().ref(`product/${pid}`).set(main_data_obj,(error)=>{
+        if(error){
+            loading_not.textContent="Error in Uploading Data...Please Try again";
+            setTimeout(()=>{
+                loading_not.textContent="";
+                document.querySelector('.loading-cont').style.display='none';
+            },1000);
+        }else{
+            loading_not.textContent="Product added Successfully....Redirecting";
+            setTimeout(()=>{
+                location.href='/pages/home.html';    
+            },1000);       
+        }
+    });
+}
+
+
 submit_btn.addEventListener("click",async (e)=>{
     // e.preventDefault();
     if(profile_idx===null){
@@ -251,8 +330,6 @@ submit_btn.addEventListener("click",async (e)=>{
         },3000)
         return;
     }
-    const pid=pushKey(firebase.database(),'/product',`${user_id}`);
-    const input_elements=document.querySelectorAll('.input_area');
     let returner=0;
     await input_elements.forEach((data,indexx)=>{
         if(data.value===null || data.value==='null' || data.value==="" && indexx!==11){
@@ -276,87 +353,26 @@ submit_btn.addEventListener("click",async (e)=>{
         returner=1;
     }
     if(returner===1) return;
+    document.querySelector('.loading-cont').style.display='flex';
+    loading_not.style.display='unset';
     firebase_img_uploader(imagesArr[profile_idx],'profile',pid);
     const product_des_img_arr=[];
-    let suggestions=[...document.querySelector('.selected_suggestions').querySelectorAll('div')];
-    suggestions=suggestions.map((data)=>{
-        return regex_rem(data.querySelector('p').textContent);
-    })
-    suggestions.push(regex_rem(input_elements[0].value));
-    console.log(suggestions);
     imagesArr.forEach((data,index)=>{
         if(index!=profile_idx)
             product_des_img_arr.push(firebase_img_uploader(data,"abc",pid));
     })
-    let radio_val;
-    document.querySelectorAll('input[type=radio]').forEach(data=>{
-        if(data.checked){
-            radio_val=data.value;
-        }
-    })
-
-    
-    let main_data_obj={
-        pid,
-        "user-id":user_id,
-        "name":regex_rem(input_elements[0].value),
-        "price":regex_rem(input_elements[1].value),
-        "quantity":regex_rem(input_elements[2].value),
-        "remaining":regex_rem(input_elements[2].value),
-        'productScale':regex_rem(input_elements[3].value),
-        'minOrders':regex_rem(input_elements[4].value),
-        "type":regex_rem(input_elements[5].value),
-        "due-date":regex_rem(input_elements[6].value),
-        "pincode":regex_rem(input_elements[7].value),
-        "area":regex_rem(input_elements[8].value),
-        "subArea":regex_rem(input_elements[9].value),
-        "street":regex_rem(input_elements[10].value),
-        "delivery-available":radio_val,
-        "description":input_elements[12].innerHTML,
-        "suggestions":suggestions,
-        "district":district
-    };
-
-    console.log(main_data_obj);
-
-    let p=await db_get(firebase.database(),`user/${user_id}/products`)
-    suggestions.forEach(async d=>{
-        let temp=await db_get(firebase.database(),`suggestions/${d}`);
-        temp=temp.val();
-        let sug_arr;
-        if(temp!==null){
-            sug_arr=[...temp];
-        }
-        else{
-            sug_arr=[];
-        }
-        sug_arr.push(pid);
-        db_insert(firebase.database(),`suggestions/${d}`,sug_arr);
-    })
-    let user_products;
-    p=p.val();
-    if(p!==null){
-        user_products=[...p];
-    }
-    else{
-        user_products=[];
-    }
-    user_products.push(pid);
-    db_insert(firebase.database(),`user/${user_id}/products`,user_products);
-    db_insert(firebase.database(),`product/${pid}`,main_data_obj);
-    document.querySelector('.loading-cont').style.display='flex';
-    setInterval(pageRedirector,550);
+    // setInterval(pageRedirector,550);
 })
 
 clicker();
 
-function pageRedirector(){
-    if(imagesArr.length===all_done_arr){
-        setTimeout(()=>{
-            location.href='/pages/home.html';
-        },100);
-    }
-}
+// function pageRedirector(){
+//     if(imagesArr.length===all_done_arr){
+//         setTimeout(()=>{
+//             location.href='/pages/home.html';
+//         },100);
+//     }
+// }
 
 const suggestion_input = document.querySelector('#search_suggestions');
 const selected_suggestions = document.querySelector('.selected_suggestions');
