@@ -8,9 +8,18 @@ const suggestions_cont = document.querySelector(".suggestions-cont");
 suggestions = suggestions.val();
 console.log(suggestions);
 const suggestors = [];
+let carouselFlag=true;
+
 for (const key in suggestions) {
   suggestors.push(key);
+  let temp_arr=[];
+  for(const keyer in suggestions[key]){
+    temp_arr.push(keyer);
+  }
+  suggestions[key]=temp_arr;
 }
+
+console.log(suggestions);
 
 firebase.auth().onAuthStateChanged(async (user) => {
   if (user) {
@@ -160,6 +169,7 @@ function redirector() {
 function main_div_loader(txt) {
   const main_tag = document.querySelector("main");
   main_tag.style.flexDirection='unset';
+  carouselFlag=false;
   main_tag.innerHTML = "";
   suggestions[txt].forEach((data) => {
     cardUpdater(data);
@@ -264,6 +274,7 @@ let svgi=2;
 
 
 function carousel(){
+  if(!carouselFlag) return;
   document.querySelector('.banner-card img').src=`../assets/images/banner${svgi}.svg`;
   svgi++;
   if(svgi>3){
