@@ -270,12 +270,13 @@ window.addEventListener("click", (e) => {
 /********************************Drag Functionality for cards in home page*********************************** */
 
 
-let svgi=2;
+let svgi=1;
 
 
 function carousel(){
   if(!carouselFlag) return;
-  document.querySelector('.banner-card img').src=`../assets/images/banner${svgi}.svg`;
+  const banner=document.querySelector('.banner-card img');
+  banner.src=`../assets/images/banner${svgi}.svg`;
   svgi++;
   if(svgi>3){
     svgi=1;
@@ -336,4 +337,5 @@ category_cont.forEach(data=>{
   });
 })
 
+carousel();
 setInterval(carousel,5000);
