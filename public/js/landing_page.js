@@ -424,6 +424,13 @@ function starsReturner(num){
 document.querySelector('.post_new_review button').addEventListener("click",()=>{
     document.querySelector('.post_new_review').style.display='none';
     document.querySelector('.my_review').style.display='unset';
+    let tmp=window.location.href.toString().match(/([a-z]{4,5}:\/{2}[a-z:0-9\.-]{1,}\/)/gm);
+    let imgSrc=tmp[0];
+    const img_icon=myReviewCont.querySelector('.icon_cont img');
+    img_icon.src=`${imgSrc}assets/icons/off_close.svg`;
+    myReviewCont.querySelector('.review_subject').contentEditable="true";
+    myReviewCont.querySelector('.main_review_cont').contentEditable="true";
+    star_cont.style.pointerEvents="auto";
 });
 
 async function defaultUserCmntData(){
