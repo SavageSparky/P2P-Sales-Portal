@@ -369,25 +369,7 @@ function star_hover_eventListeners(){
     })
 }
 
-function star_eventListenersRemover(){
-    star_cont.removeEventListener("mousedown",(e)=>{
-        star_num=+e.target.id;
-        if(star_num!==prev_rating){
-                postBtnArr[0]=1;
-        }
-        else{
-            postBtnArr[0]=0;
-        }
-        postButtonToggler(postBtnArr);
-    },false);
-    star_cont.removeEventListener("mousemove",(e)=>{
-        if(e.target.id.length===0) return; 
-        star_hover_highlighter(e.target.id);
-    },false);
-    star_cont.removeEventListener("mouseleave",(e)=>{
-        star_hover_highlighter(star_num);
-    },false);
-}
+
 /************************************************************************************************** */
 
 /**************************************************User Comment Poster*****************************************/
@@ -638,13 +620,13 @@ postButton.addEventListener('click',(e)=>{
     postButton.disabled=true;
     user_cmt_data={
         'rating':star_num,
-        'heading':myReviewCont.querySelector('.review_subject').textContent.trim(),
+        'heading':myReviewCont.querySelector('.review_subject').innerHTML.trim(),
         'comment':myReviewCont.querySelector('.main_review_cont').innerHTML.trim(),
         'user_id':user_id,
         'date':date_splitter(new Date().toISOString().slice(0, 10))
     }
     db_insert(db,`/product/${id}/comments/${user_id}`,user_cmt_data);
-    prev_cmnt_heading=myReviewCont.querySelector('.review_subject').textContent.trim();
+    prev_cmnt_heading=myReviewCont.querySelector('.review_subject').innerHTML.trim();
     prev_cmnt_body=myReviewCont.querySelector('.main_review_cont').innerHTML.trim();
     prev_rating=star_num;
     postBtnArr=[0,0,0];
