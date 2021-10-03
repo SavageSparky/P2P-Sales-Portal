@@ -15,6 +15,7 @@ let prev_cmnt_body='Review Description';
 let user_cmt_data;
 const ratings_reviews_cont=document.querySelector('.rating_reviews');
 let postBtnArr=[0,0,0]
+let prevCommentFilledFlag=false;
 
 firebase.auth().onAuthStateChanged(async (user) => {
     if(user){
@@ -227,7 +228,7 @@ confirmWindow_cancel.addEventListener('click', ()=> {
 
 confirmWindow_confirm.addEventListener('click', ()=> {
     let order_object = {
-        "quantity_0": final_qty;
+        "quantity_0": final_qty
     }
     if(data.hasOwnProperty("buy_requests")){
         if(data.buy_requests.hasOwnProperty(user_id)) {
@@ -346,26 +347,47 @@ function star_hover_highlighter(num){
     })
 }
 
-star_cont.addEventListener("mousedown",(e)=>{
-    star_num=+e.target.id;
-    if(star_num!==prev_rating){
-            postBtnArr[0]=1;
-    }
-    else{
-        postBtnArr[0]=0;
-    }
-    postButtonToggler(postBtnArr);
-})
+function star_hover_eventListeners(){
+    star_cont.addEventListener("mousedown",(e)=>{
+        star_num=+e.target.id;
+        if(star_num!==prev_rating){
+                postBtnArr[0]=1;
+        }
+        else{
+            postBtnArr[0]=0;
+        }
+        postButtonToggler(postBtnArr);
+    })
 
-star_cont.addEventListener("mousemove",(e)=>{
-    if(e.target.id.length===0) return; 
-    star_hover_highlighter(e.target.id);
-})
+    star_cont.addEventListener("mousemove",(e)=>{
+        if(e.target.id.length===0) return; 
+        star_hover_highlighter(e.target.id);
+    })
 
-star_cont.addEventListener("mouseleave",(e)=>{
-    star_hover_highlighter(star_num);
-})
+    star_cont.addEventListener("mouseleave",(e)=>{
+        star_hover_highlighter(star_num);
+    })
+}
 
+function star_eventListenersRemover(){
+    star_cont.removeEventListener("mousedown",(e)=>{
+        star_num=+e.target.id;
+        if(star_num!==prev_rating){
+                postBtnArr[0]=1;
+        }
+        else{
+            postBtnArr[0]=0;
+        }
+        postButtonToggler(postBtnArr);
+    },false);
+    star_cont.removeEventListener("mousemove",(e)=>{
+        if(e.target.id.length===0) return; 
+        star_hover_highlighter(e.target.id);
+    },false);
+    star_cont.removeEventListener("mouseleave",(e)=>{
+        star_hover_highlighter(star_num);
+    },false);
+}
 /************************************************************************************************** */
 
 /**************************************************User Comment Poster*****************************************/
@@ -386,11 +408,19 @@ let commnetsDbRef=db.ref(`product/${id}/comments`);
 commnetsDbRef.on('child_added',(comments_data)=>{
     comments_data=comments_data.val();
     comment_filler(comments_data);
+    console.log(prevCommentFilledFlag);
+    // if(prevCommentFilledFlag===false){
+    //     console.log("Entering here prev comment")
+    //     postFirstCommentShower();
+    // }
+    // else{
+    //     document.querySelector('.post_new_review').style.display='none';
+    //     document.querySelector('.my_review').style.display='unset';
+    // }
 });
 
 commnetsDbRef.on('child_changed',(data)=>{
     data=data.val();
-    console.log(data);
     if(data['user_id']===user_id) return;
     comment_Modifier(data);
 })
@@ -407,6 +437,12 @@ function starsReturner(num){
 }
 
 
+
+/******************************Post a new review********************************* */
+document.querySelector('.post_new_review button').addEventListener("click",()=>{
+    document.querySelector('.post_new_review').style.display='none';
+    document.querySelector('.my_review').style.display='unset';
+});
 
 async function defaultUserCmntData(){
     let user_details=await db_get(db,`/user/${user_id}`);
@@ -487,6 +523,8 @@ async function comment_filler(user_cmt_data){
         prev_rating=user_cmt_data['rating'];
         myReviewCont.querySelector('.review_subject').textContent=user_cmt_data['heading'];
         myReviewCont.querySelector('.main_review_cont').innerHTML=user_cmt_data['comment'];
+        document.querySelector('.post_new_review').style.display='none';
+        document.querySelector('.my_review').style.display='unset';
     }
     else{
         ratings_reviews_cont.innerHTML+=`<div class="user_review" data-cmntid="${user_cmt_data['user_id']}">
@@ -609,7 +647,14 @@ postButton.addEventListener('click',(e)=>{
     prev_cmnt_heading=myReviewCont.querySelector('.review_subject').textContent.trim();
     prev_cmnt_body=myReviewCont.querySelector('.main_review_cont').innerHTML.trim();
     prev_rating=star_num;
-    postBtnArr=[0,0,0]
+    postBtnArr=[0,0,0];
+    let tmp=window.location.href.toString().match(/([a-z]{4,5}:\/{2}[a-z:0-9\.-]{1,}\/)/gm);
+    let imgSrc=tmp[0];
+    const img_icon=myReviewCont.querySelector('.icon_cont img');
+    img_icon.src=`${imgSrc}assets/icons/edit.svg`;
+    myReviewCont.querySelector('.review_subject').contentEditable="false";
+    myReviewCont.querySelector('.main_review_cont').contentEditable="false";
+    star_cont.style.pointerEvents="none";
 })
 
 function liker(){
@@ -638,3 +683,32 @@ function liker(){
         })
     })
 }
+
+/*************************************Edit a Review*********************************** */
+myReviewCont.querySelector('.icon_cont').addEventListener("click",()=>{
+    let tmp=window.location.href.toString().match(/([a-z]{4,5}:\/{2}[a-z:0-9\.-]{1,}\/)/gm);
+    let imgSrc=tmp[0];
+    const img_icon=myReviewCont.querySelector('.icon_cont img');
+
+    if(img_icon.src===`${imgSrc}assets/icons/edit.svg`){
+        img_icon.src=`${imgSrc}assets/icons/off_close.svg`;
+        myReviewCont.querySelector('.review_subject').contentEditable="true";
+        myReviewCont.querySelector('.main_review_cont').contentEditable="true";
+        star_cont.style.pointerEvents="auto";
+    }
+    else{
+        img_icon.src=`${imgSrc}assets/icons/edit.svg`;
+        myReviewCont.querySelector('.review_subject').contentEditable="false";
+        myReviewCont.querySelector('.main_review_cont').contentEditable="false";
+        myReviewCont.querySelector('.review_subject').innerHTML=prev_cmnt_heading;
+        myReviewCont.querySelector('.main_review_cont').innerHTML=prev_cmnt_body;
+        star_num=prev_rating;
+        star_hover_highlighter(star_num);
+        postBtnArr=[0,0,0];
+        postButtonToggler(postBtnArr);
+        star_cont.style.pointerEvents="none";
+    }
+})
+
+star_cont.style.pointerEvents='none';
+star_hover_eventListeners();
