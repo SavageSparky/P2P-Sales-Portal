@@ -511,6 +511,34 @@ h4 {
     z-index: 10;
 }
 
+.confirm_section {
+    display: flex;
+    flex-direction: column;
+}
+
+.order_successful_section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#success_tick {
+    height: 80px;
+    width: 80px;
+    margin: 20px 0 30px;
+    padding: 1rem;
+    border-radius: 50%;
+    border: solid 2px var(--green-light);
+}
+
+#close_button {
+    background-color: var(--green-light);
+}
+
+#close_button:hover {
+    background-color: var(--green-dark);
+}
+
 .confirm_window table {
     padding: 1rem;
     align-self: center;
@@ -527,12 +555,13 @@ h4 {
     justify-content: space-between;
 }
 
-#cancel, #confirm {
+#cancel, #confirm, #close_button {
     padding: 0.5rem 3rem;
     border: none;
     font-size: 1.1rem;
     border-radius: 1rem;
     color: white;
+    cursor: pointer;
 }
 
 #cancel {
@@ -540,7 +569,6 @@ h4 {
 }
 #cancel:hover {
     background-color: rgb(252, 55, 55);
-    cursor: pointer;
 }
 
 #confirm {
@@ -548,7 +576,6 @@ h4 {
 }
 #confirm:hover {
     background-color: var(--green-dark);
-    cursor: pointer;
 }
 
 .none {
