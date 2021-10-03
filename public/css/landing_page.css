@@ -10,6 +10,7 @@ main{
     /* padding: 2rem 10vw; */
     padding: 0rem 4rem;
     padding-top: calc(60px + 2rem);
+    padding-bottom: 3rem;
     /* flex-wrap: wrap; */
     justify-content: center;
 }
@@ -84,6 +85,9 @@ h4 {
     margin: 0 0.5rem;
     height: 128px;
     width: 128px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
     background-color: white;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.253);
     border-radius: 5px;
@@ -260,11 +264,49 @@ h4 {
 }
 
 .my_review{
+    display: none;
     padding: 2rem;
     border-radius: 0.5rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.253);
     background-color: var(--card-white);
     overflow: auto;
+    position: relative;
+}
+
+.my_review .icon_cont{
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    cursor: pointer;
+}
+
+.my_review .icon_cont img{
+    width: 25px;
+    height: 25px;
+    -webkit-user-drag: none;
+}
+
+.post_new_review{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.253);
+    background-color: var(--card-white);
+}
+
+.post_new_review button{
+    margin: 1rem;
+    padding: 0.3rem 1rem;
+    border-radius: 2rem;
+    border: none;
+    background-color: var(--green-light);
+    color: white;
+    font-size: 0.8rem;
+    cursor: pointer;
 }
 
 .user_review{
@@ -292,7 +334,6 @@ h4 {
 }
 
 .user_pic_cont img{
-    width: 60px;
     height: auto;
     pointer-events: none;
 }
@@ -329,6 +370,7 @@ h4 {
 }
 
 .review_subject {
+    outline: transparent;
     padding-left: 1rem;
     border-left: solid 2px rgb(209, 209, 209);
 }
@@ -412,6 +454,7 @@ h4 {
 .seller_img_wrap {
     margin: 2.5rem 1.5rem 1rem;
     display: flex;
+    justify-content: center;
     align-items: center;
     overflow: hidden;
     width: 220px;
