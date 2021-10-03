@@ -188,8 +188,11 @@ document.getElementById('quantity').addEventListener('input', function (){
 /**********************Confirm window ********************/
 const buy_button = document.querySelector('.buy_button');
 const confirm_window = document.querySelector('.confirm_window');
+const confirm_section = document.querySelector('.confirm_section');
+const confirm_success = document.querySelector('.order_successful_section');
 const confirmWindow_cancel = document.getElementById("cancel");
 const confirmWindow_confirm = document.getElementById('confirm');
+const confirm_window_close = document.getElementById('close_button');
 const main_div = document.querySelector("main");
 
 buy_button.addEventListener("click", ()=>{
@@ -227,22 +230,22 @@ confirmWindow_cancel.addEventListener('click', ()=> {
 
 confirmWindow_confirm.addEventListener('click', ()=> {
     let order_object = {
-        "quantity_0": final_qty;
+        "buyer": user_id,
+        "quantity": final_qty
     }
-    if(data.hasOwnProperty("buy_requests")){
-        if(data.buy_requests.hasOwnProperty(user_id)) {
-            data.buy_requests[user_id]
-        }
-        else {
-            db.ref(`product/${id}/buy_requests`).set(order_object)
-        }
-    }
-    else {
-
-    }
-    
+    const order = db.ref(`product/${id}/buy_requests`).push(order_object);
+    db.ref(`user/${user_id}/my_orders/${order.key}`).set(id);
+    confirm_section.classList.toggle('none');
+    confirm_success.classList.toggle('none');
 })
 
+confirm_window_close.addEventListener('click', ()=> {
+    confirm_success.classList.toggle('none');
+    confirm_window.classList.toggle('none');
+    main_div.classList.toggle('background_disabled');
+    main_div.style.filter = "none";
+    confirm_section.classList.toggle('none');
+})
 
 /*************************** Address and Description ******************************/
 document.querySelector('.description').innerHTML = `
