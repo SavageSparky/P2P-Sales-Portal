@@ -223,6 +223,7 @@ function main_div_loader(txt) {
   main_tag.style.flexDirection = "unset";
   carouselFlag = false;
   main_tag.innerHTML = "";
+  suggestions[txt]=[...new Set(suggestions[txt])];
   suggestions[txt].forEach((data) => {
     cardUpdater(data);
   });
