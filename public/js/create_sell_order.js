@@ -331,8 +331,7 @@ function dbUploader(){
         }else{
             loading_not.textContent="Product added Successfully....Redirecting";
             setTimeout(()=>{
-                // location.href='/pages/home.html';    
-                console.log('hello');
+                location.href='/pages/home.html';    
             },1000);       
         }
     });
