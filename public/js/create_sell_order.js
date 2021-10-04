@@ -354,7 +354,7 @@ submit_btn.addEventListener("click",async (e)=>{
         input_elements[12].textContent="Please Fill Out this Field";
     }
     
-    if(input_elements[1].value<=0 && input_elements[2].value<=0 && input_elements[4].value<=0 && input_elements[2].value<input_elements[4].value){
+    if(+input_elements[1].value<=0 || +input_elements[2].value<=0 || +input_elements[4].value<=0 || +input_elements[2].value < +input_elements[4].value){
 
         console.log('triggered 5');
         returner=1;
