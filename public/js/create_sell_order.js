@@ -268,7 +268,7 @@ function dbUploader(){
     suggestions=suggestions.map((data)=>{
         return regex_rem(data.querySelector('p').textContent.toLowerCase());
     })
-    suggestions.push(regex_rem(input_elements[0].value));
+    suggestions.push(regex_rem(input_elements[0].value.toLowerCase()));
     console.log(suggestions);
     let radio_val;
     document.querySelectorAll('input[type=radio]').forEach(data=>{
@@ -309,7 +309,7 @@ function dbUploader(){
         "product_price":+regex_rem(input_elements[1].value),
         "product_location":[input_elements[8].value,regex_rem(input_elements[9].value),district],
         "product_end_date":input_elements[6].valueAsNumber,
-        "product_type":input_elements[5].value,
+        "product_type":input_elements[5].value.toLowerCase,
         "product_suggestions":suggestions
     }
 
