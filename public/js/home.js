@@ -56,10 +56,8 @@ firebase.auth().onAuthStateChanged(async (user) => {
 });
 
 
-
-search_bar.addEventListener("input", async () => {
+async function inputTriggerer(){
   suggestions={};
-  let regexer = new RegExp(search_bar.value, "gi");
   suggestions_cont.classList.remove("none");
   suggestions_cont.innerHTML = "";
   currElement = null;
@@ -69,6 +67,7 @@ search_bar.addEventListener("input", async () => {
     query_by: "product_suggestions,product_type,product_location",
     highlight_start_tag: "",
     highlight_end_tag: "",
+    sort_by:"product_end_date:asc,product_price:asc",
     num_typos:"0"
   };
   
@@ -98,13 +97,13 @@ search_bar.addEventListener("input", async () => {
         }
       });
     });
+    suggestions_select();
   }
-  // suggestors.forEach((data, index) => {
-  //   if (data.match(regexer) !== null) {
-  //     suggestions_cont.innerHTML += `<div class="suggestions-list">${suggestors[index]}</div>`;
-  //     suggestions_select();
-  //   }
-  // });
+}
+
+
+search_bar.addEventListener("input", () => {
+  setTimeout(inputTriggerer,100);
 });
 
 function suggestions_select() {

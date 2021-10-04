@@ -303,11 +303,12 @@ function dbUploader(){
 
 
     let typeSenseJson={
+        "id":pid,
         "product_id":pid,
         "product_name":regex_rem(input_elements[0].value),
         "product_price":+regex_rem(input_elements[1].value),
-        "product_location":input_elements[8].value,
-        "product_end_date":input_elements[6].value,
+        "product_location":[input_elements[8].value,regex_rem(input_elements[9].value),district],
+        "product_end_date":input_elements[6].valueAsNumber,
         "product_type":input_elements[5].value,
         "product_suggestions":suggestions
     }
