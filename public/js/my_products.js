@@ -140,15 +140,66 @@ function enableCardEvents() {
     card.addEventListener('click', () => {
         sidePanel.classList.toggle('triggered');
         mainPanel.classList.toggle('side_panel_space');
+
+        const productId = card.dataset.id;
+        buyerUpdater(productId);
     });
   });
 }
 
 
 // side panel
-function buyerUpdater(){
-  
+async function buyerUpdater(productId){
+  // let buyRequests = await db.ref(`product/${productId}/price`).get();
+  let buyRequests = await db.ref(`product/${productId}/buy_requests`).get();
+  buyRequests = buyRequests.val();
+  console.log(buyRequests);
+  sidePanel.innerHTML = "";
+  for( let buyRequest in buyRequests) {
+    const buyerId = buyRequest[buyRequest].buyer;
+    const qty = buyRequest[buyRequest].quantity;
+    let buyerDetails = await db.ref(`user/${buyerId}`).get();
+    buyerDetails = buyerDetails.val();
+    
+    sidePanel.innerHTML += `
+      <div class="buyer">
+        <div class="buyer_overview">
+            <div class="buyer_details_container">
+                <div class="img_container">
+                    <img class="profile_img" src=${buyerDetails.profileImgUrl} alt="">
+                </div>
+                <div class="name_container">
+                    <h3 class="name">${buyerDetails.Name}</h3>
+                    <h5 class="place">${buyerDetails.area}</h5>
+                </div>
+            </div>
+            <div class="buy_size">
+                <h4 class="buy_amount">Rs. 20000</h4>
+                <h4 class="buy_units">${qty} units</h4>
+            </div>
+        </div>
+        <div class="buyer_expand">
+            <div class="buyer_expand_details">
+                <div class="buyer_phone_container">
+                    <img src="../assets/icons/phone.svg" alt="">
+                    <h5 class="buyer_phone">${buyerDetails.PhNo}</h5>
+                </div>
+                <div class="buyer_address_container">
+                    <img src="../assets/icons/location.svg" alt="">
+                    <h5 class="buyer_address">${buyerDetails.street}, ${buyerDetails.subArea}, ${buyerDetails.area}</h5>
+                </div>
+            </div>
+            <div class="buyer_actions">
+                <div id='accept'>Accept</div>
+                <div id="reject">Reject</div>
+            </div>
+        </div>
+      </div>  
+    `;
+  }
 }
+
+
 const buyers = document.querySelectorAll('.buyer');
 buyers.forEach( (buyer)=> {
     buyer.addEventListener('click', () => {
