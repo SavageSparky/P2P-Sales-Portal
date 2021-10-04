@@ -69,6 +69,7 @@ search_bar.addEventListener("input", async () => {
     query_by: "product_suggestions,product_type,product_location",
     highlight_start_tag: "",
     highlight_end_tag: "",
+    num_typos:"0"
   };
   
   let data = await client.collections("product").documents().search(search);
