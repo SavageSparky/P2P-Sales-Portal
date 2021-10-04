@@ -79,19 +79,19 @@ search_bar.addEventListener("input", async () => {
         if(tmp['snippet']){
           if(!suggestions[tmp['snippet']]){
             suggestions[tmp['snippet']]=[];
-            suggestions[tmp['snippet']].push(d['document']['product_id']);
             suggestions_cont.innerHTML+=`<div class="suggestions-list">${tmp['snippet']}</div>`;
           }
+          suggestions[tmp['snippet']].push(d['document']['product_id']);
         }
         else{
           let snippets=tmp['snippets'];
           snippets.forEach((txt)=>{
             if(!suggestions[txt]){
               suggestions[txt]=[];
+              suggestions_cont.innerHTML+=`<div class="suggestions-list">${txt}</div>`;
             }
           })
           snippets.forEach((txt)=>{
-            suggestions_cont.innerHTML+=`<div class="suggestions-list">${txt}</div>`;
             suggestions[txt].push(d['document']['product_id']);
           })
         }
