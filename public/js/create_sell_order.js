@@ -10,6 +10,15 @@ document.querySelector('nav').style.display='none';
 const loading_not=document.querySelector('.message-txt');
 loading_not.style.display='none';
 
+let client = new Typesense.Client({
+  'nearestNode': { 'host': 'ld70jsxocqtimzbep-1.a1.typesense.net', 'port': '443', 'protocol': 'https' }, // This is the special Nearest Node hostname that you'll see in the Typesense Cloud dashboard if you turn on Search Delivery Network
+  'nodes': [
+    { 'host': 'ld70jsxocqtimzbep-1.a1.typesense.net', 'port': '443', 'protocol': 'https' },
+  ],
+  'apiKey': 'PpRn06qkFR4LiBcINGgtCSmf2wKg7lM8',
+  'connectionTimeoutSeconds': 2
+})
+
 
 firebase.auth().onAuthStateChanged(async (user) => {
     if (user) {
@@ -252,12 +261,14 @@ pincode_tag.addEventListener('input',async ()=>{
 })
 
 
+
+
 function dbUploader(){
     let suggestions=[...document.querySelector('.selected_suggestions').querySelectorAll('div')];
     suggestions=suggestions.map((data)=>{
         return regex_rem(data.querySelector('p').textContent.toLowerCase());
     })
-    suggestions.push(regex_rem(input_elements[0].value));
+    suggestions.push(regex_rem(input_elements[0].value.toLowerCase()));
     console.log(suggestions);
     let radio_val;
     document.querySelectorAll('input[type=radio]').forEach(data=>{
@@ -289,6 +300,20 @@ function dbUploader(){
         "suggestions":suggestions,
         "district":district
     };
+
+
+    let typeSenseJson={
+        "id":pid,
+        "product_id":pid,
+        "product_name":regex_rem(input_elements[0].value),
+        "product_price":+regex_rem(input_elements[1].value),
+        "product_location":[input_elements[8].value,regex_rem(input_elements[9].value),district],
+        "product_end_date":input_elements[6].valueAsNumber,
+        "product_type":input_elements[5].value.toLowerCase(),
+        "product_suggestions":suggestions
+    }
+
+    client.collections("product").documents().create(typeSenseJson);
 
     console.log(main_data_obj);
 

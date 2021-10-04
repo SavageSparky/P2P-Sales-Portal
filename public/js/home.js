@@ -3,21 +3,39 @@ import { db_get, firebaseConfig } from "./firebase-util.js";
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const search_bar = document.querySelector("nav input");
-let suggestions = await db_get(db, "suggestions/");
+// let suggestions = await db_get(db, "suggestions/");
 const suggestions_cont = document.querySelector(".suggestions-cont");
-suggestions = suggestions.val();
-console.log(suggestions);
-const suggestors = [];
-let carouselFlag=true;
+// suggestions = suggestions.val();
+// console.log(suggestions);
+// const suggestors = [];
+let suggestions={};
+let carouselFlag = true;
 
-for (const key in suggestions) {
-  suggestors.push(key);
-  let temp_arr=[];
-  for(const keyer in suggestions[key]){
-    temp_arr.push(keyer);
-  }
-  suggestions[key]=temp_arr;
-}
+// for (const key in suggestions) {
+//   suggestors.push(key);
+//   let temp_arr = [];
+//   for (const keyer in suggestions[key]) {
+//     temp_arr.push(keyer);
+//   }
+//   suggestions[key] = temp_arr;
+// }
+
+let client = new Typesense.Client({
+  nearestNode: {
+    host: "ld70jsxocqtimzbep-1.a1.typesense.net",
+    port: "443",
+    protocol: "https",
+  }, // This is the special Nearest Node hostname that you'll see in the Typesense Cloud dashboard if you turn on Search Delivery Network
+  nodes: [
+    {
+      host: "ld70jsxocqtimzbep-1.a1.typesense.net",
+      port: "443",
+      protocol: "https",
+    },
+  ],
+  apiKey: "PpRn06qkFR4LiBcINGgtCSmf2wKg7lM8",
+  connectionTimeoutSeconds: 2,
+});
 
 console.log(suggestions);
 
@@ -37,20 +55,55 @@ firebase.auth().onAuthStateChanged(async (user) => {
   }
 });
 
-console.log(suggestors);
 
-search_bar.addEventListener("input", () => {
-  let regexer = new RegExp(search_bar.value, "gi");
+async function inputTriggerer(){
+  suggestions={};
   suggestions_cont.classList.remove("none");
   suggestions_cont.innerHTML = "";
   currElement = null;
   highlighter = 0;
-  suggestors.forEach((data, index) => {
-    if (data.match(regexer) !== null) {
-      suggestions_cont.innerHTML += `<div class="suggestions-list">${suggestors[index]}</div>`;
-      suggestions_select();
-    }
-  });
+  let search = {
+    q: `${search_bar.value}`,
+    query_by: "product_suggestions,product_type,product_location",
+    highlight_start_tag: "",
+    highlight_end_tag: "",
+    sort_by:"product_end_date:asc,product_price:asc",
+    num_typos:"0"
+  };
+  
+  let data = await client.collections("product").documents().search(search);
+  console.log(data);
+  if (data["found"] > 0) {
+    data["hits"].forEach((d) => {
+      d["highlights"].forEach((tmp) => {
+        if(tmp['snippet']){
+          if(!suggestions[tmp['snippet']]){
+            suggestions[tmp['snippet']]=[];
+            suggestions_cont.innerHTML+=`<div class="suggestions-list">${tmp['snippet']}</div>`;
+          }
+          suggestions[tmp['snippet']].push(d['document']['product_id']);
+        }
+        else{
+          let snippets=tmp['snippets'];
+          snippets.forEach((txt)=>{
+            if(!suggestions[txt]){
+              suggestions[txt]=[];
+              suggestions_cont.innerHTML+=`<div class="suggestions-list">${txt}</div>`;
+            }
+          })
+          snippets.forEach((txt)=>{
+            suggestions[txt].push(d['document']['product_id']);
+          })
+        }
+      });
+    });
+    suggestions_select();
+  }
+}
+
+
+search_bar.addEventListener("input", () => {
+  setTimeout(inputTriggerer,100);
 });
 
 function suggestions_select() {
@@ -159,7 +212,7 @@ async function cardUpdater(p_id) {
 function redirector() {
   document.querySelectorAll(".card").forEach((d) => {
     d.addEventListener("click", () => {
-      search_bar.value=null;
+      search_bar.value = null;
       window.location = `/pages/landing_page.html?id=${d.dataset.id}`;
     });
   });
@@ -167,9 +220,10 @@ function redirector() {
 
 function main_div_loader(txt) {
   const main_tag = document.querySelector("main");
-  main_tag.style.flexDirection='unset';
-  carouselFlag=false;
+  main_tag.style.flexDirection = "unset";
+  carouselFlag = false;
   main_tag.innerHTML = "";
+  suggestions[txt]=[...new Set(suggestions[txt])];
   suggestions[txt].forEach((data) => {
     cardUpdater(data);
   });
@@ -268,74 +322,76 @@ window.addEventListener("click", (e) => {
 
 /********************************Drag Functionality for cards in home page*********************************** */
 
+let svgi = 1;
 
-let svgi=1;
-
-
-function carousel(){
-  if(!carouselFlag) return;
-  const banner=document.querySelector('.banner-card img');
-  banner.style.animation='blinker 5s ease infinite';
-  banner.src=`../assets/images/banner${svgi}.svg`;
+function carousel() {
+  if (!carouselFlag) return;
+  const banner = document.querySelector(".banner-card img");
+  banner.style.animation = "blinker 5s ease infinite";
+  banner.src = `../assets/images/banner${svgi}.svg`;
   svgi++;
-  if(svgi>3){
-    svgi=1;
+  if (svgi > 3) {
+    svgi = 1;
   }
 }
 
-const category_cont=document.querySelectorAll('.main-category-wrapper');
-category_cont.forEach(data=>{
+const category_cont = document.querySelectorAll(".main-category-wrapper");
+category_cont.forEach((data) => {
   console.log(data.scrollWidth);
-  let crdCont=data.querySelector('.category-wrapper');
-  let leftBtn=data.querySelector('.left-arrow');
-  let rightBtn=data.querySelector('.right-arrow');
-  let dragFlag=false;
-  let prevX=0;
+  let crdCont = data.querySelector(".category-wrapper");
+  let leftBtn = data.querySelector(".left-arrow");
+  let rightBtn = data.querySelector(".right-arrow");
+  let dragFlag = false;
+  let prevX = 0;
   let scrollLeft;
-  leftBtn.addEventListener("click",()=>{
-    crdCont.scrollLeft-=280;
-    if(crdCont.scrollLeft<=0){
-      crdCont.scrollLeft=0;
+  leftBtn.addEventListener("click", () => {
+    crdCont.scrollLeft -= 280;
+    if (crdCont.scrollLeft <= 0) {
+      crdCont.scrollLeft = 0;
     }
   });
-  rightBtn.addEventListener('click',()=>{
-    crdCont.scrollLeft+=280;
-    if(crdCont.scrollLeft+crdCont.offsetWidth>=crdCont.scrollWidth){
-      crdCont.scrollLeft=crdCont.scrollWidth;
+  rightBtn.addEventListener("click", () => {
+    crdCont.scrollLeft += 280;
+    if (crdCont.scrollLeft + crdCont.offsetWidth >= crdCont.scrollWidth) {
+      crdCont.scrollLeft = crdCont.scrollWidth;
     }
   });
-  crdCont.addEventListener("mousedown",(e)=>{
-    dragFlag=true;
-    prevX=e.pageX-crdCont.offsetLeft;
-    scrollLeft=crdCont.scrollLeft;
-    crdCont.style.cursor="grabbing";
-    crdCont.querySelectorAll('.card').forEach(d=>{
-      d.style.cursor="grabbing";
+  crdCont.addEventListener("mousedown", (e) => {
+    dragFlag = true;
+    prevX = e.pageX - crdCont.offsetLeft;
+    scrollLeft = crdCont.scrollLeft;
+    crdCont.style.cursor = "grabbing";
+    crdCont.querySelectorAll(".card").forEach((d) => {
+      d.style.cursor = "grabbing";
     });
-  })
-  crdCont.addEventListener("mouseup",(e)=>{
-    dragFlag=false;
-    crdCont.style.cursor="grab";
-    crdCont.querySelectorAll('.card').forEach(d=>{
-      d.style.cursor="pointer";
+  });
+  crdCont.addEventListener("mouseup", (e) => {
+    dragFlag = false;
+    crdCont.style.cursor = "grab";
+    crdCont.querySelectorAll(".card").forEach((d) => {
+      d.style.cursor = "pointer";
     });
-  })
-  crdCont.addEventListener("mousemove",(e)=>{
-    if(!dragFlag) return;
+  });
+  crdCont.addEventListener("mousemove", (e) => {
+    if (!dragFlag) return;
     console.log(e);
-    const x=e.pageX-crdCont.offsetLeft;
-    const walk=(Math.ceil(x)-prevX);
-    crdCont.scrollLeft=scrollLeft-walk;
-    crdCont.style.cursor="grabbing";
-    crdCont.scrollLeft+=-(e.screenX-prevX)/40;
-    if(crdCont.scrollLeft<0){crdCont.scrollLeft=0;}
-    if(crdCont.scrollLeft>crdCont.scrollWidth){crdCont.scrollLeft=crdCont.scrollWidth;}
-  })
-  crdCont.addEventListener("mouseleave",()=>{
-    dragFlag=false;
-    crdCont.style.cursor="grab";
+    const x = e.pageX - crdCont.offsetLeft;
+    const walk = Math.ceil(x) - prevX;
+    crdCont.scrollLeft = scrollLeft - walk;
+    crdCont.style.cursor = "grabbing";
+    crdCont.scrollLeft += -(e.screenX - prevX) / 40;
+    if (crdCont.scrollLeft < 0) {
+      crdCont.scrollLeft = 0;
+    }
+    if (crdCont.scrollLeft > crdCont.scrollWidth) {
+      crdCont.scrollLeft = crdCont.scrollWidth;
+    }
   });
-})
+  crdCont.addEventListener("mouseleave", () => {
+    dragFlag = false;
+    crdCont.style.cursor = "grab";
+  });
+});
 
 carousel();
-setInterval(carousel,5000);
+setInterval(carousel, 5000);
