@@ -186,7 +186,7 @@ document.getElementById('quantity').addEventListener('input', function (){
     document.querySelector('.estimated_price').innerHTML =
         `Estimated Price: Rs. ${final_price}`;
 
-    if(final_qty < product_minOrder) {
+    if(+final_qty < product_minOrder) {
         document.querySelector('.quantity_warning').innerHTML = 
          `Enter quantity greater or equal to ${product_minOrder}`;
     }
