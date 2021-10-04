@@ -10,6 +10,15 @@ document.querySelector('nav').style.display='none';
 const loading_not=document.querySelector('.message-txt');
 loading_not.style.display='none';
 
+let client = new Typesense.Client({
+  'nearestNode': { 'host': 'ld70jsxocqtimzbep-1.a1.typesense.net', 'port': '443', 'protocol': 'https' }, // This is the special Nearest Node hostname that you'll see in the Typesense Cloud dashboard if you turn on Search Delivery Network
+  'nodes': [
+    { 'host': 'ld70jsxocqtimzbep-1.a1.typesense.net', 'port': '443', 'protocol': 'https' },
+  ],
+  'apiKey': 'PpRn06qkFR4LiBcINGgtCSmf2wKg7lM8',
+  'connectionTimeoutSeconds': 2
+})
+
 
 firebase.auth().onAuthStateChanged(async (user) => {
     if (user) {
@@ -252,6 +261,8 @@ pincode_tag.addEventListener('input',async ()=>{
 })
 
 
+
+
 function dbUploader(){
     let suggestions=[...document.querySelector('.selected_suggestions').querySelectorAll('div')];
     suggestions=suggestions.map((data)=>{
@@ -290,6 +301,19 @@ function dbUploader(){
         "district":district
     };
 
+
+    let typeSenseJson={
+        "product_id":pid,
+        "product_name":regex_rem(input_elements[0].value),
+        "product_price":+regex_rem(input_elements[1].value),
+        "product_location":input_elements[8].value,
+        "product_end_date":input_elements[6].value,
+        "product_type":input_elements[5].value,
+        "product_suggestions":suggestions
+    }
+
+    client.collections("product").documents().create(typeSenseJson);
+
     console.log(main_data_obj);
 
     suggestions.forEach(async d=>{
@@ -307,7 +331,8 @@ function dbUploader(){
         }else{
             loading_not.textContent="Product added Successfully....Redirecting";
             setTimeout(()=>{
-                location.href='/pages/home.html';    
+                // location.href='/pages/home.html';    
+                console.log('hello');
             },1000);       
         }
     });
@@ -349,7 +374,7 @@ submit_btn.addEventListener("click",async (e)=>{
         },3000);
         input_elements[12].textContent="Please Fill Out this Field";
     }
-    if(input_elements[1].value<=0 || input_elements[2].value<=0 || input_elements[4].value<=0 || input_elements[2].value<input_elements[4].value){
+    if(+input_elements[1].value<=0 || +input_elements[2].value<=0 || +input_elements[4].value<=0 || +input_elements[2].value<+input_elements[4].value){
         returner=1;
     }
     if(returner===1) return;
