@@ -169,6 +169,7 @@ document.querySelector('.basic_details').innerHTML = `
             required
             >
         </div> 
+        <h5 class="quantity_warning"></h5>
         <h4 class="estimated_price">Estimated Price: Rs. ${product_price}</h4>
         <div class="buy_button">
             Place Buy Request
@@ -184,6 +185,18 @@ document.getElementById('quantity').addEventListener('input', function (){
     final_price = (this.value) * (product_price);
     document.querySelector('.estimated_price').innerHTML =
         `Estimated Price: Rs. ${final_price}`;
+
+    if(+final_qty < product_minOrder) {
+        document.querySelector('.quantity_warning').innerHTML = 
+         `Enter quantity greater or equal to ${product_minOrder}`;
+    }
+    else if( +final_qty > product_remaining) {
+        document.querySelector('.quantity_warning').innerHTML = 
+         `Enter quantity less than or equal to ${product_remaining}`;
+    }
+    else {
+        document.querySelector('.quantity_warning').innerHTML = "";
+    }
 })
 
 /**********************Confirm window ********************/
@@ -197,28 +210,33 @@ const confirm_window_close = document.getElementById('close_button');
 const main_div = document.querySelector("main");
 
 buy_button.addEventListener("click", ()=>{
-    confirm_window.classList.toggle('none');
-    main_div.classList.toggle('background_disabled');
-    main_div.style.filter = "blur(5px)";
-    const cw_table = document.querySelector('.confirm_window > table');
-    cw_table.innerHTML = `
-    <tr>
-        <td><h3 class="cw_product_name_label">Product</h3></td>
-        <td><h3 class="cw_product_name cw_details">${data["name"]}</h3></td>
-    </tr>
-    <tr>
-        <td><h3 class="cw_price_label">Price/ Unit</h3></td>
-        <td><h3 class="cw_price cw_details">${product_price}</h3></td>
-    </tr>
-    <tr>
-        <td><h3 class="cw_quantity_label">Quantity</h3></td>
-        <td><h3 class="cw_quantity cw_details">${final_qty}</h3></td>
-    </tr>
-    <tr>
-        <td><h3 class="cw_amount_label">Final Amount</h3></td>
-        <td><h3 class="cw_amount cw_details">Rs.${final_price}</h3></td>
-    </tr>
-    `;
+    if(final_qty >= product_minOrder && final_qty <= product_remaining) {
+        confirm_window.classList.toggle('none');
+        main_div.classList.toggle('background_disabled');
+        main_div.style.filter = "blur(5px)";
+        const cw_table = document.querySelector('.confirm_window > table');
+        cw_table.innerHTML = `
+        <tr>
+            <td><h3 class="cw_product_name_label">Product</h3></td>
+            <td><h3 class="cw_product_name cw_details">${data["name"]}</h3></td>
+        </tr>
+        <tr>
+            <td><h3 class="cw_price_label">Price/ Unit</h3></td>
+            <td><h3 class="cw_price cw_details">${product_price}</h3></td>
+        </tr>
+        <tr>
+            <td><h3 class="cw_quantity_label">Quantity</h3></td>
+            <td><h3 class="cw_quantity cw_details">${final_qty}</h3></td>
+        </tr>
+        <tr>
+            <td><h3 class="cw_amount_label">Final Amount</h3></td>
+            <td><h3 class="cw_amount cw_details">Rs.${final_price}</h3></td>
+        </tr>
+        `;
+    }
+    else {
+        
+    }
 })
 
 confirmWindow_cancel.addEventListener('click', ()=> {

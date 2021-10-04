@@ -340,6 +340,7 @@ function dbUploader(){
 
 
 submit_btn.addEventListener("click",async (e)=>{
+    console.log('triggered 0');
     // e.preventDefault();
     if(profile_idx===null){
         profile_pic_cont.style.boxShadow='0 0 5px red';
@@ -348,6 +349,7 @@ submit_btn.addEventListener("click",async (e)=>{
         },3000);
         return;
     } 
+    console.log('triggered 1');
     if(imagesArr.length<2){
         description_pic_cont[0].style.boxShadow='0 0 5px red'
         setTimeout(()=>{
@@ -355,26 +357,31 @@ submit_btn.addEventListener("click",async (e)=>{
         },3000)
         return;
     }
+    console.log('triggered 2');
     let returner=0;
     await input_elements.forEach((data,indexx)=>{
         if(data.value===null || data.value==='null' || data.value==="" && indexx!==11){
             returner=1;
+            console.log('triggered 3');
             if(data.value==='null'){
                 pincode_tag.value=null;
                 returner=1;
             }
         }
     })
-
     if(input_elements[12].textContent.trim().length===0 || input_elements[12].textContent.trim()==="Please Fill Out this Field"){
         returner=1;
+        console.log('triggered 4');
         input_elements[12].style.boxShadow='0 0 5px rgb(255, 0, 0)';
         setTimeout(()=>{
             input_elements[12].style.boxShadow='0 0 5px rgb(184, 184, 184)';
         },3000);
         input_elements[12].textContent="Please Fill Out this Field";
     }
-    if(+input_elements[1].value<=0 || +input_elements[2].value<=0 || +input_elements[4].value<=0 || +input_elements[2].value<+input_elements[4].value){
+    
+    if(+input_elements[1].value<=0 || +input_elements[2].value<=0 || +input_elements[4].value<=0 || +input_elements[2].value < +input_elements[4].value){
+
+        console.log('triggered 5');
         returner=1;
     }
     if(returner===1) return;
@@ -387,6 +394,7 @@ submit_btn.addEventListener("click",async (e)=>{
             product_des_img_arr.push(firebase_img_uploader(data,"abc",pid));
     })
     // setInterval(pageRedirector,550);
+    console.log('triggered last');
 })
 
 clicker();

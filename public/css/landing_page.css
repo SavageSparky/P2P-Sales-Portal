@@ -183,6 +183,11 @@ h4 {
     padding: 0 1rem;
 }
 
+.quantity_warning {
+    font-weight: 100;
+    color: red;
+}
+
 .estimated_price {
     padding: 0.5rem;
     font-weight: 100;
