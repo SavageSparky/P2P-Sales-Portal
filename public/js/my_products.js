@@ -150,14 +150,15 @@ function enableCardEvents() {
 
 // side panel
 async function buyerUpdater(productId){
-  // let buyRequests = await db.ref(`product/${productId}/price`).get();
+  let reqProduct = await db.ref(`product/${productId}/price`).get();
+  reqProduct = reqProduct.val();
   let buyRequests = await db.ref(`product/${productId}/buy_requests`).get();
   buyRequests = buyRequests.val();
   console.log(buyRequests);
   sidePanel.innerHTML = "";
   for( let buyRequest in buyRequests) {
-    const buyerId = buyRequest[buyRequest].buyer;
-    const qty = buyRequest[buyRequest].quantity;
+    const buyerId = buyRequests[buyRequest].buyer;
+    const qty = buyRequests[buyRequest].quantity;
     let buyerDetails = await db.ref(`user/${buyerId}`).get();
     buyerDetails = buyerDetails.val();
     
@@ -174,7 +175,7 @@ async function buyerUpdater(productId){
                 </div>
             </div>
             <div class="buy_size">
-                <h4 class="buy_amount">Rs. 20000</h4>
+                <h4 class="buy_amount">Rs. ${(+reqProduct) * (+qty)}</h4>
                 <h4 class="buy_units">${qty} units</h4>
             </div>
         </div>
@@ -182,7 +183,7 @@ async function buyerUpdater(productId){
             <div class="buyer_expand_details">
                 <div class="buyer_phone_container">
                     <img src="../assets/icons/phone.svg" alt="">
-                    <h5 class="buyer_phone">${buyerDetails.PhNo}</h5>
+                    <h5 class="buyer_phone">${buyerDetails.phNo}</h5>
                 </div>
                 <div class="buyer_address_container">
                     <img src="../assets/icons/location.svg" alt="">
@@ -190,19 +191,28 @@ async function buyerUpdater(productId){
                 </div>
             </div>
             <div class="buyer_actions">
-                <div id='accept'>Accept</div>
-                <div id="reject">Reject</div>
+                <div class='accept'>Accept</div>
+                <div class="reject">Reject</div>
             </div>
         </div>
       </div>  
     `;
   }
+  const buyers = document.querySelectorAll('.buyer');
+  buyers.forEach( (buyer)=> {
+      buyer.addEventListener('click', () => {
+          buyer.querySelector('.buyer_expand').classList.toggle('triggered');
+          document.querySelector('.accept').addEventListener('click', ()=> {
+            let remaining = await db.ref(`product/${productId}/remaining`).get();
+            remaining = remaining.val();
+            remaining = (+remaining) - (+qty);
+            db.ref(`product/${productId}/remaining`).update(remaining);
+          })
+          document.querySelector('.reject').addEventListener('click', ()=> {
+            
+          })
+      })
+  })
 }
 
 
-const buyers = document.querySelectorAll('.buyer');
-buyers.forEach( (buyer)=> {
-    buyer.addEventListener('click', () => {
-        buyer.querySelector('.buyer_expand').classList.toggle('triggered');
-    })
-})
