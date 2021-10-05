@@ -335,63 +335,139 @@ function carousel() {
   }
 }
 
-const category_cont = document.querySelectorAll(".main-category-wrapper");
-category_cont.forEach((data) => {
-  console.log(data.scrollWidth);
-  let crdCont = data.querySelector(".category-wrapper");
-  let leftBtn = data.querySelector(".left-arrow");
-  let rightBtn = data.querySelector(".right-arrow");
-  let dragFlag = false;
-  let prevX = 0;
-  let scrollLeft;
-  leftBtn.addEventListener("click", () => {
-    crdCont.scrollLeft -= 280;
-    if (crdCont.scrollLeft <= 0) {
-      crdCont.scrollLeft = 0;
-    }
-  });
-  rightBtn.addEventListener("click", () => {
-    crdCont.scrollLeft += 280;
-    if (crdCont.scrollLeft + crdCont.offsetWidth >= crdCont.scrollWidth) {
-      crdCont.scrollLeft = crdCont.scrollWidth;
-    }
-  });
-  crdCont.addEventListener("mousedown", (e) => {
-    dragFlag = true;
-    prevX = e.pageX - crdCont.offsetLeft;
-    scrollLeft = crdCont.scrollLeft;
-    crdCont.style.cursor = "grabbing";
-    crdCont.querySelectorAll(".card").forEach((d) => {
-      d.style.cursor = "grabbing";
+function cardScroller(){
+  const category_cont = document.querySelectorAll(".main-category-wrapper");
+  category_cont.forEach((data) => {
+    console.log(data.scrollWidth);
+    let crdCont = data.querySelector(".category-wrapper");
+    let leftBtn = data.querySelector(".left-arrow");
+    let rightBtn = data.querySelector(".right-arrow");
+    let dragFlag = false;
+    let prevX = 0;
+    let scrollLeft;
+    leftBtn.addEventListener("click", () => {
+      crdCont.scrollLeft -= 280;
+      if (crdCont.scrollLeft <= 0) {
+        crdCont.scrollLeft = 0;
+      }
+    });
+    rightBtn.addEventListener("click", () => {
+      crdCont.scrollLeft += 280;
+      if (crdCont.scrollLeft + crdCont.offsetWidth >= crdCont.scrollWidth) {
+        crdCont.scrollLeft = crdCont.scrollWidth;
+      }
+    });
+    crdCont.addEventListener("mousedown", (e) => {
+      dragFlag = true;
+      prevX = e.pageX - crdCont.offsetLeft;
+      scrollLeft = crdCont.scrollLeft;
+      crdCont.style.cursor = "grabbing";
+      crdCont.querySelectorAll(".card").forEach((d) => {
+        d.style.cursor = "grabbing";
+      });
+    });
+    crdCont.addEventListener("mouseup", (e) => {
+      dragFlag = false;
+      crdCont.style.cursor = "grab";
+      crdCont.querySelectorAll(".card").forEach((d) => {
+        d.style.cursor = "pointer";
+      });
+    });
+    crdCont.addEventListener("mousemove", (e) => {
+      if (!dragFlag) return;
+      console.log(e);
+      const x = e.pageX - crdCont.offsetLeft;
+      const walk = Math.ceil(x) - prevX;
+      crdCont.scrollLeft = scrollLeft - walk;
+      crdCont.style.cursor = "grabbing";
+      crdCont.scrollLeft += -(e.screenX - prevX) / 40;
+      if (crdCont.scrollLeft < 0) {
+        crdCont.scrollLeft = 0;
+      }
+      if (crdCont.scrollLeft > crdCont.scrollWidth) {
+        crdCont.scrollLeft = crdCont.scrollWidth;
+      }
+    });
+    crdCont.addEventListener("mouseleave", () => {
+      dragFlag = false;
+      crdCont.style.cursor = "grab";
     });
   });
-  crdCont.addEventListener("mouseup", (e) => {
-    dragFlag = false;
-    crdCont.style.cursor = "grab";
-    crdCont.querySelectorAll(".card").forEach((d) => {
-      d.style.cursor = "pointer";
-    });
-  });
-  crdCont.addEventListener("mousemove", (e) => {
-    if (!dragFlag) return;
-    console.log(e);
-    const x = e.pageX - crdCont.offsetLeft;
-    const walk = Math.ceil(x) - prevX;
-    crdCont.scrollLeft = scrollLeft - walk;
-    crdCont.style.cursor = "grabbing";
-    crdCont.scrollLeft += -(e.screenX - prevX) / 40;
-    if (crdCont.scrollLeft < 0) {
-      crdCont.scrollLeft = 0;
-    }
-    if (crdCont.scrollLeft > crdCont.scrollWidth) {
-      crdCont.scrollLeft = crdCont.scrollWidth;
-    }
-  });
-  crdCont.addEventListener("mouseleave", () => {
-    dragFlag = false;
-    crdCont.style.cursor = "grab";
-  });
-});
+}
 
-carousel();
-setInterval(carousel, 5000);
+/********************************************Default Product Loader**************************************/
+
+async function defaultDataLoader(){
+  let dbData=await db_get(db,'/product');
+  dbData=await dbData.val();
+  let categoryProducts={};
+
+  for(const k in dbData){
+    if(!categoryProducts[dbData[k]['type']]){
+      categoryProducts[dbData[k]['type']]=[];
+    }
+    categoryProducts[dbData[k]['type']].push(dbData[k]);
+  }
+  console.log(categoryProducts);
+  for(const k in categoryProducts){
+    document.querySelector('main').innerHTML+=`<h2 class="category-heading">${k} Products</h2>`;
+    let mcategoryWrapper=document.createElement('div');
+    mcategoryWrapper.className='main-category-wrapper';
+    let categoryWrapper=document.createElement('div');
+    categoryWrapper.className='category-wrapper';
+    mcategoryWrapper.appendChild(categoryWrapper);
+    categoryProducts[k].forEach(product=>{
+      console.log(product);
+      categoryWrapper.innerHTML+=` <div class="card" data-id="${product['pid']}">
+      <div class="prodcut_img_wrap">
+      <img class="product_icon" src="${product['profile-img']}" alt="">
+      </div>
+      <ul class="card_main_text">
+          <li><h3 class="product_name">${product['name']}</h3></li>
+          <li><h3 class="price">Rs. ${product['price']}</h3></li>
+      </ul>
+      <ul class="card_body_text">
+          <li>
+              <img src="../assets/icons/capacity.svg" alt="">
+              <h4 class="quantity">${product['remaining']}/${product['quantity']}</h4>
+          </li>
+          <li>
+              <img src="../assets/icons/location.svg" alt="">
+              <h4 class="address">${product['subArea']},${product['area']},${product['district']}</h4>
+          </li>
+          <li>
+              <img src="../assets/icons/info.svg" alt="">
+              <h4 class="category">${k}</h4>
+          </li>
+      </ul>
+      <div class="end_time_div">
+          <img src="../assets/icons/timer.svg" alt="">
+          <h4 class="due_date">Ends in: ${date_splitter(product['due-date'])}</h4>
+      </div>
+      <div class="badges">
+      ${
+        product["delivery-available"] === "Yes"
+          ? `<img src="../assets/icons/delivery_icon.svg" alt="">`
+          : ``
+      }
+      </div>
+      <div class="ribbons">
+          <p>Featured</p>
+      </div>
+  </div>`
+    })
+    mcategoryWrapper.innerHTML+=`  <div class="nav-arrow-cont">
+    <div class="left-arrow"><img src="../assets/icons/nav_arrow.svg" alt=""></div>
+    <div class="right-arrow"><img src="../assets/icons/nav_arrow.svg" alt=""></div>
+</div>`;
+    console.log(mcategoryWrapper);
+    document.querySelector('main').appendChild(mcategoryWrapper);
+  }
+  cardScroller();
+  redirector();
+  carousel();
+  setInterval(carousel, 5000);
+}
+
+
+defaultDataLoader();
