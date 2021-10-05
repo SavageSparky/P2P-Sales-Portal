@@ -169,7 +169,7 @@ document.querySelector('.basic_details').innerHTML = `
             >
         </div> 
         <h5 class="quantity_warning"></h5>
-        <h4 class="estimated_price">Estimated Price: Rs. ${product_price}</h4>
+        <h4 class="estimated_price">Estimated Price: Rs. ${(+product_price)*(+product_minOrder)}</h4>
         <div class="buy_button">
             Place Buy Request
         </div>
@@ -182,16 +182,16 @@ document.querySelector('.loading-cont').style.display='none';
 
 
 document.getElementById('quantity').addEventListener('input', function (){
-    final_qty = this.value;
-    final_price = (this.value) * (product_price);
+    final_qty = +this.value;
+    final_price = (+this.value) * (+product_price);
     document.querySelector('.estimated_price').innerHTML =
         `Estimated Price: Rs. ${final_price}`;
 
-    if(+final_qty < product_minOrder) {
+    if(+final_qty < +product_minOrder) {
         document.querySelector('.quantity_warning').innerHTML = 
          `Enter quantity greater or equal to ${product_minOrder}`;
     }
-    else if( +final_qty > product_remaining) {
+    else if( +final_qty > +product_remaining) {
         document.querySelector('.quantity_warning').innerHTML = 
          `Enter quantity less than or equal to ${product_remaining}`;
     }
@@ -211,7 +211,7 @@ const confirm_window_close = document.getElementById('close_button');
 const main_div = document.querySelector("main");
 
 buy_button.addEventListener("click", ()=>{
-    if(final_qty >= product_minOrder && final_qty <= product_remaining) {
+    if(+final_qty >= +product_minOrder && +final_qty <= +product_remaining) {
         confirm_window.classList.toggle('none');
         main_div.classList.toggle('background_disabled');
         main_div.style.filter = "blur(5px)";
@@ -234,9 +234,6 @@ buy_button.addEventListener("click", ()=>{
             <td><h3 class="cw_amount cw_details">Rs.${final_price}</h3></td>
         </tr>
         `;
-    }
-    else {
-        
     }
 })
 
