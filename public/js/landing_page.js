@@ -21,7 +21,6 @@ firebase.auth().onAuthStateChanged(async (user) => {
     if(user){
         user_id=user.uid;
         defaultUserCmntData();
-        document.querySelector('.loading-cont').style.display='none';
     }
     else{
         document.querySelector('.loading-cont').style.display='flex';
@@ -177,6 +176,8 @@ document.querySelector('.basic_details').innerHTML = `
     </form>
 </div>
 `;
+
+document.querySelector('.loading-cont').style.display='none';
 /*********************** Product details Fetch - End ****************************/
 
 
