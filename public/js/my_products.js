@@ -163,7 +163,7 @@ async function buyerUpdater(productId){
     buyerDetails = buyerDetails.val();
     
     sidePanel.innerHTML += `
-      <div class="buyer">
+      <div class="buyer" data-request-id=${buyRequest}>
         <div class="buyer_overview">
             <div class="buyer_details_container">
                 <div class="img_container">
@@ -199,18 +199,33 @@ async function buyerUpdater(productId){
     `;
   }
   const buyers = document.querySelectorAll('.buyer');
-  buyers.forEach( (buyer)=> {
+  console.log(buyers);
+  buyers.forEach(async (buyer)=> {
+      const buyRequestId = buyer.dataset.requestId;
+      // console.log(buyRequestId);
+      let buyRequest = await db.ref(`product/${productId}/buy_requests/${buyRequestId}`).get();
+      buyRequest = buyRequest.val();
+      // console.log(buyRequest);
+      let flag = true;
       buyer.addEventListener('click', () => {
           buyer.querySelector('.buyer_expand').classList.toggle('triggered');
-          document.querySelector('.accept').addEventListener('click', ()=> {
-            let remaining = await db.ref(`product/${productId}/remaining`).get();
-            remaining = remaining.val();
-            remaining = (+remaining) - (+qty);
-            db.ref(`product/${productId}/remaining`).update(remaining);
-          })
-          document.querySelector('.reject').addEventListener('click', ()=> {
-            
-          })
+          if(flag) {
+            buyer.querySelector('.accept').addEventListener('click', async ()=> {
+              let remaining = await db.ref(`product/${productId}/remaining`).get();
+              remaining = remaining.val();
+              remaining = (+remaining) - (+buyRequest.quantity);
+              console.log(remaining);
+              db.ref(`product/${productId}`).update({
+                "remaining": remaining.toString()
+              });
+            })
+            buyer.querySelector('.reject').addEventListener('click', ()=> {
+              db.ref(`product/${productId}/buy_requests/${buyRequestId}`).remove();
+              db.ref(`user/${buyRequest.buyer}/my_orders/${buyRequestId}`).remove();
+              sidePanel.removeChild(buyer);
+            })
+            flag = false;
+          }
       })
   })
 }
