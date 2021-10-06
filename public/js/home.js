@@ -139,6 +139,7 @@ search_bar.addEventListener('keypress',async (e)=>{
   });
   carouselFlag=false;
   sideNav.style.transform=`translateX(-400px)`;
+  document.querySelector("main").classList.remove("shrinker");
   filterIcon.src=`${windowLocationForImg}/assets/icons/filter_off_outline.svg`;
   document.querySelector('main').style.flexDirection='unset';
   document.querySelector('main').innerHTML='';
