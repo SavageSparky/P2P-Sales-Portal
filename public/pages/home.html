@@ -26,6 +26,9 @@
     <header>
         <h1 class="company_name">P2P Sales Portal</h1>
         <nav>
+            <div class="filter-icon">
+                <img src="../assets/icons/filter_off_outline.svg" alt="">
+            </div>
             <div class="search">
                 <input class="search_box" type="text">
                 <img src="../assets/icons/search.svg" alt="" class="search_icon nav_icons">
@@ -52,6 +55,79 @@
         <a class="my_products" href="./my_products.html">My Products</a>
         <a class="my_orders" href="#">My Orders</a>
         <a class="log_out" href="#">Log out</a>
+    </div>
+    <div class="side-nav" style="transform: translateX(-400px)"">
+        <div class="side-nav-heading">
+            <h1>Filters</h1>
+            <div class="icons_cont">
+                <img class="tick_svg" src="../assets/icons/tick.svg" alt="">
+                <img class="close_svg" src="../assets/icons/close_icon_red.svg" alt="">
+            </div>
+        </div>
+        <div class="filter_contents">
+        <div class="contents">
+            <label for="area">Area</label>
+            <select class="input_area"
+            id="area"
+            name="area"
+            required
+            >
+            <option disabled selected value>Select area</option>
+            </select>
+        </div>
+        <div class="contents">
+            <label for="sub_area">Sub Area</label>
+            <select class="input_area"
+            id="sub_area"
+            name="sub_area"
+            required
+            >
+            <option disabled selected value>Select area</option>
+            </select>
+        </div>
+        <div class="contents">
+            <label for="district">District</label>
+            <select class="input_area"
+            id="district"
+            name="district"
+            required
+            >
+            <option disabled selected value>Select area</option>
+            </select>
+        </div>
+        <div class="contents">
+            <label for="type">Type</label>
+            <select class="input_area"
+            id="type"
+            name="type"
+            required
+            >
+            <option disabled selected value>Select type</option>
+            </select>
+        </div>
+        <div class="contents">
+            <label for="date_sort">Sort By Date</label>
+            <select class="input_area"
+            id="date_sort"
+            name="date_sort"
+            required
+            >
+            <option selected value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+            </select>
+        </div>
+        <div class="contents">
+            <label for="price_sort">Sort By Price</label>
+            <select class="input_area"
+            id="price_sort"
+            name="price_sort"
+            required
+            >
+            <option selected value="asc">Ascending</option>
+            <option  value="desc">Descending</option>
+            </select>
+        </div>
+        </div>
     </div>
     <div class="suggestions-cont none">
         <!-- <div class="suggestions-list">Ponni</div>
