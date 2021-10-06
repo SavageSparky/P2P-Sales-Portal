@@ -215,7 +215,7 @@ buy_button.addEventListener("click", ()=>{
         confirm_window.classList.toggle('none');
         main_div.classList.toggle('background_disabled');
         main_div.style.filter = "blur(5px)";
-        const cw_table = document.querySelector('.confirm_window > table');
+        const cw_table = document.querySelector('.confirm_window table');
         cw_table.innerHTML = `
         <tr>
             <td><h3 class="cw_product_name_label">Product</h3></td>
