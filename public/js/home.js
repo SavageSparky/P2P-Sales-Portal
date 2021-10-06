@@ -146,6 +146,11 @@ search_bar.addEventListener('keypress',async (e)=>{
   enterArr.forEach(pid=>{
     cardUpdater(pid);
   });
+  document.querySelector("main").classList.remove("blurrer");
+  suggestions_cont.classList.remove("none");
+  currElement = null;
+  highlighter = 0;
+  prevElement !== null ? (prevElement.style.backgroundColor = "initial") : "";
 })
 
 search_bar.addEventListener('click',()=>{})
