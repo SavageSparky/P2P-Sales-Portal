@@ -147,7 +147,7 @@ search_bar.addEventListener('keypress',async (e)=>{
     cardUpdater(pid);
   });
   document.querySelector("main").classList.remove("blurrer");
-  suggestions_cont.classList.remove("none");
+  suggestions_cont.classList.add("none");
   currElement = null;
   highlighter = 0;
   prevElement !== null ? (prevElement.style.backgroundColor = "initial") : "";
