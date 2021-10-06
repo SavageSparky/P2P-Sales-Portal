@@ -80,7 +80,7 @@ function date_splitter(date) {
 async function fetchPdtIds(user_id) {
   let userProducts = await db.ref(`user/${user_id}/products`).get();
   userProducts = userProducts.val();
-  console.log(userProducts);
+  // console.log(userProducts);
   for(let key in userProducts) {
     await cardUpdater(userProducts[key]);
   }
@@ -137,13 +137,20 @@ async function cardUpdater(p_id) {
 function enableCardEvents() {
   const cards = document.querySelectorAll('.card');
   cards.forEach((card) => {
-    card.addEventListener('click', () => {
+    mainPanel.addEventListener('click', (e)=>{
+      if(sidePanel.classList.contains('triggered') && !(e.target.classList.contains('card')) ) {
         sidePanel.classList.toggle('triggered');
         mainPanel.classList.toggle('side_panel_space');
-
-        const productId = card.dataset.id;
-        buyerUpdater(productId);
+      }
+      // console.log()
+      if(e.target.classList.contains('card')) {
+          sidePanel.classList.toggle('triggered');
+          mainPanel.classList.toggle('side_panel_space');
+          const productId = card.dataset.id;
+          buyerUpdater(productId);
+      }
     });
+
   });
 }
 
@@ -154,7 +161,7 @@ async function buyerUpdater(productId){
   reqProduct = reqProduct.val();
   let buyRequests = await db.ref(`product/${productId}/buy_requests`).get();
   buyRequests = buyRequests.val();
-  console.log(buyRequests);
+  // console.log(buyRequests);
   sidePanel.innerHTML = "";
   for( let buyRequest in buyRequests) {
     const buyerId = buyRequests[buyRequest].buyer;
@@ -199,7 +206,7 @@ async function buyerUpdater(productId){
     `;
   }
   const buyers = document.querySelectorAll('.buyer');
-  console.log(buyers);
+  // console.log(buyers);
   buyers.forEach(async (buyer)=> {
       const buyRequestId = buyer.dataset.requestId;
       // console.log(buyRequestId);
@@ -214,10 +221,17 @@ async function buyerUpdater(productId){
               let remaining = await db.ref(`product/${productId}/remaining`).get();
               remaining = remaining.val();
               remaining = (+remaining) - (+buyRequest.quantity);
-              console.log(remaining);
+              // console.log(remaining);
               db.ref(`product/${productId}`).update({
                 "remaining": remaining.toString()
               });
+              db.ref(`product/${productId}/buy_requests/${buyRequestId}`).remove();
+              db.ref(`user/${buyRequest.buyer}/my_orders/${buyRequestId}`).remove();
+              sidePanel.removeChild(buyer);
+              let data = await db.ref(`product/${productId}`).get();
+              data = data.val();
+              let selectedCard = document.querySelector(`[data-id=${productId}]`);
+              selectedCard.querySelector('.quantity').innerHTML = `${data["remaining"]}/${data["quantity"]}`
             })
             buyer.querySelector('.reject').addEventListener('click', ()=> {
               db.ref(`product/${productId}/buy_requests/${buyRequestId}`).remove();
