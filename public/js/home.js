@@ -392,7 +392,6 @@ window.addEventListener("keydown", (e) => {
     suggestions_cont.classList.add("none");
     search_bar.value = currElement.textContent;
     document.querySelector("main").classList.remove("blurrer");
-    main_div_loader(currElement.textContent);
   } else {
     return;
   }
