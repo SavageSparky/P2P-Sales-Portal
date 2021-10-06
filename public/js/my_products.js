@@ -94,14 +94,14 @@ async function cardUpdater(p_id) {
   // console.log(data);
   cardSection.innerHTML += `
     <div class="card" data-id="${p_id}">
-    <div class="prodcut_img_wrap">
-    <img class="product_icon" src=${data["profile-img"]} alt="">
-    </div>
-    <ul class="card_main_text">
+      <div class="prodcut_img_wrap">
+        <img class="product_icon" src=${data["profile-img"]} alt="">
+      </div>
+      <ul class="card_main_text">
         <li><h3 class="product_name">${data["name"]}</h3></li>
         <li><h3 class="price">Rs. ${data["price"]}</h3></li>
-    </ul>
-    <ul class="card_body_text">
+      </ul>
+      <ul class="card_body_text">
         <li>
             <img src="../assets/icons/capacity.svg" alt="">
             <h4 class="quantity">${data["remaining"]}/${data["quantity"]}</h4>
@@ -114,44 +114,43 @@ async function cardUpdater(p_id) {
             <img src="../assets/icons/info.svg" alt="">
             <h4 class="category">${data["type"]}</h4>
         </li>
-    </ul>
-    <div class="end_time_div">
+      </ul>
+      <div class="end_time_div">
         <img src="../assets/icons/timer.svg" alt="">
         <h4 class="due_date">Ends in: ${date_splitter(data["due-date"])}</h4>
-    </div>
-    <div class="badges">
+      </div>
+      <div class="badges">
         ${
           data["delivery-available"] === "Yes"
             ? `<img src="../assets/icons/delivery_icon.svg" alt="">`
             : ``
         }
-    </div>
-    <div class="ribbons">
+      </div>
+      <div class="ribbons">
         <p>Featured</p>
+      </div>
     </div>
-</div>
     `;
 }
 
 // card click
 function enableCardEvents() {
   const cards = document.querySelectorAll('.card');
-  cards.forEach((card) => {
-    mainPanel.addEventListener('click', (e)=>{
-      if(sidePanel.classList.contains('triggered') && !(e.target.classList.contains('card')) ) {
+  cards.forEach((card)=> {
+      card.addEventListener('click', (e)=>{
         sidePanel.classList.toggle('triggered');
         mainPanel.classList.toggle('side_panel_space');
-      }
-      // console.log()
-      if(e.target.classList.contains('card')) {
-          sidePanel.classList.toggle('triggered');
-          mainPanel.classList.toggle('side_panel_space');
-          const productId = card.dataset.id;
-          buyerUpdater(productId);
-      }
-    });
-
+        const productId = e.target.dataset.id;
+        buyerUpdater(productId);
+      })
   });
+  mainPanel.addEventListener('click', (e)=>{
+    if(sidePanel.classList.contains('triggered') && !(e.target.classList.contains('card')) ) {
+      sidePanel.classList.toggle('triggered');
+      mainPanel.classList.toggle('side_panel_space');
+    }
+  });
+    
 }
 
 
@@ -208,39 +207,39 @@ async function buyerUpdater(productId){
   const buyers = document.querySelectorAll('.buyer');
   // console.log(buyers);
   buyers.forEach(async (buyer)=> {
-      const buyRequestId = buyer.dataset.requestId;
-      // console.log(buyRequestId);
-      let buyRequest = await db.ref(`product/${productId}/buy_requests/${buyRequestId}`).get();
-      buyRequest = buyRequest.val();
-      // console.log(buyRequest);
-      let flag = true;
-      buyer.addEventListener('click', () => {
-          buyer.querySelector('.buyer_expand').classList.toggle('triggered');
-          if(flag) {
-            buyer.querySelector('.accept').addEventListener('click', async ()=> {
-              let remaining = await db.ref(`product/${productId}/remaining`).get();
-              remaining = remaining.val();
-              remaining = (+remaining) - (+buyRequest.quantity);
-              // console.log(remaining);
-              db.ref(`product/${productId}`).update({
-                "remaining": remaining.toString()
-              });
-              db.ref(`product/${productId}/buy_requests/${buyRequestId}`).remove();
-              db.ref(`user/${buyRequest.buyer}/my_orders/${buyRequestId}`).remove();
-              sidePanel.removeChild(buyer);
-              let data = await db.ref(`product/${productId}`).get();
-              data = data.val();
-              let selectedCard = document.querySelector(`[data-id=${productId}]`);
-              selectedCard.querySelector('.quantity').innerHTML = `${data["remaining"]}/${data["quantity"]}`
-            })
-            buyer.querySelector('.reject').addEventListener('click', ()=> {
-              db.ref(`product/${productId}/buy_requests/${buyRequestId}`).remove();
-              db.ref(`user/${buyRequest.buyer}/my_orders/${buyRequestId}`).remove();
-              sidePanel.removeChild(buyer);
-            })
-            flag = false;
-          }
-      })
+    const buyRequestId = buyer.dataset.requestId;
+    // console.log(buyRequestId);
+    let buyRequest = await db.ref(`product/${productId}/buy_requests/${buyRequestId}`).get();
+    buyRequest = buyRequest.val();
+    // console.log(buyRequest);
+    let flag = true;
+    buyer.addEventListener('click', () => {
+        buyer.querySelector('.buyer_expand').classList.toggle('triggered');
+        if(flag) {
+          buyer.querySelector('.accept').addEventListener('click', async ()=> {
+            let remaining = await db.ref(`product/${productId}/remaining`).get();
+            remaining = remaining.val();
+            remaining = (+remaining) - (+buyRequest.quantity);
+            // console.log(remaining);
+            db.ref(`product/${productId}`).update({
+              "remaining": remaining.toString()
+            });
+            db.ref(`product/${productId}/buy_requests/${buyRequestId}`).remove();
+            db.ref(`user/${buyRequest.buyer}/my_orders/${buyRequestId}`).remove();
+            sidePanel.removeChild(buyer);
+            let data = await db.ref(`product/${productId}`).get();
+            data = data.val();
+            let selectedCard = document.querySelector(`[data-id=${productId}]`);
+            selectedCard.querySelector('.quantity').innerHTML = `${data["remaining"]}/${data["quantity"]}`
+          })
+          buyer.querySelector('.reject').addEventListener('click', ()=> {
+            db.ref(`product/${productId}/buy_requests/${buyRequestId}`).remove();
+            db.ref(`user/${buyRequest.buyer}/my_orders/${buyRequestId}`).remove();
+            sidePanel.removeChild(buyer);
+          })
+          flag = false;
+        }
+    })
   })
 }
 
