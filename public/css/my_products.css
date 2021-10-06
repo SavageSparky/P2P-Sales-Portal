@@ -151,7 +151,7 @@
     margin: 1rem 0 0;
 }
 
-#accept {
+.accept {
     padding: 0.5rem 2rem;
     background-color: var(--green-light);
     border-radius: 0.5rem;
@@ -159,7 +159,7 @@
     color: white;
 }
 
-#reject {
+.reject {
     padding: 0.5rem 2rem;
     background-color: rgb(255, 83, 83);
     border-radius: 0.5rem;

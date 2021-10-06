@@ -80,7 +80,7 @@ function date_splitter(date) {
 async function fetchPdtIds(user_id) {
   let userProducts = await db.ref(`user/${user_id}/products`).get();
   userProducts = userProducts.val();
-  console.log(userProducts);
+  // console.log(userProducts);
   for(let key in userProducts) {
     await cardUpdater(userProducts[key]);
   }
@@ -137,32 +137,40 @@ async function cardUpdater(p_id) {
 function enableCardEvents() {
   const cards = document.querySelectorAll('.card');
   cards.forEach((card) => {
-    card.addEventListener('click', () => {
+    mainPanel.addEventListener('click', (e)=>{
+      if(sidePanel.classList.contains('triggered') && !(e.target.classList.contains('card')) ) {
         sidePanel.classList.toggle('triggered');
         mainPanel.classList.toggle('side_panel_space');
-
-        const productId = card.dataset.id;
-        buyerUpdater(productId);
+      }
+      // console.log()
+      if(e.target.classList.contains('card')) {
+          sidePanel.classList.toggle('triggered');
+          mainPanel.classList.toggle('side_panel_space');
+          const productId = card.dataset.id;
+          buyerUpdater(productId);
+      }
     });
+
   });
 }
 
 
 // side panel
 async function buyerUpdater(productId){
-  // let buyRequests = await db.ref(`product/${productId}/price`).get();
+  let reqProduct = await db.ref(`product/${productId}/price`).get();
+  reqProduct = reqProduct.val();
   let buyRequests = await db.ref(`product/${productId}/buy_requests`).get();
   buyRequests = buyRequests.val();
-  console.log(buyRequests);
+  // console.log(buyRequests);
   sidePanel.innerHTML = "";
   for( let buyRequest in buyRequests) {
-    const buyerId = buyRequest[buyRequest].buyer;
-    const qty = buyRequest[buyRequest].quantity;
+    const buyerId = buyRequests[buyRequest].buyer;
+    const qty = buyRequests[buyRequest].quantity;
     let buyerDetails = await db.ref(`user/${buyerId}`).get();
     buyerDetails = buyerDetails.val();
     
     sidePanel.innerHTML += `
-      <div class="buyer">
+      <div class="buyer" data-request-id=${buyRequest}>
         <div class="buyer_overview">
             <div class="buyer_details_container">
                 <div class="img_container">
@@ -174,7 +182,7 @@ async function buyerUpdater(productId){
                 </div>
             </div>
             <div class="buy_size">
-                <h4 class="buy_amount">Rs. 20000</h4>
+                <h4 class="buy_amount">Rs. ${(+reqProduct) * (+qty)}</h4>
                 <h4 class="buy_units">${qty} units</h4>
             </div>
         </div>
@@ -182,7 +190,7 @@ async function buyerUpdater(productId){
             <div class="buyer_expand_details">
                 <div class="buyer_phone_container">
                     <img src="../assets/icons/phone.svg" alt="">
-                    <h5 class="buyer_phone">${buyerDetails.PhNo}</h5>
+                    <h5 class="buyer_phone">${buyerDetails.phNo}</h5>
                 </div>
                 <div class="buyer_address_container">
                     <img src="../assets/icons/location.svg" alt="">
@@ -190,19 +198,50 @@ async function buyerUpdater(productId){
                 </div>
             </div>
             <div class="buyer_actions">
-                <div id='accept'>Accept</div>
-                <div id="reject">Reject</div>
+                <div class='accept'>Accept</div>
+                <div class="reject">Reject</div>
             </div>
         </div>
       </div>  
     `;
   }
+  const buyers = document.querySelectorAll('.buyer');
+  // console.log(buyers);
+  buyers.forEach(async (buyer)=> {
+      const buyRequestId = buyer.dataset.requestId;
+      // console.log(buyRequestId);
+      let buyRequest = await db.ref(`product/${productId}/buy_requests/${buyRequestId}`).get();
+      buyRequest = buyRequest.val();
+      // console.log(buyRequest);
+      let flag = true;
+      buyer.addEventListener('click', () => {
+          buyer.querySelector('.buyer_expand').classList.toggle('triggered');
+          if(flag) {
+            buyer.querySelector('.accept').addEventListener('click', async ()=> {
+              let remaining = await db.ref(`product/${productId}/remaining`).get();
+              remaining = remaining.val();
+              remaining = (+remaining) - (+buyRequest.quantity);
+              // console.log(remaining);
+              db.ref(`product/${productId}`).update({
+                "remaining": remaining.toString()
+              });
+              db.ref(`product/${productId}/buy_requests/${buyRequestId}`).remove();
+              db.ref(`user/${buyRequest.buyer}/my_orders/${buyRequestId}`).remove();
+              sidePanel.removeChild(buyer);
+              let data = await db.ref(`product/${productId}`).get();
+              data = data.val();
+              let selectedCard = document.querySelector(`[data-id=${productId}]`);
+              selectedCard.querySelector('.quantity').innerHTML = `${data["remaining"]}/${data["quantity"]}`
+            })
+            buyer.querySelector('.reject').addEventListener('click', ()=> {
+              db.ref(`product/${productId}/buy_requests/${buyRequestId}`).remove();
+              db.ref(`user/${buyRequest.buyer}/my_orders/${buyRequestId}`).remove();
+              sidePanel.removeChild(buyer);
+            })
+            flag = false;
+          }
+      })
+  })
 }
 
 
-const buyers = document.querySelectorAll('.buyer');
-buyers.forEach( (buyer)=> {
-    buyer.addEventListener('click', () => {
-        buyer.querySelector('.buyer_expand').classList.toggle('triggered');
-    })
-})
