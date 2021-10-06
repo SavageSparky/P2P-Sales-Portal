@@ -10,7 +10,17 @@ const suggestions_cont = document.querySelector(".suggestions-cont");
 // const suggestors = [];
 let suggestions={};
 let carouselFlag = true;
-
+const filterIcon=document.querySelector('nav .filter-icon img');
+const area_filter=document.querySelector('.side-nav #area');
+const sub_area_filter=document.querySelector('.side-nav #sub_area');
+const district_filter=document.querySelector('.side-nav #district');
+const type_filter=document.querySelector('.side-nav #type');
+const date_Sort=document.querySelector('.side-nav #date_sort');
+const price_Sort=document.querySelector('.side-nav #price_sort');
+let enterArr=[];
+let winLoc=window.location.href.toString().match(/([a-z]{4,5}:\/{2}[a-z:0-9\.-]{1,}\/)/gm);
+let  windowLocationForImg=winLoc[0];
+filterIcon.disabled=true;
 // for (const key in suggestions) {
 //   suggestors.push(key);
 //   let temp_arr = [];
@@ -57,6 +67,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
 
 
 async function inputTriggerer(){
+  filterIcon.disabled=true;
   suggestions={};
   suggestions_cont.classList.remove("none");
   suggestions_cont.innerHTML = "";
@@ -72,9 +83,10 @@ async function inputTriggerer(){
   };
   
   let data = await client.collections("product").documents().search(search);
-  console.log(data);
-  if (data["found"] > 0) {
+  
+  if(data["found"] > 0) {
     data["hits"].forEach((d) => {
+
       d["highlights"].forEach((tmp) => {
         if(tmp['snippet']){
           if(!suggestions[tmp['snippet']]){
@@ -96,6 +108,7 @@ async function inputTriggerer(){
           })
         }
       });
+
     });
     suggestions_select();
   }
@@ -106,12 +119,95 @@ search_bar.addEventListener("input", () => {
   setTimeout(inputTriggerer,100);
 });
 
+search_bar.addEventListener('keypress',async (e)=>{
+  if(e.key!=='Enter') return;
+  console.log('input enter trigger');
+  let search = {
+    q: `${search_bar.value}`,
+    query_by: "product_suggestions,product_type,product_location",
+    highlight_start_tag: "",
+    highlight_end_tag: "",
+    sort_by:"product_end_date:asc,product_price:asc",
+    num_typos:"0"
+  };
+  let data = await client.collections("product").documents().search(search);
+  enterArr=[];
+  filterFiller(data);
+  console.log(data);
+  data['hits'].forEach((d)=>{
+    enterArr.push(d['document']['id']);
+  });
+  carouselFlag=false;
+  sideNav.style.transform=`translateX(-400px)`;
+  filterIcon.src=`${windowLocationForImg}/assets/icons/filter_off_outline.svg`;
+  document.querySelector('main').style.flexDirection='unset';
+  document.querySelector('main').innerHTML='';
+  enterArr.forEach(pid=>{
+    cardUpdater(pid);
+  });
+})
+
+search_bar.addEventListener('click',()=>{})
+
+function filterFiller(data){
+  filterIcon.disabled=false;
+  area_filter.innerHTML=`<option selected value="${null}">Any Area</option>`;
+  sub_area_filter.innerHTML=`<option selected value="${null}">Any Sub Area</option>`;
+  district_filter.innerHTML=`<option selected value="${null}">Any District</option>`;
+  type_filter.innerHTML=`<option selected value="${null}">Any Type</option>`;
+
+  enterArr=[];
+  let areaArr=[];
+  let sareaArr=[];
+  let dArr=[];
+  let tArr=[];
+  data["hits"].forEach((d) => {
+      areaArr.push(d['document']['product_location'][0]);
+      sareaArr.push(d['document']['product_location'][1]);
+      dArr.push(d['document']['product_location'][2]);
+      tArr.push(d['document']['product_type']);
+  });
+  
+  areaArr=[...new Set(areaArr)];
+  sareaArr=[...new Set(sareaArr)];
+  dArr=[...new Set(dArr)];
+  tArr=[...new Set(tArr)];
+
+  areaArr.forEach(t=>{
+    area_filter.innerHTML+=`<option value="${t}">${t}</option>`
+  });
+  
+  sareaArr.forEach(t=>{
+    sub_area_filter.innerHTML+=`<option value="${t}">${t}</option>`
+  });
+
+  dArr.forEach(t=>{
+    district_filter.innerHTML+=`<option value="${t}">${t}</option>`
+  });
+
+  tArr.forEach(t=>{
+    type_filter.innerHTML+=`<option value="${t}">${t}</option>`
+  });
+
+}
+
 function suggestions_select() {
   [...document.querySelectorAll(".suggestions-list")].forEach((data) => {
-    data.addEventListener("click", () => {
+    data.addEventListener("click",async () => {
       suggestions_cont.classList.add("none");
       search_bar.value = data.textContent;
+      let search = {
+        q: `${search_bar.value}`,
+        query_by: "product_suggestions,product_type,product_location",
+        highlight_start_tag: "",
+        highlight_end_tag: "",
+        sort_by:"product_end_date:asc,product_price:asc",
+        num_typos:"0"
+      };
+      let d=await client.collections("product").documents().search(search);
+      filterFiller(d);
       document.querySelector("main").classList.remove("blurrer");
+
       main_div_loader(data.textContent);
     });
   });
@@ -119,7 +215,6 @@ function suggestions_select() {
 
 function date_splitter(date) {
   date = date.split("-");
-  console.log(date);
   let txt;
   switch (+date[1]) {
     case 1:
@@ -159,14 +254,12 @@ function date_splitter(date) {
       txt = `${date[2]} Dec ${date[0]}`;
       break;
   }
-  console.log(txt);
   return txt;
 }
 
 async function cardUpdater(p_id) {
   let data = await db_get(db, `product/${p_id}`);
   data = await data.val();
-  console.log(data);
   document.querySelector("main").innerHTML += `
     <div class="card" data-id="${p_id}"">
     <div class="prodcut_img_wrap">
@@ -234,6 +327,7 @@ let highlighter = 0;
 let prev;
 let currElement = null;
 let prevElement = null;
+
 window.addEventListener("keydown", (e) => {
   if (
     suggestions_cont.classList.contains("none") ||
@@ -417,7 +511,6 @@ async function defaultDataLoader(){
     categoryWrapper.className='category-wrapper';
     mcategoryWrapper.appendChild(categoryWrapper);
     categoryProducts[k].forEach(product=>{
-      console.log(product);
       categoryWrapper.innerHTML+=` <div class="card" data-id="${product['pid']}">
       <div class="prodcut_img_wrap">
       <img class="product_icon" src="${product['profile-img']}" alt="">
@@ -454,13 +547,12 @@ async function defaultDataLoader(){
       <div class="ribbons">
           <p>Featured</p>
       </div>
-  </div>`
+      </div>`
     })
     mcategoryWrapper.innerHTML+=`  <div class="nav-arrow-cont">
     <div class="left-arrow"><img src="../assets/icons/nav_arrow.svg" alt=""></div>
     <div class="right-arrow"><img src="../assets/icons/nav_arrow.svg" alt=""></div>
-</div>`;
-    console.log(mcategoryWrapper);
+    </div>`;
     document.querySelector('main').appendChild(mcategoryWrapper);
   }
   cardScroller();
@@ -469,5 +561,105 @@ async function defaultDataLoader(){
   setInterval(carousel, 5000);
 }
 
-
 defaultDataLoader();
+/************************************************************************************************/
+
+const sideNav=document.querySelector('.side-nav');
+const filterTick=document.querySelector('.side-nav .tick_svg');
+const filterClose=document.querySelector('.side-nav .close_svg');
+
+filterTick.addEventListener("click",async ()=>{
+  let filterArr=[sub_area_filter.value,area_filter.value,district_filter.value,type_filter.value];
+  let str='';
+  filterArr.forEach((t,i)=>{
+    if(i<3&& t!==null && t!=='null'){
+      str+=`product_location:${t}&&`;
+    }
+  });
+  let search;
+  if(str.length!=0 && filterArr[3]!=='null'){
+    str+=`product_type:${filterArr[3]}&&`;
+  }
+  str=str.split('');
+  str.splice(str.length-2,2);
+  str=str.join('');
+  console.log(str);
+  if(str.length!==0){
+    search = {
+      q: `${search_bar.value}`,
+      query_by: "product_suggestions,product_type,product_location",
+      highlight_start_tag: "",
+      highlight_end_tag: "",
+      sort_by:`product_end_date:${date_Sort.value},product_price:${price_Sort.value}`,
+      filter_by:`${str}`,
+      num_typos:"0"
+    };
+  }
+  else{
+    search = {
+      q: `${search_bar.value}`,
+      query_by: "product_suggestions,product_type,product_location",
+      highlight_start_tag: "",
+      highlight_end_tag: "",
+      sort_by:`product_end_date:${date_Sort.value},product_price:${price_Sort.value}`,
+      num_typos:"0"
+    };
+  }
+  console.log(search);
+  let data = await client.collections("product").documents().search(search);
+
+  enterArr=[];
+  data["hits"].forEach((d) => {
+      enterArr.push(d['document']['id']);
+  });
+  console.log(enterArr);
+  carouselFlag=false;
+  document.querySelector('main').style.flexDirection='unset';
+  document.querySelector('main').innerHTML='';
+  enterArr.forEach(pid=>{
+    cardUpdater(pid);
+  })
+  sideNav.style.transform=`translateX(-400px)`;
+  document.querySelector("main").classList.remove("shrinker");
+  filterIcon.src=`${windowLocationForImg}/assets/icons/filter_outline.svg`
+});
+
+filterClose.addEventListener('click',async()=>{
+  let  search = {
+    q: `${search_bar.value}`,
+    query_by: "product_suggestions,product_type,product_location",
+    highlight_start_tag: "",
+    highlight_end_tag: "",
+    sort_by:`product_end_date:${date_Sort.value},product_price:${price_Sort.value}`,
+    num_typos:"0"
+  };
+  console.log(search);
+  let data = await client.collections("product").documents().search(search);
+
+  enterArr=[];
+  data["hits"].forEach((d) => {
+      enterArr.push(d['document']['id']);
+  });
+  console.log(enterArr);
+  carouselFlag=false;
+  document.querySelector('main').style.flexDirection='unset';
+  document.querySelector('main').innerHTML='';
+  enterArr.forEach(pid=>{
+    cardUpdater(pid);
+  })
+  sideNav.style.transform=`translateX(-400px)`;
+  document.querySelector("main").classList.remove("shrinker");
+  filterIcon.src=`${windowLocationForImg}/assets/icons/filter_off_outline.svg`
+})
+
+filterIcon.addEventListener("click",()=>{
+  if(filterIcon.disabled) return;
+  if(sideNav.style.transform==='translateX(-400px)'){
+    sideNav.style.transform='translateX(0px)';
+    document.querySelector("main").classList.add("shrinker");
+  }
+  else{
+    sideNav.style.transform='translateX(-400px)';
+    document.querySelector("main").classList.remove("shrinker");
+  }
+})
