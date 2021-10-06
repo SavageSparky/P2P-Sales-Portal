@@ -135,9 +135,9 @@ otp_send_btn.addEventListener('click',()=>{
     otp_send_btn.disabled=true;
     otp_cont.style.display='flex';
     otp_num=otpGenerator();
-    // fetch(`https://2factor.in/API/V1/934cf869-104d-11ec-a13b-0200cd936042/SMS/${input_ele[2].value}/${otp_num}/P2P Sales Portal`,{
-    //     method: 'POST'
-    // });
+    fetch(`https://2factor.in/API/V1/934cf869-104d-11ec-a13b-0200cd936042/SMS/${input_ele[2].value}/${otp_num}/P2P Sales Portal`,{
+        method: 'POST'
+    });
     console.log(otp_num);
     setTimeout(()=>{
         otp_send_btn.disabled=false;
