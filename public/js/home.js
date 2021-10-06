@@ -577,7 +577,7 @@ filterTick.addEventListener("click",async ()=>{
     }
   });
   let search;
-  if(str.length!=0 && filterArr[3]!=='null'){
+  if(filterArr[3]!=='null'){
     str+=`product_type:${filterArr[3]}&&`;
   }
   str=str.split('');
