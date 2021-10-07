@@ -445,13 +445,13 @@ function cardScroller(){
     let prevX = 0;
     let scrollLeft;
     leftBtn.addEventListener("click", () => {
-      crdCont.scrollLeft -= 280;
+      crdCont.scrollLeft -= 340;
       if (crdCont.scrollLeft <= 0) {
         crdCont.scrollLeft = 0;
       }
     });
     rightBtn.addEventListener("click", () => {
-      crdCont.scrollLeft += 280;
+      crdCont.scrollLeft += 340;
       if (crdCont.scrollLeft + crdCont.offsetWidth >= crdCont.scrollWidth) {
         crdCont.scrollLeft = crdCont.scrollWidth;
       }
