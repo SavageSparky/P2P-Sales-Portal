@@ -539,8 +539,8 @@ async function comment_filler(user_cmt_data){
         userReviewCont.dataset.cmtid=user_cmt_data['user_id'];
         const user_cmt_id=user_cmt_data['user_id'];
         userReviewCont.classList.add('user_review');
-        userReviewCont.innerHTML+=`
-            <div class="user_pic_cont"><img src="${user_details['profileImgUrl']}" alt=""></div>
+        userReviewCont.innerHTML+=`<div class="user_det_cont">
+        <div class="user_pic_cont"><img src="${user_details['profileImgUrl']}" alt=""></div>
             <div class="user_det">
                 <h3 class="user_name">${user_details['Name']}</h3>
                 <div class="date_cont">${user_cmt_data['date']}, ${user_details['area']}</div>
