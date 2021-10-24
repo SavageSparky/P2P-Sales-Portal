@@ -10,14 +10,14 @@
     <title>My Products</title>
 </head>
 <body>
-    <div class="loading-cont">
+    <!-- <div class="loading-cont">
         <div class="loadingio-spinner-double-ring-alacf1s1klf"><div class="ldio-0awi1dwn6uz7">
             <div></div>
             <div></div>
             <div><div></div></div>
             <div><div></div></div>
             </div></div>
-    </div>
+    </div> -->
     <header>
         <h1 class="company_name">P2P Sales Portal</h1>
         <nav>
@@ -45,7 +45,7 @@
     <div class="profile_menu none">
         <a class="my_profile" href="./profile-update.html">My Profile</a>
         <a class="my_products" href="./my_products.html">My Products</a>
-        <a class="my_orders" href="#">My Orders</a>
+        <a class="my_orders" href="./my_orders.html">My Orders</a>
         <a class="log_out" href="#">Log out</a>
     </div>
     <div class="suggestions-cont none">
@@ -55,15 +55,42 @@
 
     <main>
         <div class="main_panel">
-            <h2 class="page_heading">Your Products</h2>
+            <h2 class="page_heading">Your Orders</h2>
             <div class="card_section">
                
-            <a class="card_new_order" href="../pages/create_sell_order.html">
-                <div class="new_order_img_cont">
-                    <img src="../assets/icons/plus.svg" alt="" class="new_order_img">
+                <div class="card" data-id="">
+                    <div class="prodcut_img_wrap">
+                    <img class="product_icon" src="../assets/images/ponni_rice.jpg" alt="">
+                    </div>
+                    <ul class="card_main_text">
+                        <li><h3 class="product_name">Ponni Rice Sack 75KG</h3></li>
+                        <li><h3 class="price">Rs. 3000</h3></li>
+                    </ul>
+                    <ul class="card_body_text">
+                        <li>
+                            <img src="../assets/icons/capacity.svg" alt="">
+                            <h4 class="quantity">2000/2500</h4>
+                        </li>
+                        <li>
+                            <img src="../assets/icons/location.svg" alt="">
+                            <h4 class="address">qwerty, asddf, nkl</h4>
+                        </li>
+                        <li>
+                            <img src="../assets/icons/info.svg" alt="">
+                            <h4 class="category">Food</h4>
+                        </li>
+                    </ul>
+                    <div class="end_time_div">
+                        <img src="../assets/icons/timer.svg" alt="">
+                        <h4 class="due_date">Ends in: 3rd Dec, 2021</h4>
+                    </div>
+                    <div class="badges">
+                        <img src="../assets/icons/delivery_icon.svg" alt="">
+                    </div>
+                    <div class="ribbons">
+                        <p>Featured</p>
+                    </div>
                 </div>
-                <h3 class="new_order">New Order</h3>
-            </a>
 
             </div>
         </div>
