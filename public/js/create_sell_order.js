@@ -15,7 +15,7 @@ let client = new Typesense.Client({
   'nodes': [
     { 'host': 'fz1ownpx60rl9tjgp-1.a1.typesense.net', 'port': '443', 'protocol': 'https' },
   ],
-  'apiKey': 'tLRRS6eytcqObFf83I743GYJOODVb55k',
+  'apiKey': '00GBPCvPUkNalsA55HcLthzSOL8pfi7I',
   'connectionTimeoutSeconds': 2
 })
 
