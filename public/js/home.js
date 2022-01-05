@@ -31,20 +31,12 @@ filterIcon.disabled=true;
 // }
 
 let client = new Typesense.Client({
-  nearestNode: {
-    host: "ld70jsxocqtimzbep-1.a1.typesense.net",
-    port: "443",
-    protocol: "https",
-  }, // This is the special Nearest Node hostname that you'll see in the Typesense Cloud dashboard if you turn on Search Delivery Network
-  nodes: [
-    {
-      host: "ld70jsxocqtimzbep-1.a1.typesense.net",
-      port: "443",
-      protocol: "https",
-    },
+  'nearestNode': { 'host': 'fz1ownpx60rl9tjgp-1.a1.typesense.net', 'port': '443', 'protocol': 'https' }, // This is the special Nearest Node hostname that you'll see in the Typesense Cloud dashboard if you turn on Search Delivery Network
+  'nodes': [
+    { 'host': 'fz1ownpx60rl9tjgp-1.a1.typesense.net', 'port': '443', 'protocol': 'https' },
   ],
-  apiKey: "PpRn06qkFR4LiBcINGgtCSmf2wKg7lM8",
-  connectionTimeoutSeconds: 2,
+  'apiKey': 'tLRRS6eytcqObFf83I743GYJOODVb55k',
+  'connectionTimeoutSeconds': 2
 });
 
 console.log(suggestions);
